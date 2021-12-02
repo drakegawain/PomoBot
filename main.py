@@ -4,6 +4,7 @@ import time
 
 client = discord.Client()
 
+
 @client.event
 async def on_ready():
   print('Logged in as {0.user}' .format(client))
@@ -20,13 +21,15 @@ async def on_message(message):
     
     async def join(message):
       local = message.author.voice.channel;
+      #guild = message.guild.id server ID
       await local.connect();
       channel = client.get_channel(local.id)
       keys = channel.voice_states.keys()
       list_keys = list(keys)
-      members_ids = channel.voice_states.get(id)
+      member_test = await client.fetch_user(list_keys[0])
+      print(member_test)
       print(list_keys[0], list_keys[1])
-      await message.channel.send('The pomodoro starts in 30 seconds. The avaible users are:{} \nType .join to join the pomodoro. ')
+      await message.channel.send('\nThe pomodoro starts in 30 seconds. The avaible users are:{} \nType .join to join the pomodoro. ')
     pomodoro = message.content;
     first_time = '';
     second_time = '';
