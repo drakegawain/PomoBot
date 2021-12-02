@@ -1,5 +1,6 @@
 import discord
 import os
+import time
 
 client = discord.Client()
 
@@ -13,13 +14,19 @@ async def on_message(message):
     return
 
   if message.content.startswith('.commands'):
-    await message.channel.send('\nEvery command that need inputs will be interpreted by the bot in minutes.\n.commands - Show the avaible commands \n.pomodoro - Starts a pomodoro counter, example: .pomodoro 25 15\n .regressive -Starts a regressive counter, example: .regressive 10')
+    await message.channel.send('\nEvery command that need inputs will be interpreted by the bot as minutes.\n.commands - Show the avaible commands \n.pomodoro - Starts a pomodoro counter, example: .pomodoro 25 15\n .regressive -Starts a regressive counter, example: .regressive 10')
 
   if message.content.startswith('.pomodoro'):
     
     async def join(message):
       local = message.author.voice.channel;
-      await message.author.voice.channel.connect();
+      await local.connect();
+      channel = client.get_channel(local.id)
+      keys = channel.voice_states.keys()
+      list_keys = list(keys)
+      members_ids = channel.voice_states.get(id)
+      print(list_keys[0], list_keys[1])
+      await message.channel.send('The pomodoro starts in 30 seconds. The avaible users are:{} \nType .join to join the pomodoro. ')
     pomodoro = message.content;
     first_time = '';
     second_time = '';
