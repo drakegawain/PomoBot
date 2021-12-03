@@ -133,6 +133,14 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
+name = "timer"
+version = "0.2.2"
+description = "Python Code Timer"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "typing-extensions"
 version = "4.0.1"
 description = "Backported and Experimental Type Hints for Python 3.6+"
@@ -155,7 +163,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "e7843406b0be568222e618a712e2b54081000e6b56dd076f25201252024c331f"
+content-hash = "83e387d1e825d78f8cbb0a79a11c66b567cf67e6255820c58bfc88046d92c356"
 
 [metadata.files]
 aiohttp = [
@@ -374,6 +382,10 @@ pynacl = [
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
+]
+timer = [
+    {file = "timer-0.2.2-py3-none-any.whl", hash = "sha256:11c78a40f0218485c4f1758f6640ea190cf99b7c70cf6245e242bb21cca798cf"},
+    {file = "timer-0.2.2.tar.gz", hash = "sha256:d1ac1e50c4e14f26d424489ec470932715a454e96bef80a26bacc03cd92f5fff"},
 ]
 typing-extensions = [
     {file = "typing_extensions-4.0.1-py3-none-any.whl", hash = "sha256:7f001e5ac290a0c0401508864c7ec868be4e701886d5b573a9528ed3973d9d3b"},

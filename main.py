@@ -1,6 +1,6 @@
 import discord
 import os
-import time
+from threading import Timer
 
 client = discord.Client()
 
@@ -34,8 +34,6 @@ async def on_message(message):
         if list_keys[index] != bot_id:
           ids_mention.append(index);
           ids_mention[index] = '<@%s>' % list_keys[index]
-      #ids_mention = '<@%s>' % list_keys[0]
-      print(ids_mention)
       await message.channel.send('\nPomodoro starts in 30 seconds. The avaible users are:\n%s \nType .join to join pomodoro. ' % ids_mention)
     pomodoro = message.content;
     first_time = '';
@@ -44,9 +42,20 @@ async def on_message(message):
       first_time = first_time + char;
     for char in pomodoro[12:15:1]:
       second_time = second_time + char;
-  first_time = int(first_time)
-  second_time = int(second_time)
-  await join(message);
+    first_time = int(first_time)
+    second_time = int(second_time)
+    await join(message);
+    #colocar o timer de 30 segundos
+    #depois dos 30 segundos, fechar a funcao join_pomodoro e mutar todos
+  
+  
+  @client.event
+  #colocar um contador pra saber quantos usuarios entraram
+  #armazenar os id's dos usuarios
+  async def join_pomodoro(message):
+    if message.content.startswith('.join'):
+      await message.channel.send('\n<@%s> Joined pomodoro' % message.author.id)
+  await join_pomodoro(message)
 
 
 client.run(os.environ['TOKEN'])
