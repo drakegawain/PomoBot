@@ -26,10 +26,17 @@ async def on_message(message):
       channel = client.get_channel(local.id)
       keys = channel.voice_states.keys()
       list_keys = list(keys)
-      member_test = await client.fetch_user(list_keys[0])
-      print(member_test)
-      print(list_keys[0], list_keys[1])
-      await message.channel.send('\nThe pomodoro starts in 30 seconds. The avaible users are:{} \nType .join to join the pomodoro. ')
+      #member_test = await client.fetch_user(list_keys[0]) members users
+      i = len(list_keys)
+      ids_mention = [];
+      bot_id = client.user.id;
+      for index in range(i):
+        if list_keys[index] != bot_id:
+          ids_mention.append(index);
+          ids_mention[index] = '<@%s>' % list_keys[index]
+      #ids_mention = '<@%s>' % list_keys[0]
+      print(ids_mention)
+      await message.channel.send('\nPomodoro starts in 30 seconds. The avaible users are:\n%s \nType .join to join pomodoro. ' % ids_mention)
     pomodoro = message.content;
     first_time = '';
     second_time = '';
