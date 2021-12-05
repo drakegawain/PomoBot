@@ -3,8 +3,7 @@ import os
 from threading import Timer
 
 client = discord.Client()
-
-
+c = 0;
 @client.event
 async def on_ready():
   print('Logged in as {0.user}' .format(client))
@@ -47,16 +46,19 @@ async def on_message(message):
     await join(message);
     #colocar o timer de 30 segundos
     #depois dos 30 segundos, fechar a funcao join_pomodoro e mutar todos
+
+
   
-  
+
   @client.event
-  #colocar um contador pra saber quantos usuarios entraram
-  #armazenar os id's dos usuarios
   async def join_pomodoro(message):
     if message.content.startswith('.join'):
       await message.channel.send('\n<@%s> Joined pomodoro' % message.author.id)
-  await join_pomodoro(message)
-
-
+      
+  async def conta_funcao():
+    await join_pomodoro(message)
+    global c
+    c = c+1
+  await conta_funcao()
 client.run(os.environ['TOKEN'])
 
