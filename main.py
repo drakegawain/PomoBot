@@ -61,6 +61,18 @@ async def on_message(message):
         c = c + 1;
         return
 
+    async def check_ids(id):
+      global c, ids_get;
+      x = ids_get.index(id);
+      if len(ids_get) == 1:
+        return
+      if len(ids_get) != 1:
+        for y in range((x+1), len(ids_get)):
+          if ids_get[y] == id:
+            print('Already joined')
+            ids_get.pop(y);
+            c = len(ids_get);
+
     async def get_ids(message):
       if pomodoro_started == False:
           await message.channel.send('\n<@%s> No pomodoro was started. Type .pomodoro XX XX (where XX is time in minutes) to start pomodoro and then type .join.' % message.author.id)
@@ -71,6 +83,7 @@ async def on_message(message):
           global ids_get
           ids_get.append((c - 1))
           ids_get[(c - 1)] = message.author.id;
+          await check_ids(message.author.id)
           return
 
     await get_ids(message)
