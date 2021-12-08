@@ -6,6 +6,7 @@ client = discord.Client()
 c = 0;
 pomodoro_started = False;
 ids_get = [];
+joined = 0;
 
 @client.event
 async def on_ready():
@@ -54,11 +55,36 @@ async def on_message(message):
     #depois dos 30 segundos, fechar a funcao join_pomodoro e mutar todos
 
   if message.content.startswith('.join'):
-    async def join_pomodoro(message):
-     if pomodoro_started == True:
-        await message.channel.send('\n<@%s> Joined pomodoro' % message.author.id)
-        global c
+
+    async def handle_joined(message):
+      global joined;
+      global ids_get;
+      if ids_get.count(message.author.id) == 1:
+        joined = 1;
+        return
+      if ids_get.count(message.author.id) > 1:
+        joined = 2;
+        return
+
+    async def joined_function(message):
+      global joined;
+      await handle_joined(message);
+      if joined == 1:
+        return 'Joined'
+      if joined == 2:
+        return 'Already Joined'
+
+    async def handle_c():
+      global c;
+      global pomodoro_started;
+      if pomodoro_started == True:
         c = c + 1;
+
+    async def join_pomodoro(message):
+      
+     if pomodoro_started == True:
+        x = await joined_function(message)
+        await message.channel.send('\n<@%s> %s' % (message.author.id,x))
         return
 
     async def check_ids(id):
@@ -78,12 +104,15 @@ async def on_message(message):
           await message.channel.send('\n<@%s> No pomodoro was started. Type .pomodoro XX XX (where XX is time in minutes) to start pomodoro and then type .join.' % message.author.id)
           return
       else:
-          await join_pomodoro(message)
+          await handle_c();
           global c
           global ids_get
           ids_get.append((c - 1))
           ids_get[(c - 1)] = message.author.id;
-          await check_ids(message.author.id)
+          #await check_ids(message.author.id);
+          x = set(ids_get)
+          print(x);
+          await join_pomodoro(message)
           return
 
     await get_ids(message)
