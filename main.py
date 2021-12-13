@@ -2,11 +2,130 @@ import discord
 import os
 from threading import Timer
 
-client = discord.Client()
+#-----------------Discord Configurations--------
+
+intents = discord.Intents.default()
+intents.members = True
+client = discord.Client(intents=intents)
+
+#-----------------Initial Variables-------------
 c = 0;
 pomodoro_started = False;
 ids_get = [];
 joined = 0;
+ids = set();
+study_time = 0;
+rest_time = 0;
+
+#------------------FUNCTIONS-------------------
+
+#------------------Messages--------------------
+
+async def message_avaiable_users_to_join(message, ids_mention):
+  await message.channel.send('\nPomodoro starts in 30 seconds. The avaible users are:\n%s \nType .join to join pomodoro. ' % ids_mention);
+  return
+
+#------------------Users/Members---------------
+
+async def avaiable_users_to_join(list_keys, bot_id):
+  ids_mention = [];
+  i = len(list_keys);
+  for index in range(i):
+    if list_keys[index] != bot_id:
+      ids_mention.append(index);
+      ids_mention[index] = '<@%s>' % list_keys[index]
+      return ids_mention
+
+#------------------Handle variables------------
+
+async def start_pomodoro():
+  global pomodoro_started;
+  pomodoro_started = True;
+  return
+
+async def get_keys(message):
+  channel = client.get_channel(message.author.voice.channel.id);
+  keys = channel.voice_states.keys();
+  return keys
+
+async def bot_id():
+  id_bot = client.user.id;
+  return id_bot
+
+async def list_keys(keys):
+  keys_list = list(keys);
+  return keys_list;
+
+#------------------Mute/unmute-----------------
+
+async def mute_method(member):
+  await member.edit(mute=True);
+  return
+
+async def deafen_method(member):
+  await member.edit(deafen=True);
+  return
+
+async def unmute_method(member):
+  await member.edit(mute=False);
+  return
+
+async def undeafen_method(member):
+  await member.edit(deafen=False);
+  return
+
+async def mute_all(message, ids):
+  guild = message.author.voice.channel.guild.id;
+  got_guild = client.get_guild(guild);
+  ids_list = list(ids)
+  for ids in ids_list:
+    member = got_guild.get_member(ids);
+    await mute_method(member);
+    await deafen_method(member);
+  return
+  
+async def unmute_all(message, ids):
+  guild = message.author.voice.channel.guild.id;
+  got_guild = client.get_guild(guild);
+  ids_list = list(ids);
+  for ids in ids_list:
+    member = got_guild.get_member(ids);
+    await unmute_method(member)
+    await undeafen_method(member);
+  return
+
+#---------------Time------------------
+
+async def handle_study_time(study_time):
+  study_time = study_time * 60;
+  return study_time
+
+async def handle_rest_time(rest_time):
+  rest_time = rest_time * 60;
+  return rest_time;
+
+async def study_time(message):
+  pomodoro = message.content;
+  study_time = ''
+  for char in pomodoro[9:12:1]:
+    study_time = study_time + char;
+  return int(study_time)
+
+async def rest_time(message):
+  pomodoro = message.content;
+  rest_time = ''
+  for char in pomodoro[12:15:1]:
+    rest_time = rest_time + char;
+  return int(rest_time)
+
+#--------------Connect/Join-----------
+
+async def connect_to_voice_channel(message):
+  channel = message.author.voice.channel;
+  await channel.connect()
+  return
+
+#-------------------EVENTS--------------------
 
 @client.event
 async def on_ready():
@@ -22,6 +141,7 @@ async def on_message(message):
     return
 
   if message.content.startswith('.pomodoro'):
+
     async def join(message):
       global pomodoro_started
       pomodoro_started = True
@@ -49,6 +169,11 @@ async def on_message(message):
       second_time = second_time + char;
     first_time = int(first_time)
     second_time = int(second_time)
+    global study_time, rest_time;
+    study_time = await handle_study_time(first_time)
+    rest_time = await handle_rest_time(second_time)
+    print(study_time)
+    print(rest_time)
     await join(message);
     
     #colocar o timer de 30 segundos
@@ -101,21 +226,29 @@ async def on_message(message):
 
     async def get_ids(message):
       if pomodoro_started == False:
-          await message.channel.send('\n<@%s> No pomodoro was started. Type .pomodoro XX XX (where XX is time in minutes) to start pomodoro and then type .join.' % message.author.id)
+          await message.channel.send('\n<@%s> Pomodoro wasnt started. Type .pomodoro XX XX (where XX is time in minutes) to start pomodoro and then type .join.' % message.author.id)
           return
       else:
           await handle_c();
           global c
           global ids_get
+          global ids
           ids_get.append((c - 1))
           ids_get[(c - 1)] = message.author.id;
           #await check_ids(message.author.id);
-          x = set(ids_get)
-          print(x);
+          total_ids = set(ids_get)
+          ids = total_ids;
+          print(ids);
           await join_pomodoro(message)
-          return
-
+          return 
+  
     await get_ids(message)
+
+  if message.content.startswith('.mute'):
+    await mute_all(message, ids);
+
+  if message.content.startswith('.unmute'):
+    await unmute_all(message, ids);
 
 client.run(os.environ['TOKEN'])
 
