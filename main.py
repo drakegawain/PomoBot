@@ -1,14 +1,35 @@
 import discord
 import os
-from threading import Timer
-
+import threading
+import asyncio
+import nest_asyncio
+nest_asyncio.apply()
 #-----------------Discord Configurations--------
 
 intents = discord.Intents.default()
 intents.members = True
 client = discord.Client(intents=intents)
 
-#-----------------Initial Variables-------------
+#-----------------Classes----------------------
+
+class class_mute_all:
+  def __init__(self, status):
+    self.status = status;
+    self.commands = [];
+    self.parameters = [];
+  def add_parameters(self, parameter):
+    self.parameters.append(parameter)
+    return 
+  def set(self, status):
+    self.status = status
+    for x in self.commands:
+      #asyncio.run(x(self.parameters[0], self.parameters[1]))
+      x(self.parameters[0], self.parameters[1])
+  def bind(self, commands):
+    self.commands.append(commands)
+
+
+#-----------------Global Variables-------------
 c = 0;
 pomodoro_started = False;
 ids_get = [];
@@ -16,8 +37,26 @@ joined = 0;
 ids = set();
 study_time_global = 0;
 rest_time_global = 0;
+status = 'none';
+message_global = ''
+status_class = class_mute_all('none')
+client_loop = asyncio.new_event_loop()
+
 
 #------------------FUNCTIONS-------------------
+
+#------------------Utilitys-------------------
+
+def run_mute_all(message, ids):
+  asyncio.run(mute_all(message, ids));
+  return
+
+#------------------Setups----------------------
+
+
+
+#-----------------STARTUPS---------------------
+
 
 #------------------Messages--------------------
 
@@ -103,7 +142,6 @@ async def get_ids(message):
           global ids
           ids_get.append((c - 1))
           ids_get[(c - 1)] = message.author.id;
-          #await check_ids(message.author.id);
           total_ids = set(ids_get)
           ids = total_ids;
           print(ids);
@@ -148,6 +186,20 @@ async def unmute_all(message, ids):
     await undeafen_method(member);
   return
 
+def sinc_mute_all(message, ids):
+  guild = message.author.voice.channel.guild.id;
+  got_guild = client.get_guild(guild);
+  ids_list = list(ids);
+  new_client_loop = asyncio.get_running_loop()
+  for ids in ids_list:
+    member = got_guild.get_member(ids);
+    #asyncio.run_coroutine_threadsafe(member.edit(mute=True), client_loop)
+    #asyncio.run_coroutine_threadsafe(member.edit(deafen=True), client_loop)
+    new_client_loop.run_until_complete(member.edit(mute=True))
+    new_client_loop.run_until_complete(member.edit(deafen=True))
+    print('pass')
+  return
+
 #---------------Time------------------
 
 async def handle_study_time(study_time):
@@ -171,6 +223,32 @@ async def rest_time(message):
   for char in pomodoro[12:15:1]:
     rest_time = rest_time + char;
   return int(rest_time)
+
+def exec_mute_all(message, ids):
+  loop = asyncio.get_running_loop()
+  loop.run_until_complete(mute_all(message, ids))
+  return
+
+def throw_pomodoro_status_close():
+  global status_class
+  status_class.add_parameters(ids)
+  print(status_class.parameters)
+  status_class.set('close')
+  print(status_class.status)
+  return 
+
+def bind_status_class_to_mute_all(message, ids):
+  global status_class
+  status_class.add_parameters(message)
+  status_class.bind(exec_mute_all)
+  return
+
+async def after_30_seconds_close_pomodoro(message):
+  global status_class
+  bind_status_class_to_mute_all(message, ids)
+  loop = asyncio.get_running_loop()
+  loop.call_later(30, throw_pomodoro_status_close)
+  return 
 
 #--------------Connect/Join-----------
 
@@ -203,15 +281,15 @@ async def on_message(message):
   if message.content.startswith('.pomodoro'):
 
     await start_pomodoro();
-
     await connect_to_voice_channel(message);
-
     await message_avaiable_users_to_join(message, await avaiable_users_to_join(await list_keys(await get_keys(message)), await bot_id())); 
+
+    await after_30_seconds_close_pomodoro(message);
 
     global study_time_global, rest_time_global;
     study_time_global = await handle_study_time(await study_time(message));
-
     rest_time_global = await handle_rest_time(await rest_time(message));
+
 
     #colocar o timer de 30 segundos
     #depois dos 30 segundos, fechar a funcao join_pomodoro e mutar todos
@@ -222,8 +300,14 @@ async def on_message(message):
   if message.content.startswith('.mute'):
     await mute_all(message, ids);
 
+  if message.content.startswith('.sincmute'):
+    sinc_mute_all(message, ids);
+
   if message.content.startswith('.unmute'):
     await unmute_all(message, ids);
+
+#---------------IF-EXECUTE------------------
+
 
 client.run(os.environ['TOKEN'])
 
