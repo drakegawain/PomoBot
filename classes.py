@@ -1,6 +1,5 @@
 import asyncio
 import configs as cfg
-import time
 
 class class_mute_all:
   def __init__(self, status):
@@ -34,8 +33,9 @@ class exec_repeatedly_functions:
     loop.call_later(self.break_when, self.function)
   def stop(self):
     self.logical = False;
-  def add_args(self, args):
-    self.args.append(args)
+  def add_args(self, *args):
+    for arg in args:
+      self.args.append(arg)
 
 class startup:
   def start(self):
@@ -48,3 +48,11 @@ class startup:
     cfg.rest_time_global = 0;
     cfg.status_class = class_mute_all('none') 
     
+class e_when_w_args:
+  def __init__(self, timeout, function, *args):
+    self.timeout= timeout
+    self.function = function
+    self.args = args
+  def exec(self):
+    loop = asyncio.get_running_loop()
+    loop.call_later(self.timeout, self.function,  *self.args)

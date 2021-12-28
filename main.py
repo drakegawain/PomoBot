@@ -3,7 +3,7 @@ import asyncio
 import nest_asyncio
 
 from configs import client
-from classes import exec_repeatedly_functions
+from classes import exec_repeatedly_functions, e_when_w_args
 from mute_unmute import mute_all, unmute_all;
 from time_pomodoro import  handle_study_time, handle_rest_time, study_time, rest_time;
 from users_members import avaiable_users_to_join;
@@ -17,9 +17,12 @@ from bind_methods import bind_status_class_to_mute_all
 from throw_methods import throw_pomodoro_status_close
 
 async def after_30_seconds_close_pomodoro(message):
+  from close import close_pomodoro
   bind_status_class_to_mute_all(message, cfg.ids)
   class_e = exec_repeatedly_functions(None, throw_pomodoro_status_close, 30)
   class_e.exec_when()
+  class_i = e_when_w_args(30, close_pomodoro, message)
+  class_i.exec()
   return
 
 async def repeatedly_execution(timeout, function, *args):
@@ -52,8 +55,8 @@ async def on_message(message):
   if message.author == client.user:
     return
 
-  if message.content.startswith('.commands'):
-    await message.channel.send('\n<@%s>Every command that need inputs will be interpreted by the bot as minutes.\n.commands - Show the avaible commands \n.pomodoro - Starts a pomodoro counter, example: .pomodoro 25 15' % message.author.id)
+  if message.content.startswith('.help'):
+    await message.channel.send('\n<@%s>Every command that need inputs will be interpreted by the bot as minutes.\n.help - Show the avaible commands \n.pomodoro - Starts a pomodoro counter, example: .pomodoro 25 15\n.stop - stop pomodoro counter' % message.author.id)
     return
 
   if message.content.startswith('.pomodoro'):
@@ -66,15 +69,13 @@ async def on_message(message):
     await startup_e()
 
     #---------------TIME VARIABLES--------------
-    global study_time_global, rest_time_global;
     
-    study_time_global = await handle_study_time(await study_time(message));
-    rest_time_global = await handle_rest_time(await rest_time(message));
+    cfg.study_time_global = await handle_study_time(await study_time(message));
+    cfg.rest_time_global = await handle_rest_time(await rest_time(message));
 
     #----------------START----------------------
     from handle_variables import list_keys, bot_id, get_keys
     from start import start_pomodoro
-    import configs as cfg
     
     await start_pomodoro();
     
@@ -83,10 +84,10 @@ async def on_message(message):
     await message_avaiable_users_to_join(message, await avaiable_users_to_join(await list_keys(await get_keys(message)), await bot_id()));
     
     #---------------CLOSE-----------------------
-    task = asyncio.create_task(repeatedly_execution(study_time_global, unmute_all, message, cfg.ids));
+    task_study = asyncio.create_task(repeatedly_execution(cfg.study_time_global, unmute_all, message, cfg.ids));
+    task_rest = asyncio.create_task(repeatedly_execution(cfg.rest_time_global, mute_all, message, cfg.ids));
     await after_30_seconds_close_pomodoro(message);
     
-
   if message.content.startswith('.join'):
     from handle_variables import get_ids
     
@@ -97,6 +98,12 @@ async def on_message(message):
 
   if message.content.startswith('.unmute'):
     await unmute_all(message, cfg.ids);
+
+  if message.content.startswith('.stop'):
+    await message.channel.send('Pomodoro stopped')
+    await unmute_all(message, cfg.ids)
+    task_study.cancel()
+    task_rest.cancel()
 
 #---------------IF-EXECUTE------------------
 client.run(os.environ['TOKEN'])
