@@ -3,46 +3,16 @@ import asyncio
 import nest_asyncio
 
 from configs import client
-from classes import exec_repeatedly_functions, e_when_w_args
+from close import after_30_seconds_close_pomodoro
 from mute_unmute import mute_all, unmute_all;
 from time_pomodoro import  handle_study_time, handle_rest_time, study_time, rest_time;
 from users_members import avaiable_users_to_join;
+from utilitys import repeatedly_execution
 
-#-----------------Discord Configurations--------
-nest_asyncio.apply()
 
 #------------------Setups----------------------
+nest_asyncio.apply()
 import configs as cfg
-from bind_methods import bind_status_class_to_mute_all
-from throw_methods import throw_pomodoro_status_close
-
-async def after_30_seconds_close_pomodoro(message):
-  from close import close_pomodoro
-  bind_status_class_to_mute_all(message, cfg.ids)
-  class_e = exec_repeatedly_functions(None, throw_pomodoro_status_close, 30)
-  class_e.exec_when()
-  class_i = e_when_w_args(30, close_pomodoro, message)
-  class_i.exec()
-  return
-
-async def repeatedly_execution(timeout, function, *args):
-  while True:
-    await asyncio.sleep(timeout)
-    await function(*args);
-  return
-
-#async def intermitent_function_for_mute_unmute(interval, mute_or_unmute, message):
-  #interval = interval + 30; #interval in seconds that the function mute_all or
-  #unmute_all is called
-  #if mute_or_unmute == 'mute':
-  #  mute_or_unmute = mute_all
-  #elif mute_or_unmute == 'unmute':
- #   mute_or_unmute = unmute_all
- # class_e = exec_repeatedly_functions(interval, mute_or_unmute, None)
- # class_e.add_args(message)
- # class_e.add_args(cfg.ids)
- # class_e.exec()
-#  return
 
 #-------------------EVENTS--------------------
 
@@ -73,7 +43,7 @@ async def on_message(message):
     cfg.study_time_global = await handle_study_time(await study_time(message));
     cfg.rest_time_global = await handle_rest_time(await rest_time(message));
 
-    #----------------START----------------------
+    #----------------OPEN----------------------
     from handle_variables import list_keys, bot_id, get_keys
     from start import start_pomodoro
     
@@ -84,10 +54,14 @@ async def on_message(message):
     await message_avaiable_users_to_join(message, await avaiable_users_to_join(await list_keys(await get_keys(message)), await bot_id()));
     
     #---------------CLOSE-----------------------
-    task_study = asyncio.create_task(repeatedly_execution(cfg.study_time_global, unmute_all, message, cfg.ids));
-    task_rest = asyncio.create_task(repeatedly_execution(cfg.rest_time_global, mute_all, message, cfg.ids));
+    from utilitys import _create_task
+    cfg.close.set_functions(_create_task(repeatedly_execution(cfg.study_time_global, unmute_all, message, cfg.ids)), _create_task(repeatedly_execution(cfg.rest_time_global + cfg.study_time_global, mute_all, message, cfg.ids)))
+    cfg.close.if_when('yes')
     await after_30_seconds_close_pomodoro(message);
     
+      #task_study = asyncio.create_task(repeatedly_execution(cfg.study_time_global, unmute_all, message, cfg.ids));
+      #task_rest = asyncio.create_task(repeatedly_execution(cfg.rest_time_global + cfg.study_time_global, mute_all, message, cfg.ids));
+      
   if message.content.startswith('.join'):
     from handle_variables import get_ids
     
@@ -102,8 +76,8 @@ async def on_message(message):
   if message.content.startswith('.stop'):
     await message.channel.send('Pomodoro stopped')
     await unmute_all(message, cfg.ids)
-    task_study.cancel()
-    task_rest.cancel()
+    #task_study.cancel()
+    #task_rest.cancel()
 
 #---------------IF-EXECUTE------------------
 client.run(os.environ['TOKEN'])
