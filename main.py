@@ -9,11 +9,9 @@ from time_pomodoro import  handle_study_time, handle_rest_time, study_time, rest
 from users_members import avaiable_users_to_join;
 from utilitys import repeatedly_execution
 
-
 #------------------Setups----------------------
 nest_asyncio.apply()
 import configs as cfg
-
 #-------------------EVENTS--------------------
 
 @client.event
@@ -55,7 +53,9 @@ async def on_message(message):
     
     #---------------CLOSE-----------------------
     from utilitys import _create_task
-    cfg.close.set_functions(_create_task(repeatedly_execution(cfg.study_time_global, unmute_all, message, cfg.ids)), _create_task(repeatedly_execution(cfg.rest_time_global + cfg.study_time_global, mute_all, message, cfg.ids)))
+    
+    cfg.close.set_function(Task01 = repeatedly_execution).set_args(cfg.study_time_global, unmute_all, message, cfg.ids);
+    cfg.close.set_function(Task02 = repeatedly_execution).set_args(cfg.rest_time_global + cfg.study_time_global, unmute_all, message, cfg.ids);
     cfg.close.if_when('yes')
     await after_30_seconds_close_pomodoro(message);
     

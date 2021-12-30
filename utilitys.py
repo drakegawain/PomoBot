@@ -18,9 +18,9 @@ async def repeatedly_execution(timeout, function, *args):
   return
 
 def _create_task(function, *args):
-  asyncio.create_task(function(*args))
+  task = asyncio.create_task(function(*args))
   #def _cancel_task():
    # _v.cancel()
     #return
-  return
+  return task
 
