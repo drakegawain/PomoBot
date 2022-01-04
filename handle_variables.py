@@ -22,7 +22,7 @@ async def get_ids(message):
   from handle_variables import handle_c
   from connect_disconnect import join_pomodoro
   if cfg.pomodoro_started == False:
-    await message.channel.send("\n<@%s> Pomodoro wasn't started. Type .pomodoro XX XX (where XX is time in minutes) to start pomodoro and then type .join."  % message.author.id)
+    await message.channel.send("\n<@%s> ```Pomodoro wasn't started. Type .pomodoro XX XX (where XX is time in minutes) to start pomodoro and then type .join.```"  % message.author.id)
     return
   else:
     await handle_c();

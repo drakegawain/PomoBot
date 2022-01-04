@@ -1,6 +1,6 @@
 import os
-import asyncio
 import nest_asyncio
+
 
 from configs import client
 from close import after_30_seconds_close_pomodoro
@@ -8,6 +8,7 @@ from mute_unmute import mute_all, unmute_all;
 from time_pomodoro import  handle_study_time, handle_rest_time, study_time, rest_time;
 from users_members import avaiable_users_to_join;
 from utilitys import repeatedly_execution
+
 
 #------------------Setups----------------------
 nest_asyncio.apply()
@@ -24,7 +25,8 @@ async def on_message(message):
     return
 
   if message.content.startswith('.help'):
-    await message.channel.send('\n<@%s>Every command that need inputs will be interpreted by the bot as minutes.\n.help - Show the avaible commands \n.pomodoro - Starts a pomodoro counter, example: .pomodoro 25 15\n.stop - stop pomodoro counter' % message.author.id)
+    from messages import message_help
+    await message_help(message)
     return
 
   if message.content.startswith('.pomodoro'):
@@ -52,15 +54,15 @@ async def on_message(message):
     await message_avaiable_users_to_join(message, await avaiable_users_to_join(await list_keys(await get_keys(message)), await bot_id()));
     
     #---------------CLOSE-----------------------
-    from utilitys import _create_task
+    pomoclose1 = cfg.close1
+
+    pomoclose1.set_functions(repeatedly_execution)
+    pomoclose1.set_args(cfg.study_time_global, cfg.rest_time_global, mute_all, unmute_all, message, cfg.ids)
     
-    cfg.close.set_function(Task01 = repeatedly_execution).set_args(cfg.study_time_global, unmute_all, message, cfg.ids);
-    cfg.close.set_function(Task02 = repeatedly_execution).set_args(cfg.rest_time_global + cfg.study_time_global, unmute_all, message, cfg.ids);
-    cfg.close.if_when('yes')
+    pomoclose1.if_when('yes')
+
     await after_30_seconds_close_pomodoro(message);
     
-      #task_study = asyncio.create_task(repeatedly_execution(cfg.study_time_global, unmute_all, message, cfg.ids));
-      #task_rest = asyncio.create_task(repeatedly_execution(cfg.rest_time_global + cfg.study_time_global, mute_all, message, cfg.ids));
       
   if message.content.startswith('.join'):
     from handle_variables import get_ids
@@ -80,4 +82,5 @@ async def on_message(message):
     #task_rest.cancel()
 
 #---------------IF-EXECUTE------------------
+
 client.run(os.environ['TOKEN'])

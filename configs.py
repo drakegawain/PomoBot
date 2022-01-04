@@ -7,7 +7,7 @@ client = discord.Client(intents=intents)
 
 #---------------Global Variables-----------------
 from classes import class_mute_all
-from classes_handle_variables import when
+from when_class import when
 c = 0; #counter
 pomodoro_started = False;
 ids_get = [];
@@ -16,6 +16,6 @@ ids = set();
 study_time_global = 0;
 rest_time_global = 0;
 status_class = class_mute_all('none')
-close = when(None)
+close1 = when() #starts a when class, see in when_class
 #------------------------------------------------
 
