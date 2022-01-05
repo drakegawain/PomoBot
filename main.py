@@ -1,8 +1,8 @@
-#---------------BASIC-CONFIGS-------------------
+#---------------BASIC-CONFIGs-------------------
 import os
 import nest_asyncio
 #-----------------------------------------------
-#-------------------IMPORTS---------------------
+#-------------------IMPORTs---------------------
 #imports from the project
 #you can see more of the functions in the respective files
 from configs import client
@@ -12,14 +12,17 @@ from time_pomodoro import  handle_study_time, handle_rest_time, study_time, rest
 from users_members import avaiable_users_to_join;
 from utilitys import repeatedly_execution
 #-----------------------------------------------
-#------------------Setups-----------------------
+#------------------SETUPs-----------------------
 nest_asyncio.apply()
 import configs as cfg
 #-----------------------------------------------
-#-------------------EVENTS----------------------
+#------------------HOW-MANY-SVs-----------------
+
+#-----------------------------------------------
+#-------------------EVENTs----------------------
 @client.event
 async def on_ready():
-  print('Logged in as {0.user}' .format(client))
+  pass
 
 @client.event 
 async def on_message(message):
@@ -84,4 +87,5 @@ async def on_message(message):
 #---------------------------------------------
 #---------------LOGGIN-----------------
 client.run(os.environ['TOKEN'])
+
 #--------------------------------------
