@@ -1,3 +1,6 @@
+
+#This function finds the avaiable users to participate the study/work
+
 async def avaiable_users_to_join(list_keys, bot_id):
   ids_mention = [];
   i = len(list_keys);

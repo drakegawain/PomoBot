@@ -54,12 +54,12 @@ async def on_message(message):
     await message_avaiable_users_to_join(message, await avaiable_users_to_join(await list_keys(await get_keys(message)), await bot_id()));
     
     #---------------CLOSE-----------------------
-    pomoclose1 = cfg.close1
+    pomoclose = cfg.close
 
-    pomoclose1.set_functions(repeatedly_execution)
-    pomoclose1.set_args(cfg.study_time_global, cfg.rest_time_global, mute_all, unmute_all, message, cfg.ids)
+    pomoclose.set_functions(repeatedly_execution)
+    pomoclose.set_args(cfg.study_time_global, cfg.rest_time_global, unmute_all, mute_all, message, cfg.ids)
     
-    pomoclose1.if_when('yes')
+    pomoclose.if_when('yes')
 
     await after_30_seconds_close_pomodoro(message);
     
@@ -76,10 +76,10 @@ async def on_message(message):
     await unmute_all(message, cfg.ids);
 
   if message.content.startswith('.stop'):
-    await message.channel.send('Pomodoro stopped')
     await unmute_all(message, cfg.ids)
-    #task_study.cancel()
-    #task_rest.cancel()
+    from connect_disconnect import disconnect_from_voice_channel
+    await disconnect_from_voice_channel()
+    cfg.close.cancel()
 
 #---------------IF-EXECUTE------------------
 

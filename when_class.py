@@ -9,14 +9,16 @@ class when:
     self.when_ = 0
     self.functions = None
     self.args = None
+    self.task = None
   def set(self, value):
     self.value = value;
     if self.value == self.when_:
-      asyncio.create_task(self.functions(*self.args))
+      self.task = asyncio.create_task(self.functions(*self.args))
   def if_when(self, when_):
     self.when_ = when_
   def set_functions(self, function):
     self.functions = function;
   def set_args(self, *args):
     self.args = args
-    
+  def cancel(self):
+    self.task.cancel()

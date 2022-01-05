@@ -6,9 +6,10 @@ async def connect_to_voice_channel(message):
   await channel.connect()
   return
 
-async def disconnect_from_voice_channel(message):
-  channel = message.author.voice.channel;
-  await channel.disconnect()
+async def disconnect_from_voice_channel():
+  channel = cfg.client.voice_clients
+  for chn in channel:
+    await chn.disconnect()
   return
 
 async def join_pomodoro(message):

@@ -25,6 +25,7 @@ class class_mute_all:
 
 class exec_repeatedly_functions:
   #this class executes a function every interval (in seconds)
+  #unimplemented
   def __init__(self, interval, function, break_when):
     self.interval = interval;
     self.function = function;
@@ -56,7 +57,6 @@ class startup:
     cfg.study_time_global = 0;
     cfg.rest_time_global = 0;
     cfg.status_class = class_mute_all('none')
-    
     
 class e_when_w_args:
   #this class executes a function after a timeout

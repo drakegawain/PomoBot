@@ -1,5 +1,6 @@
 from classes import startup
 
+#start methods
 
 async def start_pomodoro():
   import configs as cfg

@@ -3,7 +3,7 @@ import configs as cfg
 from bind_methods import bind_class_after_study_time, bind_class_after_rest_time
 from messages import message_time_to_rest, message_ask_for_restart
 
-#This methods handle the classes that close pomodoro
+#This methods assigns functions that handle status_class
 
 def throw_pomodoro_status_close():
   status_class = cfg.status_class

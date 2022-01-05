@@ -5,8 +5,7 @@ from bind_methods import bind_status_class_to_mute_all
 import configs as cfg
 
 def close_pomodoro(message):
-  cfg.close1.set('yes')
-  cfg.close2.set('yes')
+  cfg.close.set('yes')
   cfg.pomodoro_started = False;
   message_closed_pomodoro(message)
   return

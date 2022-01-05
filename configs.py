@@ -16,6 +16,6 @@ ids = set();
 study_time_global = 0;
 rest_time_global = 0;
 status_class = class_mute_all('none')
-close1 = when() #starts a when class, see in when_class
+close = when() #starts a when class, see in when_class
 #------------------------------------------------
 
