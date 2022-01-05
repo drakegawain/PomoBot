@@ -1,6 +1,8 @@
+#---------------IMPORTs----------
 from configs import client
 import configs as cfg
-
+#-------------------------------
+#------------MUTE-UNMUTE-METHODs---------
 async def mute_method(member):
   await member.edit(mute=True);
   return
@@ -36,7 +38,8 @@ async def unmute_all(message, ids):
     await unmute_method(member)
     await undeafen_method(member);
   return
-
+#----------------------------------------
+#---------------UNIMPLEMENTED-------------
   #def sinc_mute_all(message, ids):
 #  guild = message.author.voice.channel.guild.id;
 #  got_guild = client.get_guild(guild);
@@ -58,3 +61,4 @@ async def unmute_all(message, ids):
    # new_client_loop.run_until_complete(member.edit(mute=False))
    # new_client_loop.run_until_complete(member.edit(deafen=False))
  # return
+ #--------------------------------------

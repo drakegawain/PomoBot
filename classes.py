@@ -1,9 +1,10 @@
 #This find asigns the classes that will be used in the bot
 #More details inside the classes
-
+#--------------IMPORTS---------------
 import asyncio
 import configs as cfg
-
+#------------------------------------
+#--------------MUTE-CLASS------------
 class class_mute_all:
   #this class is used to bind a function to a variable
   #when the variable is changed, the function binded is executed
@@ -22,7 +23,8 @@ class class_mute_all:
       x(self.parameters[0], self.parameters[1])
   def bind(self, commands):
     self.commands.append(commands)
-
+#-------------------------------------
+#-------------UNIMPLEMENTED-----------
 class exec_repeatedly_functions:
   #this class executes a function every interval (in seconds)
   #unimplemented
@@ -45,9 +47,10 @@ class exec_repeatedly_functions:
   def add_args(self, *args):
     for arg in args:
       self.args.append(arg)
-
+#--------------------------------------
+#---------------RESET------------------
 class startup:
-  #this class sets the global variables from file configs
+  #this class resets the global variables from file configs
   def start(self):
     cfg.c = 0;
     cfg.pomodoro_started = False;
@@ -57,7 +60,8 @@ class startup:
     cfg.study_time_global = 0;
     cfg.rest_time_global = 0;
     cfg.status_class = class_mute_all('none')
-    
+#--------------------------------------
+#------------------TIME----------------
 class e_when_w_args:
   #this class executes a function after a timeout
   def __init__(self, timeout, function, *args):
@@ -67,4 +71,4 @@ class e_when_w_args:
   def exec(self):
     loop = asyncio.get_running_loop()
     loop.call_later(self.timeout, self.function,  *self.args)
-
+#---------------------------------------

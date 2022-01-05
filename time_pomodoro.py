@@ -1,4 +1,5 @@
 
+#------------HANDLE-TIME-VARIABLES---------
 async def handle_study_time(study_time):
   study_time = study_time * 60;
   return study_time
@@ -6,7 +7,8 @@ async def handle_study_time(study_time):
 async def handle_rest_time(rest_time):
   rest_time = rest_time * 60;
   return rest_time;
-
+#------------------------------------------
+#-------------GET-TIME-VARIABLES-----------
 async def study_time(message):
   pomodoro = message.content;
   time_study = ''
@@ -20,5 +22,5 @@ async def rest_time(message):
   for char in pomodoro[12:15:1]:
     rest_time = rest_time + char;
   return int(rest_time)
-
+#--------------------------------------------
   

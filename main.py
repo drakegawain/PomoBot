@@ -1,20 +1,22 @@
+#---------------BASIC-CONFIGS-------------------
 import os
 import nest_asyncio
-
-
+#-----------------------------------------------
+#-------------------IMPORTS---------------------
+#imports from the project
+#you can see more of the functions in the respective files
 from configs import client
 from close import after_30_seconds_close_pomodoro
 from mute_unmute import mute_all, unmute_all;
 from time_pomodoro import  handle_study_time, handle_rest_time, study_time, rest_time;
 from users_members import avaiable_users_to_join;
 from utilitys import repeatedly_execution
-
-
-#------------------Setups----------------------
+#-----------------------------------------------
+#------------------Setups-----------------------
 nest_asyncio.apply()
 import configs as cfg
-#-------------------EVENTS--------------------
-
+#-----------------------------------------------
+#-------------------EVENTS----------------------
 @client.event
 async def on_ready():
   print('Logged in as {0.user}' .format(client))
@@ -31,19 +33,18 @@ async def on_message(message):
 
   if message.content.startswith('.pomodoro'):
     
-    #---------------STARTUP--------------------
+    #---------------START-UP---------------------
     from start import startup_e;
     from connect_disconnect import connect_to_voice_channel
     
     await connect_to_voice_channel(message);
-    await startup_e()
-
+    await startup_e() #reset the variables
+    #-------------------------------------------
     #---------------TIME VARIABLES--------------
-    
     cfg.study_time_global = await handle_study_time(await study_time(message));
     cfg.rest_time_global = await handle_rest_time(await rest_time(message));
-
-    #----------------OPEN----------------------
+    #-------------------------------------------
+    #----------------OPEN-CLOCK-----------------
     from handle_variables import list_keys, bot_id, get_keys
     from start import start_pomodoro
     
@@ -52,7 +53,7 @@ async def on_message(message):
     from messages import message_avaiable_users_to_join
     
     await message_avaiable_users_to_join(message, await avaiable_users_to_join(await list_keys(await get_keys(message)), await bot_id()));
-    
+    #-------------------------------------------
     #---------------CLOSE-----------------------
     pomoclose = cfg.close
 
@@ -62,7 +63,7 @@ async def on_message(message):
     pomoclose.if_when('yes')
 
     await after_30_seconds_close_pomodoro(message);
-    
+    #-------------------------------------------
       
   if message.content.startswith('.join'):
     from handle_variables import get_ids
@@ -80,7 +81,7 @@ async def on_message(message):
     from connect_disconnect import disconnect_from_voice_channel
     await disconnect_from_voice_channel()
     cfg.close.cancel()
-
-#---------------IF-EXECUTE------------------
-
+#---------------------------------------------
+#---------------LOGGIN-----------------
 client.run(os.environ['TOKEN'])
+#--------------------------------------

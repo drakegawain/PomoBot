@@ -1,10 +1,11 @@
 #This methods binds a function to a class allowing
 #a change in this class execute the binded function
-
+#---------------IMPORTS--------------
 import configs as cfg
 from utilitys import exec_mute_all, exec_unmute_all
 from classes import class_mute_all
-
+#------------------------------------
+#---------------FUNCTIONS-----------
 def bind_status_class_to_mute_all(message, ids):
   status_class = cfg.status_class
   status_class.add_parameters(message)
@@ -25,3 +26,4 @@ def bind_class_after_rest_time(message):
   after_rest_time_class.add_parameters(message);
   after_rest_time_class.add_parameters(ids);
   return after_rest_time_class
+#-----------------------------------

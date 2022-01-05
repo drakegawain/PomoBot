@@ -1,10 +1,12 @@
+#-----------------IMPORTs-----------------
 import asyncio
 import configs as cfg
 from bind_methods import bind_class_after_study_time, bind_class_after_rest_time
 from messages import message_time_to_rest, message_ask_for_restart
-
+#-------------------------------------------
 #This methods assigns functions that handle status_class
 
+#---------------THROW--------------------
 def throw_pomodoro_status_close():
   status_class = cfg.status_class
   status_class.add_parameters(cfg.ids)
@@ -26,3 +28,4 @@ def throw_after_rest_time_finished(message):
   loop = asyncio.get_running_loop()
   loop.run_until_complete(message_ask_for_restart(message))
   return
+#----------------------------------------
