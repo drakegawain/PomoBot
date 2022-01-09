@@ -68,7 +68,7 @@ async def on_message(message):
     await after_30_seconds_close_pomodoro(message);
     #-------------------------------------------
       
-  if message.content.startswith('.join'):
+  if message.content.startswith('.pomojoin'):
     from handle_variables import get_ids
     
     await get_ids(message)
@@ -79,7 +79,7 @@ async def on_message(message):
   #if message.content.startswith('.unmute'): on implementation
     #await unmute_all(message, cfg.ids);
 
-  if message.content.startswith('.stop'):
+  if message.content.startswith('.pomostop'):
     await unmute_all(message, cfg.ids)
     from connect_disconnect import disconnect_from_voice_channel
     await disconnect_from_voice_channel()
