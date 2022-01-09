@@ -29,7 +29,7 @@ async def on_message(message):
   if message.author == client.user:
     return
 
-  if message.content.startswith('.help'):
+  if message.content.startswith('.pomohelp'):
     from messages import message_help
     await message_help(message)
     return
@@ -73,11 +73,11 @@ async def on_message(message):
     
     await get_ids(message)
 
-  if message.content.startswith('.mute'):
-    await mute_all(message, cfg.ids);
+  #if message.content.startswith('.mute'): on implementation
+    #await mute_all(message, cfg.ids);
 
-  if message.content.startswith('.unmute'):
-    await unmute_all(message, cfg.ids);
+  #if message.content.startswith('.unmute'): on implementation
+    #await unmute_all(message, cfg.ids);
 
   if message.content.startswith('.stop'):
     await unmute_all(message, cfg.ids)

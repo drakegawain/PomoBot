@@ -2,8 +2,7 @@
 import discord
 intents = discord.Intents.default()
 intents.members = True
-client = discord.Client(intents=intents)
-activity = discord.Game(name=".help \nin {} guilds" .format(str(len(client.guilds))))
+activity = discord.Game(name=".pomohelp")
 client = discord.Client(intents=intents, activity=activity)
 #------------------------------------------------
 #---------------Global Variables-----------------
