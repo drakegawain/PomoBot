@@ -80,10 +80,15 @@ async def on_message(message):
     #await unmute_all(message, cfg.ids);
 
   if message.content.startswith('.pomostop'):
-    await unmute_all(message, cfg.ids)
-    from connect_disconnect import disconnect_from_voice_channel
-    await disconnect_from_voice_channel()
-    cfg.close.cancel()
+    try:
+      await unmute_all(message, cfg.ids)
+      from connect_disconnect import disconnect_from_voice_channel
+      await disconnect_from_voice_channel()
+      cfg.close.cancel()
+    except:
+      from messages import message_error_pomostop
+      await message_error_pomostop(message)
+      
 #---------------------------------------------
 #---------------LOGGIN-----------------
 client.run(os.environ['TOKEN'])
