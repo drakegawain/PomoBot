@@ -4,7 +4,7 @@ import configs as cfg
 #-----------------------------------
 #---------------MESSAGES--------------------
 async def message_avaiable_users_to_join(message, ids_mention):
-  await message.channel.send("```\nPomodoro starts in 30 seconds. The avaible users are:```\n%s ```\nType .join to join pomodoro.```" % ids_mention);
+  await message.channel.send("```\nPomodoro starts in 30 seconds. The avaible users are:```\n%s ```\nType .pomojoin to join pomodoro.```" % ids_mention);
   return
 
 def message_closed_pomodoro(message):

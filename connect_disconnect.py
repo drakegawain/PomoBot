@@ -6,10 +6,10 @@ import configs as cfg
 async def connect_to_voice_channel(message):
   try:
     channel = message.author.voice.channel;
-    await channel.connect()
+    cfg.vc = await channel.connect()
   except:
     await message.channel.send('<@%s> ```\nYou have to be on a voice channel to start Pomobot. Enter a voice channel and try again.```' % (message.author.id))
-  return
+  return 
 
 async def disconnect_from_voice_channel():
   channel = cfg.client.voice_clients
