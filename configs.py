@@ -18,4 +18,6 @@ rest_time_global = 0;
 status_class = class_mute_all('none')
 close = when() #starts a when class, see in when_class
 vc = None;
+class_e=None
+class_i=None
 #------------------------------------------------

@@ -34,6 +34,7 @@ class exec_repeatedly_functions:
     self.logical = True
     self.break_when = break_when;
     self.args = [];
+    self.FUTURE=None
   def exec(self):
     loop = asyncio.get_running_loop()
     while True:
@@ -41,12 +42,17 @@ class exec_repeatedly_functions:
       loop.sleep(self.interval)
   def exec_when(self):
     loop = asyncio.get_running_loop()
-    loop.call_later(self.break_when, self.function)
+    self.FUTURE = loop.create_future()
+    HANDLE = loop.call_later(self.break_when, self.function)
+    self.FUTURE.add_done_callback(lambda *args:HANDLE.cancel())
   def stop(self):
     self.logical = False;
   def add_args(self, *args):
     for arg in args:
       self.args.append(arg)
+  def release_future(self):
+    if not self.FUTURE.done():
+      self.FUTURE.set_result(None)
 #--------------------------------------
 #---------------RESET------------------
 class startup:
@@ -64,11 +70,19 @@ class startup:
 #------------------TIME----------------
 class e_when_w_args:
   #this class executes a function after a timeout
-  def __init__(self, timeout, function, *args):
-    self.timeout= timeout
-    self.function = function
-    self.args = args
+  def __init__(
+    self, TIMEOUT, FUNCTION, *ARGS
+  ):
+    self.TIMEOUT=TIMEOUT
+    self.FUNCTION=FUNCTION
+    self.ARGS=ARGS
+    self.FUTURE=None;
   def exec(self):
     loop = asyncio.get_running_loop()
-    loop.call_later(self.timeout, self.function,  *self.args)
+    self.FUTURE=loop.create_future()
+    HANDLE=loop.call_later(self.TIMEOUT, self.FUNCTION,  *self.ARGS)
+    self.FUTURE.add_done_callback(lambda *args:HANDLE.cancel())
+  def release_future(self):
+    if not self.FUTURE.done():
+      self.FUTURE.set_result(None)
 #---------------------------------------
