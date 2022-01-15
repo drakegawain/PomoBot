@@ -13,7 +13,6 @@ def close_pomodoro(message):
   return
 
 async def after_30_seconds_close_pomodoro(message):
-  from close import close_pomodoro
   bind_status_class_to_mute_all(message, cfg.ids)
   cfg.class_e = exec_repeatedly_functions(None, throw_pomodoro_status_close, 30)
   cfg.class_e.exec_when()

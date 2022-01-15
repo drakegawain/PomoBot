@@ -1,9 +1,9 @@
 #------------IMPORTs----------
 from classes import startup
+import configs as cfg
 #-----------------------------
 #-------------START-----------
 async def start_pomodoro():
-  import configs as cfg
   cfg.pomodoro_started = True;
   return
 #-----------------------------

@@ -4,10 +4,10 @@ intents = discord.Intents.default()
 intents.members = True
 activity = discord.Game(name=".pomohelp")
 client = discord.Client(intents=intents, activity=activity)
-#------------------------------------------------
-#---------------Global Variables-----------------
 from classes import class_mute_all
 from when_class import when
+#------------------------------------------------
+#---------------Global Variables-----------------
 c = 0; #counter
 pomodoro_started = False;
 ids_get = [];

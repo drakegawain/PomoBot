@@ -14,6 +14,11 @@ from utilitys import repeatedly_execution
 from connect_disconnect import disconnect_from_voice_channel
 from messages import message_error_pomostop
 from handle_variables import get_ids
+from handle_variables import list_keys, bot_id, get_keys
+from start import start_pomodoro
+from messages import message_avaiable_users_to_join
+from start import startup_e;
+from connect_disconnect import connect_to_voice_channel
 #-----------------------------------------------
 #------------------SETUPs-----------------------
 nest_asyncio.apply()
@@ -39,9 +44,6 @@ async def on_message(message):
   if message.content.startswith('.pomodoro'):
     
     #---------------START-UP---------------------
-    from start import startup_e;
-    from connect_disconnect import connect_to_voice_channel
-    
     await connect_to_voice_channel(message);
     await startup_e() #reset the variables
     #-------------------------------------------
@@ -50,12 +52,7 @@ async def on_message(message):
     cfg.rest_time_global = await handle_rest_time(await rest_time(message));
     #-------------------------------------------
     #----------------OPEN-CLOCK-----------------
-    from handle_variables import list_keys, bot_id, get_keys
-    from start import start_pomodoro
-    
     await start_pomodoro();
-    
-    from messages import message_avaiable_users_to_join
     
     await message_avaiable_users_to_join(message, await avaiable_users_to_join(await list_keys(await get_keys(message)), await bot_id()));
     #-------------------------------------------
