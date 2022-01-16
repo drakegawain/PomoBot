@@ -24,8 +24,8 @@ async def message_time_to_study(message):
   await message.channel.send("```\nTime to study/work. \nYou have {} minutes.```" .format(int(cfg.study_time_global/60)))
   return
 
-async def message_error_pomostop(message):
-  await message.channel.send('```\nBe sure you are in a voice channel and already started a pomodoro session using the command > .pomodoro (see the instructions in .pomohelp). \nIf you need help, type .pomohelp```')
+async def message_stopping_pomostop(message):
+  await message.channel.send('\nStopping...\n\nYou can start a new session typing ``.pomodoro XX YY``.\nTo see the orientations: ``.pomohelp``')
   return
 #--------------------------------------------
 #-----------------UNIMPLEMENTED--------------

@@ -12,4 +12,8 @@ async def startup_e():
   class_e = startup()
   class_e.start()
   return
+async def reset_func():
+  class_e = startup()
+  class_e.start()
+  return
 #-----------------------------
