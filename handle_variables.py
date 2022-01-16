@@ -1,6 +1,5 @@
 #----------------IMPORTS-------------
 from configs import client
-from handle_variables import handle_c
 from connect_disconnect import join_pomodoro
 import configs as cfg
 #------------------------------------

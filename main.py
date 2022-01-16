@@ -71,8 +71,11 @@ async def on_message(message):
     await get_ids(message)
 
   if message.content.startswith('.pomostop'):
-    await unmute_all(message, cfg.ids)
-    await disconnect_from_voice_channel()
+    try:
+      await unmute_all(message, cfg.ids)
+      await disconnect_from_voice_channel()
+    except:
+      await message.channel.send('No session started. See the documentation for more information ```.pomohelp```')
     try:
       cfg.close.cancel()
     except:
