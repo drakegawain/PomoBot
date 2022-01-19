@@ -1,6 +1,6 @@
 #-----------------IMPORTs-----------
 import asyncio
-import configs as cfg
+import Configs.configs as cfg
 #-----------------------------------
 #---------------MESSAGES--------------------
 async def message_avaiable_users_to_join(message, ids_mention):

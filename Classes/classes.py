@@ -2,7 +2,7 @@
 #More details inside the classes
 #--------------IMPORTS---------------
 import asyncio
-import configs as cfg
+import Configs.configs as cfg
 #------------------------------------
 #--------------MUTE-CLASS------------
 class class_mute_all:

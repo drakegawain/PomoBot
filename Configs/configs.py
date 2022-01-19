@@ -4,8 +4,8 @@ intents = discord.Intents.default()
 intents.members = True
 activity = discord.Game(name=".pomohelp")
 client = discord.Client(intents=intents, activity=activity)
-from classes import class_mute_all
-from when_class import when
+from Classes.classes import class_mute_all
+from Classes.when_class import when
 #------------------------------------------------
 #---------------Global Variables-----------------
 c = 0; #counter

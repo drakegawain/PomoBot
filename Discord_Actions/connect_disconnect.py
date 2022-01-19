@@ -1,6 +1,6 @@
 #-------------IMPORTS-----------------
-from handle_joined import joined_function
-import configs as cfg
+from Handle_Variables.handle_joined import joined_function
+import Configs.configs as cfg
 #-------------------------------------
 #-------------CONNECT-----------------
 async def connect_to_voice_channel(message):

@@ -1,8 +1,8 @@
 #-----------------IMPORTs-----------------
 import asyncio
-import configs as cfg
-from bind_methods import bind_class_after_study_time, bind_class_after_rest_time
-from messages import message_time_to_rest, message_ask_for_restart
+import Configs.configs as cfg
+from Methods.bind_methods import bind_class_after_study_time, bind_class_after_rest_time
+from Discord_Actions.Messages.messages import message_time_to_rest, message_ask_for_restart
 #-------------------------------------------
 #This methods assigns functions that handle status_class
 

@@ -1,5 +1,5 @@
 #--------IMPORTS-------------
-import configs as cfg
+import Configs.configs as cfg
 #----------------------------
 #---------JOINED-OR-NOT------
 async def handle_joined(message):

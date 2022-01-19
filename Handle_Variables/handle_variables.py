@@ -1,7 +1,7 @@
 #----------------IMPORTS-------------
-from configs import client
-from connect_disconnect import join_pomodoro
-import configs as cfg
+from Configs.configs import client
+from Discord_Actions.connect_disconnect import join_pomodoro
+import Configs.configs as cfg
 #------------------------------------
 #----------------MANIPULATEs VARIABLEs-------------
 async def get_keys(message):

@@ -1,11 +1,10 @@
 #This file sets functions that executes other functions
 #-----------------IMPORTs---------------------
 import asyncio
-from mute_unmute import mute_all, unmute_all;
-from messages import message_time_to_rest
-from messages import message_time_to_study
-from play_audio import play_audio
-import configs as cfg
+from Discord_Actions.mute_unmute import mute_all, unmute_all;
+from Discord_Actions.Messages.messages import message_time_to_rest, message_time_to_study
+from Discord_Actions.play_audio import play_audio
+import Configs.configs as cfg
 #---------------------------------------------
 #-------------------EXEs-----------------------
 def exec_mute_all(message, ids):

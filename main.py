@@ -5,27 +5,21 @@ import nest_asyncio
 #-------------------IMPORTs---------------------
 #imports from the project
 #you can see more of the functions in the respective files
-from configs import client
-from close import after_30_seconds_close_pomodoro
-from mute_unmute import mute_all, unmute_all;
-from time_pomodoro import  handle_study_time, handle_rest_time, study_time, rest_time;
-from users_members import avaiable_users_to_join;
-from utilitys import repeatedly_execution
-from connect_disconnect import disconnect_from_voice_channel
-from messages import message_stopping_pomostop
-from handle_variables import get_ids
-from handle_variables import list_keys, bot_id, get_keys
-from start import start_pomodoro, reset_func
-from messages import message_avaiable_users_to_join
-from start import startup_e;
-from connect_disconnect import connect_to_voice_channel
-from when_class import when
+from Configs.configs import client
+from Pomodoro.close import after_30_seconds_close_pomodoro
+from Discord_Actions.mute_unmute import mute_all, unmute_all;
+from Pomodoro.time_pomodoro import  handle_study_time, handle_rest_time, study_time, rest_time;
+from Discord_Actions.users_members import avaiable_users_to_join;
+from Pomodoro.utilitys import repeatedly_execution
+from Discord_Actions.connect_disconnect import disconnect_from_voice_channel, connect_to_voice_channel
+from Discord_Actions.Messages.messages import message_stopping_pomostop,message_avaiable_users_to_join, message_help
+from Handle_Variables.handle_variables import get_ids, list_keys, bot_id, get_keys
+from Discord_Actions.start import start_pomodoro, reset_func, startup_e
+from Classes.when_class import when
 #-----------------------------------------------
 #------------------SETUPs-----------------------
 nest_asyncio.apply()
-import configs as cfg
-#-----------------------------------------------
-#------------------HOW-MANY-SVs-----------------
+import Configs.configs as cfg
 #-----------------------------------------------
 #-------------------EVENTs----------------------
 @client.event
@@ -38,7 +32,6 @@ async def on_message(message):
     return
 
   if message.content.startswith('.pomohelp'):
-    from messages import message_help
     await message_help(message)
     return
 
@@ -77,7 +70,7 @@ async def on_message(message):
       await unmute_all(message, cfg.ids)
       await disconnect_from_voice_channel()
     except:
-      await message.channel.send('User <@{}> are not in a voice channel.\nNo session started. See the documentation for more information ``.pomohelp``'.format(message.author.id))
+      await message.channel.send('User <@{}> isnt in a voice channel.\nNo session started. See the documentation for more information ``.pomohelp``'.format(message.author.id))
     else:
       try:
         cfg.close.cancel()

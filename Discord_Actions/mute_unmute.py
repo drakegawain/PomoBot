@@ -1,6 +1,6 @@
 #---------------IMPORTs----------
-from configs import client
-import configs as cfg
+from Configs.configs import client
+import Configs.configs as cfg
 #-------------------------------
 #------------MUTE-UNMUTE-METHODs---------
 async def mute_method(member):
