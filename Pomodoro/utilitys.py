@@ -25,7 +25,7 @@ async def repeatedly_execution(timeout_1, timeout_2, function_1, function_2, *ar
     if (await timeout_function(timeout_1) == True):
       await function_1(*args_1);
       await message_time_to_rest(args_1[0])
-      await play_audio(cfg.vc, 'Alarme.mp3')
+      await play_audio(cfg.vc, 'Sounds/Alarme.mp3')
       if (await timeout_function(timeout_2) == True):
         await function_2(*args_1);
         await message_time_to_study(args_1[0])

@@ -16,6 +16,7 @@ from Discord_Actions.Messages.messages import message_stopping_pomostop,message_
 from Handle_Variables.handle_variables import get_ids, list_keys, bot_id, get_keys
 from Discord_Actions.start import start_pomodoro, reset_func, startup_e
 from Classes.when_class import when
+from replit import db
 #-----------------------------------------------
 #------------------SETUPs-----------------------
 nest_asyncio.apply()
@@ -24,6 +25,7 @@ import Configs.configs as cfg
 #-------------------EVENTs----------------------
 @client.event
 async def on_ready():
+  db["{command}_{bad_access}".format(command='pomostop', bad_access='101')] = "{reason}".format(reason='User outside a session cannot interrupt the session.')
   pass
 
 @client.event 
@@ -41,7 +43,7 @@ async def on_message(message):
     await connect_to_voice_channel(message);
     await startup_e() #reset the variables
     #-------------------------------------------
-    #---------------TIME VARIABLES--------------
+    #---------------TIME VARIABLEs--------------
     cfg.study_time_global = await handle_study_time(await study_time(message));
     cfg.rest_time_global = await handle_rest_time(await rest_time(message));
     #-------------------------------------------
@@ -65,12 +67,19 @@ async def on_message(message):
   if message.content.startswith('.pomojoin'):
     await get_ids(message)
 
+  if message.content.startswith('.pomotest'):
+    from Security.Command_Check.pomostop_check import check_pomostop
+    try:
+      print('pass')
+      await check_pomostop(message.author.id, message)
+    except TypeError:
+      print('Erou')
   if message.content.startswith('.pomostop'):
     try:
       await unmute_all(message, cfg.ids)
       await disconnect_from_voice_channel()
     except:
-      await message.channel.send('User <@{}> isnt in a voice channel.\nNo session started. See the documentation for more information ``.pomohelp``'.format(message.author.id))
+      await message.channel.send('User <@{}> isnt in voice channel.\nNo session started. See the documentation for more information ``.pomohelp``'.format(message.author.id))
     else:
       try:
         cfg.close.cancel()
@@ -84,8 +93,11 @@ async def on_message(message):
       else:
         await message_stopping_pomostop(message)
       finally:
+        await unmute_all(message, cfg.ids)
+        await disconnect_from_voice_channel()
         await reset_func()
         await message.channel.send('Stopped')
+        
 #---------------------------------------------
 #---------------LOGGIN-----------------
 client.run(os.environ['TOKEN'])
