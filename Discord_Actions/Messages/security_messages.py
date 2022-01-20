@@ -1,4 +1,4 @@
-#--------This-file-storage-security-messages
+#--------This-file-storage-security-messages-------
 from replit import db
 
 class SecurityMessage:
@@ -21,7 +21,7 @@ class SecurityMessage:
       message=self.ctx
       await message.channel.send(self.message)
     except:
-      print('Error in third block')
+      print('Error in third block SecurityMessage_send')
   def set_message(self):
     self.message=("<@{user}> \nUnfourtunally PomoBot could'nt call ``{command}`` because: ``{reason}``".format(user=self.user, command=self.command, reason=self.reason))
   def set_reason(
@@ -38,6 +38,4 @@ class SecurityMessage:
         self.reason=value
         print(value)
         return 
-      else:
-        print('didnt got to if')
     return

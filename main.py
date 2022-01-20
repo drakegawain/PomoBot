@@ -16,11 +16,12 @@ from Discord_Actions.Messages.messages import message_stopping_pomostop,message_
 from Handle_Variables.handle_variables import get_ids, list_keys, bot_id, get_keys
 from Discord_Actions.start import start_pomodoro, reset_func, startup_e
 from Classes.when_class import when
-from replit import db
+from Security.Command_Check.pomostop_check import check_pomostop
 #-----------------------------------------------
 #------------------SETUPs-----------------------
 nest_asyncio.apply()
 import Configs.configs as cfg
+from replit import db
 #-----------------------------------------------
 #-------------------EVENTs----------------------
 @client.event
@@ -68,7 +69,6 @@ async def on_message(message):
     await get_ids(message)
 
   if message.content.startswith('.pomotest'):
-    from Security.Command_Check.pomostop_check import check_pomostop
     try:
       print('pass')
       await check_pomostop(message.author.id, message)
@@ -76,27 +76,33 @@ async def on_message(message):
       print('Erou')
   if message.content.startswith('.pomostop'):
     try:
-      await unmute_all(message, cfg.ids)
-      await disconnect_from_voice_channel()
+      security_test=await check_pomostop(message.author.id, message)
+      if security_test is False:
+        raise Exception('User outside session')
     except:
-      await message.channel.send('User <@{}> isnt in voice channel.\nNo session started. See the documentation for more information ``.pomohelp``'.format(message.author.id))
+      print('Error in pomostop')
     else:
       try:
-        cfg.close.cancel()
-      except:
-        try:
-          cfg.class_e.release_future()
-          cfg.class_i.release_future()
-          await message_stopping_pomostop(message)
-        except:
-          await message.channel.send('No session started. See the documentation for more information ``.pomohelp``')
-      else:
-        await message_stopping_pomostop(message)
-      finally:
         await unmute_all(message, cfg.ids)
         await disconnect_from_voice_channel()
-        await reset_func()
-        await message.channel.send('Stopped')
+      except:
+        await message.channel.send('User <@{}> isnt in voice channel.\nNo session started. See the documentation for more information ``.pomohelp``'.format(message.author.id))
+      else:
+        try:
+          cfg.close.cancel()
+        except:
+          try:
+            cfg.class_e.release_future()
+            cfg.class_i.release_future()
+            await message_stopping_pomostop(message)
+          except:
+            await message.channel.send('No session started. See the documentation for more information ``.pomohelp``')
+        else:
+          await message_stopping_pomostop(message)
+        finally:
+          await disconnect_from_voice_channel()
+          await reset_func()
+          await message.channel.send('Stopped')
         
 #---------------------------------------------
 #---------------LOGGIN-----------------
