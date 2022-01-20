@@ -29,16 +29,58 @@ class Session:
       else:
         raise Exception('THIS USER ALREADY HAVE A SESSION')
     except:
-      print('User already is a leader of other session {}'.format(__name__))
+      print('User already is a leader of another session {}'.format(__name__))
   async def set_time(self, **time_remaining):
     self.TIME=time_remaining
   async def set_status(self, status):
     self.STATUS=status
   async def get(self, var):
-    return self.var
+    vardict ={
+      'c':self.c,
+      'pomodoro_started':self.pomodoro_started,
+      'ids_get':self.ids_get,
+      'joined':self.joined,
+      'ids':self.ids,
+      'study_time_global':self.study_time_global,
+      'rest_time_global':self.rest_time_global,
+      'status_class':self.status_class,
+      'close':self.close,
+      'vc':self.vc,
+      'class_e':self.class_e,
+      'class_i':self.class_i
+    }
+    get=vardict.get('{}'.format(var))
+    return get
   def restart(self):
     self.LEADER_ID=None
     self.TIME=None
     self.STATUS=None
+    self.c=0; #counter
+    self.pomodoro_started=False;
+    self.ids_get=[];
+    self.joined=0;
+    self.ids=set();
+    self.study_time_global=0;
+    self.rest_time_global=0;
+    self.status_class=class_mute_all(None) 
+    self.close=when() 
+    self.vc=None; 
+    self.class_e=None 
+    self.class_i=None
   def set_global_var(self, var, value):
-    self.var=value
+    vardict ={
+      'c':self.c,
+      'pomodoro_started':self.pomodoro_started,
+      'ids_get':self.ids_get,
+      'joined':self.joined,
+      'ids':self.ids,
+      'study_time_global':self.study_time_global,
+      'rest_time_global':self.rest_time_global,
+      'status_class':self.status_class,
+      'close':self.close,
+      'vc':self.vc,
+      'class_e':self.class_e,
+      'class_i':self.class_i
+    }
+    sgv=vardict.get('{}'.format(var))
+    sgv=value

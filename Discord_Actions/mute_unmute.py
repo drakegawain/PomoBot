@@ -22,18 +22,22 @@ async def undeafen_method(member):
 async def mute_all(message, ids):
   guild = message.author.voice.channel.guild.id;
   got_guild = client.get_guild(guild);
-  cfg.ids_list = list(cfg.ids)
-  for ids in cfg.ids_list:
+  #cfg.ids_list = list(cfg.ids)
+  session=cfg.session.get('{}'.format('SESSION1'))
+  session.set_global_var('ids_list', list(session.get('ids')))
+  for ids in session.get('ids_list'):  #cfg.ids_list:
     member = got_guild.get_member(ids);
     await mute_method(member);
     await deafen_method(member);
   return
-  
+
 async def unmute_all(message, ids):
   guild = message.author.voice.channel.guild.id;
   got_guild = client.get_guild(guild);
-  cfg.ids_list = list(cfg.ids);
-  for ids in cfg.ids_list:
+  #cfg.ids_list = list(cfg.ids);
+  session=cfg.session.get('{}'.format('SESSION1'))
+  session.set_global_var('ids_list', list(session.get('ids')))
+  for ids in session.get('ids_list'):#cfg.ids_list:
     member = got_guild.get_member(ids);
     await unmute_method(member)
     await undeafen_method(member);
