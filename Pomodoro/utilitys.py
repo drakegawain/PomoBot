@@ -24,6 +24,7 @@ async def repeatedly_execution(timeout_1, timeout_2, function_1, function_2, *ar
   session=cfg.session.get('{}'.format('Session1'))
   print(timeout_1, timeout_2)
   print(function_1, function_2)
+  print(session.vc)
   while True:
     if (await timeout_function(timeout_1) == True):
       function_1(*args_1);

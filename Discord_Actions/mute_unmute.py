@@ -22,11 +22,9 @@ async def undeafen_method(member):
 async def mute_all(message, ids):
   guild = message.author.voice.channel.guild.id;
   got_guild = client.get_guild(guild);
-  #cfg.ids_list = list(cfg.ids)
   session=cfg.session.get('{}'.format('Session1'))
- # session.set_global_var('ids_list', list(session.ids))
   i_list=list(session.ids)
-  for ids in i_list:  #cfg.ids_list:
+  for ids in i_list:  
     member = got_guild.get_member(ids);
     await mute_method(member);
     await deafen_method(member);
@@ -35,36 +33,11 @@ async def mute_all(message, ids):
 async def unmute_all(message, ids):
   guild = message.author.voice.channel.guild.id;
   got_guild = client.get_guild(guild);
-  #cfg.ids_list = list(cfg.ids);
   session=cfg.session.get('{}'.format('Session1'))
-  #session.set_global_var('ids_list', list(session.ids))
   i_list=list(session.ids)
-  for ids in i_list:#cfg.ids_list:
+  for ids in i_list:
     member = got_guild.get_member(ids);
     await unmute_method(member)
     await undeafen_method(member);
   return
 #----------------------------------------
-#---------------UNIMPLEMENTED-------------
-  #def sinc_mute_all(message, ids):
-#  guild = message.author.voice.channel.guild.id;
-#  got_guild = client.get_guild(guild);
-#  ids_list = list(ids);
-#  new_client_loop = asyncio.get_running_loop()
-#  for ids in ids_list:
-#    member = got_guild.get_member(ids);
-#    new_client_loop.run_until_complete(member.edit(mute=True))
- #   new_client_loop.run_until_complete(member.edit(deafen=True))
-#  return print('pass')
-
-#def sinc_unmute_all(message, ids):
-  #guild = message.author.voice.channel.guild.id;
-  #got_guild = client.get_guild(guild);
-  #ids_list = list(ids);
- # new_client_loop = asyncio.get_running_loop()
-  #for ids in ids_list:
-    ##member = got_guild.get_member(ids);
-   # new_client_loop.run_until_complete(member.edit(mute=False))
-   # new_client_loop.run_until_complete(member.edit(deafen=False))
- # return
- #--------------------------------------

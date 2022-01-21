@@ -55,20 +55,7 @@ class exec_repeatedly_functions:
       self.FUTURE.set_result(None)
 #--------------------------------------
 #---------------RESET------------------
-class startup:
-  #this class resets the global variables from file configs
-  def start(self):
-    cfg.c = 0;
-    cfg.pomodoro_started = False;
-    cfg.ids_get = [];
-    cfg.joined = 0;
-    cfg.ids = set();
-    cfg.study_time_global = 0;
-    cfg.rest_time_global = 0;
-    cfg.status_class = class_mute_all('none')
-    cfg.class_e=None
-    cfg.class_i=None
-    cfg.close=None
+
 #--------------------------------------
 #------------------TIME----------------
 class e_when_w_args:
