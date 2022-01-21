@@ -22,7 +22,7 @@ async def message_help(message):
    return
 
 async def message_time_to_study(message):
-  await message.channel.send("```\nTime to study/work. \nYou have {} minutes.```" .format(int(session.session.get('study_time_global')/60)))
+  await message.channel.send("```\nTime to study/work. \nYou have {} minutes.```" .format(int(session.study_time_global/60)))
   return
 
 async def message_stopping_pomostop(message):

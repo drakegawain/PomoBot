@@ -42,8 +42,8 @@ async def on_message(message):
   if message.content.startswith('.pomodoro'):
     session=cfg.session.get('{}'.format('Session1'))
     #---------------START-UP---------------------
-    await connect_to_voice_channel(message);
     await startup_e() #reset the variables
+    await connect_to_voice_channel(message);
     #-------------------------------------------
     #---------------TIME VARIABLEs--------------
     session.study_time_global = await handle_study_time(await study_time(message));
