@@ -60,9 +60,10 @@ async def on_message(message):
     session.close=when()
     pomoclose=session.close
     #pomoclose = cfg.close
+    from Pomodoro.utilitys import exec_mute_all, exec_unmute_all
 
     pomoclose.set_functions(repeatedly_execution)
-    pomoclose.set_args(session.study_time_global, session.rest_time_global, unmute_all, mute_all, message, session.ids)
+    pomoclose.set_args(session.study_time_global, session.rest_time_global, exec_unmute_all, exec_mute_all, message, session.ids)
     
     pomoclose.if_when('yes')
 
