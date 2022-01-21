@@ -67,6 +67,7 @@ class Session:
     self.vc=None; 
     self.class_e=None 
     self.class_i=None
+    return
   def set_global_var(self, var, value):
     vardict ={
       'c':self.c,

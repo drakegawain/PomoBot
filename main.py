@@ -20,6 +20,7 @@ from Security.Command_Check.pomostop_check import check_pomostop
 #-----------------------------------------------
 #------------------SETUPs-----------------------
 nest_asyncio.apply()
+os.system('clear')
 import Configs.configs as cfg
 from replit import db
 #-----------------------------------------------
@@ -39,14 +40,14 @@ async def on_message(message):
     return
 
   if message.content.startswith('.pomodoro'):
-    
+    session=cfg.session.get('{}'.format('Session1'))
     #---------------START-UP---------------------
     await connect_to_voice_channel(message);
     await startup_e() #reset the variables
     #-------------------------------------------
     #---------------TIME VARIABLEs--------------
-    cfg.study_time_global = await handle_study_time(await study_time(message));
-    cfg.rest_time_global = await handle_rest_time(await rest_time(message));
+    session.study_time_global = await handle_study_time(await study_time(message));
+    session.rest_time_global = await handle_rest_time(await rest_time(message));
     #-------------------------------------------
     #----------------OPEN-CLOCK-----------------
     await start_pomodoro();
@@ -54,11 +55,14 @@ async def on_message(message):
     await message_avaiable_users_to_join(message, await avaiable_users_to_join(await list_keys(await get_keys(message)), await bot_id()));
     #-------------------------------------------
     #---------------CLOSE-----------------------
-    cfg.close = when()
-    pomoclose = cfg.close
+    
+    #cfg.close = when()
+    session.close=when()
+    pomoclose=session.close
+    #pomoclose = cfg.close
 
     pomoclose.set_functions(repeatedly_execution)
-    pomoclose.set_args(cfg.study_time_global, cfg.rest_time_global, unmute_all, mute_all, message, cfg.ids)
+    pomoclose.set_args(session.study_time_global, session.rest_time_global, unmute_all, mute_all, message, session.ids)
     
     pomoclose.if_when('yes')
 
@@ -75,6 +79,7 @@ async def on_message(message):
     except TypeError:
       print('Erou')
   if message.content.startswith('.pomostop'):
+    session=cfg.session.get('{}'.format('Session1'))
     try:
       security_test=await check_pomostop(message.author.id, message)
       if security_test is False:
@@ -83,17 +88,17 @@ async def on_message(message):
       print('Error in pomostop')
     else:
       try:
-        await unmute_all(message, cfg.ids)
+        await unmute_all(message, session.ids)
         await disconnect_from_voice_channel()
       except:
         await message.channel.send('User <@{}> isnt in voice channel.\nNo session started. See the documentation for more information ``.pomohelp``'.format(message.author.id))
       else:
         try:
-          cfg.close.cancel()
+          session.close.cancel()
         except:
           try:
-            cfg.class_e.release_future()
-            cfg.class_i.release_future()
+            session.class_e.release_future()
+            session.class_i.release_future()
             await message_stopping_pomostop(message)
           except:
             await message.channel.send('No session started. See the documentation for more information ``.pomohelp``')

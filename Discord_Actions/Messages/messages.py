@@ -1,6 +1,7 @@
 #-----------------IMPORTs-----------
 import asyncio
 import Configs.configs as cfg
+session=cfg.session.get('{}'.format('Session1'))
 #-----------------------------------
 #---------------MESSAGES--------------------
 async def message_avaiable_users_to_join(message, ids_mention):
@@ -9,11 +10,11 @@ async def message_avaiable_users_to_join(message, ids_mention):
 
 def message_closed_pomodoro(message):
   loop = asyncio.get_running_loop()
-  loop.run_until_complete(message.channel.send("```\nPomodoro is now closed. The clock is ticking, go do some work/study.\n{} minutes left.```"  .format(int(cfg.study_time_global/60))));
+  loop.run_until_complete(message.channel.send("```\nPomodoro is now closed. The clock is ticking, go do some work/study.\n{} minutes left.```"  .format(int(session.study_time_global/60))));
   return
 
 async def message_time_to_rest(message):
-  await message.channel.send("```\nTime to rest. \nYou have {} minutes.```"  .format(int(cfg.rest_time_global/60)));
+  await message.channel.send("```\nTime to rest. \nYou have {} minutes.```"  .format(int(session.rest_time_global/60)));
   return
 
 async def message_help(message):
@@ -21,7 +22,7 @@ async def message_help(message):
    return
 
 async def message_time_to_study(message):
-  await message.channel.send("```\nTime to study/work. \nYou have {} minutes.```" .format(int(cfg.session.get('study_time_global')/60)))
+  await message.channel.send("```\nTime to study/work. \nYou have {} minutes.```" .format(int(session.session.get('study_time_global')/60)))
   return
 
 async def message_stopping_pomostop(message):

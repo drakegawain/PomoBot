@@ -8,8 +8,9 @@ from Discord_Actions.Messages.security_messages import SecurityMessage
 #--------------------------
 
 async def check_pomostop(calling_id, message):
+  session=cfg.session.get('{}'.format('Session1'))
   try:
-    list_ids=list(cfg.ids)
+    list_ids=list(session.ids)#cfg.ids)
     if list_ids == []:
       raise Exception('TypeError')
     for id in list_ids:

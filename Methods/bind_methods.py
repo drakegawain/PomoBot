@@ -7,7 +7,9 @@ from Classes.classes import class_mute_all
 #------------------------------------
 #---------------FUNCTIONS-----------
 def bind_status_class_to_mute_all(message, ids):
-  status_class = cfg.status_class
+  session=cfg.session.get('{}'.format('Session1'))
+  status_class=session.status_class
+  #status_class = cfg.status_class
   status_class.add_parameters(message)
   status_class.bind(exec_mute_all)
   return

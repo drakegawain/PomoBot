@@ -8,8 +8,10 @@ from Discord_Actions.Messages.messages import message_time_to_rest, message_ask_
 
 #---------------THROW--------------------
 def throw_pomodoro_status_close():
-  status_class = cfg.status_class
-  status_class.add_parameters(cfg.ids)
+  #status_class = cfg.status_class
+  session=cfg.session.get('{}'.format('Session1'))
+  status_class=session.status_class
+  status_class.add_parameters(session.ids)
   status_class.set('close')
   print(status_class.status)
   return 

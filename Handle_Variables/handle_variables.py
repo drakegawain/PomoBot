@@ -27,20 +27,21 @@ async def handle_c():
   #a id from the author that typed .join
   ##
   #is used in get_ids
-  session=cfg.session.get('{}'.format('SESSION1'))
-  pomodoro_started=session.get('pomodoro_started')
-  c = session.get('c')
-  if pomodoro_started is True:
-    c = c + 1;
-    session.set_global_variable('c', c)
+  session=cfg.session.get('{}'.format('Session1'))
+  #pomodoro_started=session.get('pomodoro_started')
+  #c = session.get('c')
+  if session.pomodoro_started is True:
+    session.c=session.c+1
+   # c = c + 1;
+    #session.set_global_variable('c', c)
   #if cfg.pomodoro_started == True:
     #cfg.c = cfg.c + 1;
 
 async def get_ids(message):
-  session=cfg.session.get('{}'.format('SESSION1'))
-  pomodoro_started = session.get('pomodoro_started')
-  if pomodoro_started is False:
-    await message.channe.send("\n<@%s> ```Pomodoro wasn't started. Type .pomodoro XX XX (where XX is time in minutes) to start pomodoro and then type .join.```"  % message.author.id)
+  session=cfg.session.get('{}'.format('Session1'))
+  #pomodoro_started = session.get('pomodoro_started')
+  if session.pomodoro_started is False:
+    await message.channel.send("\n<@%s> ```Pomodoro wasn't started. Type .pomodoro XX XX (where XX is time in minutes) to start pomodoro and then type .join.```"  % message.author.id)
   #if cfg.pomodoro_started == False:
     #if clock didnt start, send the message
     #await message.channel.send("\n<@%s> ```Pomodoro wasn't started. Type .pomodoro XX XX (where XX is time in minutes) to start pomodoro and then type .join.```"  % message.author.id)
@@ -50,13 +51,13 @@ async def get_ids(message):
     #id is saved in a set because a user cannot
     #enter the pomodoro more than once
     await handle_c();
-    ids_get=session.get('ids_get')
-    c=session.get('c')
-    ids_get.append(c - 1)
-    ids_get[c - 1]=message.author.id
-    total_ids=set(ids_get)
-    session.set_global_variable('ids', total_ids)
-    print(session.get('ids'))
+    #ids_get=session.get('ids_get')
+    #c=session.get('c')
+    session.ids_get.append(session.c - 1)
+    session.ids_get[session.c - 1]=message.author.id
+    total_ids=set(session.ids_get)
+    session.ids=total_ids
+    print(session.ids)
     await join_pomodoro(message)
     #cfg.ids_get.append((cfg.c - 1))
     #cfg.ids_get[(cfg.c - 1)] = message.author.id;
