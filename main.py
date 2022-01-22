@@ -7,7 +7,7 @@ import nest_asyncio
 #you can see more of the functions in the respective files
 from Configs.configs import client
 from Pomodoro.close import after_30_seconds_close_pomodoro
-from Discord_Actions.mute_unmute import mute_all, unmute_all;
+from Pomodoro.utilitys import exec_mute_all, exec_unmute_all
 from Pomodoro.time_pomodoro import  handle_study_time, handle_rest_time, study_time, rest_time;
 from Discord_Actions.users_members import avaiable_users_to_join;
 from Pomodoro.utilitys import repeatedly_execution
@@ -17,6 +17,7 @@ from Handle_Variables.handle_variables import get_ids, list_keys, bot_id, get_ke
 from Discord_Actions.start import start_pomodoro, reset_func, startup_e
 from Classes.when_class import when
 from Security.Command_Check.pomostop_check import check_pomostop
+from Discord_Actions.mute_unmute import unmute_all
 #-----------------------------------------------
 #------------------SETUPs-----------------------
 nest_asyncio.apply()
@@ -56,11 +57,9 @@ async def on_message(message):
     #-------------------------------------------
     #---------------CLOSE-----------------------
     
-    #cfg.close = when()
     session.close=when()
     pomoclose=session.close
-    #pomoclose = cfg.close
-    from Pomodoro.utilitys import exec_mute_all, exec_unmute_all
+    
 
     pomoclose.set_functions(repeatedly_execution)
     pomoclose.set_args(session.study_time_global, session.rest_time_global, exec_unmute_all, exec_mute_all, message, session.ids)
@@ -81,34 +80,35 @@ async def on_message(message):
       print('Erou')
   if message.content.startswith('.pomostop'):
     session=cfg.session.get('{}'.format('Session1'))
-    try:
-      security_test=await check_pomostop(message.author.id, message)
-      if security_test is False:
-        raise Exception('User outside session')
-    except:
-      print('Error in pomostop')
-    else:
-      try:
-        await unmute_all(message, session.ids)
-        await disconnect_from_voice_channel()
-      except:
-        await message.channel.send('User <@{}> isnt in voice channel.\nNo session started. See the documentation for more information ``.pomohelp``'.format(message.author.id))
-      else:
-        try:
-          session.close.cancel()
-        except:
-          try:
-            session.class_e.release_future()
-            session.class_i.release_future()
-            await message_stopping_pomostop(message)
-          except:
-            await message.channel.send('No session started. See the documentation for more information ``.pomohelp``')
-        else:
-          await message_stopping_pomostop(message)
-        finally:
-          await disconnect_from_voice_channel()
-          await reset_func()
-          await message.channel.send('Stopped')
+    
+    # try:
+    #   security_test=await check_pomostop(message.author.id, message)
+    #   if security_test is False:
+    #     raise Exception('User outside session')
+    # except:
+    #   print('Error in pomostop')
+    # else:
+    #   try:
+    #     await unmute_all(message, session.ids)
+    #     await disconnect_from_voice_channel()
+    #   except:
+    #     await message.channel.send('User <@{}> isnt in voice channel.\nNo session started. See the documentation for more information ``.pomohelp``'.format(message.author.id))
+    #   else:
+    #     try:
+    #       session.close.cancel()
+    #     except:
+    #       try:
+    #         session.class_e.release_future()
+    #         session.class_i.release_future()
+    #         await message_stopping_pomostop(message)
+    #       except:
+    #         await message.channel.send('No session started. See the documentation for more information ``.pomohelp``')
+    #     else:
+    #       await message_stopping_pomostop(message)
+    #     finally:
+    #       await disconnect_from_voice_channel()
+    #       await reset_func()
+    #       await message.channel.send('Stopped')
         
 #---------------------------------------------
 #---------------LOGGIN-----------------
