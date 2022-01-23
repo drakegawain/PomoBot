@@ -3,6 +3,8 @@
 #IF YES RAISE AN ERROR
 #-----------------IMPORTs-----------
 from Pomodoro.Session_Handlers.search_session import s_for_id
+from Discord_Actions.Messages.security_messages import SecurityMessage
+import asyncio
 #-----------------------------------
 
 class Error(Exception):
@@ -10,14 +12,18 @@ class Error(Exception):
 
 class MoreThanOneSession(Error):
   """USER CANT BE IN MORE THAN ONE SESSION"""
+  def __init__(self, message):
+    self.message=message
+    N_M=SecurityMessage('pomodoro', message, message.author.id)
+    loop=asyncio.get_event_loop
+    loop.run_until_complete(N_M.send(201))
   pass
 
-async def c_for_doubles(dictio:dict, ID:int):
-    print('cfordoubles')
+async def c_for_doubles(dictio:dict, ID:int, message):
     search=await s_for_id(dictio, ID)
-    print("search {}".format(search))
     if search is True:
-        raise MoreThanOneSession
+        raise await MoreThanOneSession(message)
+        return True
     else:
-        pass
+        return False
     return

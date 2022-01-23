@@ -31,7 +31,7 @@ class SecurityMessage:
     db["{command}_{bad_access}".format(command=command, bad_acess=bad_access)] = "{reason}".format(reason=reason)
   def search_reason(self, error:int):
     #implemented errors
-    #101 - User outside the session
+    #pomostop_101 - User outside the session
     for key in db.keys():
       if str(error) in key:
         value=db[key]

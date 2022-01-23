@@ -31,7 +31,7 @@ from replit import db
 #-------------------EVENTs----------------------
 @client.event
 async def on_ready():
-  db["{command}_{bad_access}".format(command='pomostop', bad_access='101')] = "{reason}".format(reason='User outside a session cannot interrupt the session.')
+  db["{command}_{bad_access}".format(command='pomodoro', bad_access='201')] = "{reason}".format(reason='Calling user already in a session.')
   pass
 
 @client.event 
@@ -45,9 +45,11 @@ async def on_message(message):
 
   if message.content.startswith('.pomodoro'):
     try:
-      await c_for_doubles(cfg.session, message.author.id)
+      doubles=await c_for_doubles(cfg.session, message.author.id, message)
+      if doubles is True:
+        raise Exception
     except:
-      print("ERROR POMODORO 101: USER ALREADY IN A SESSION")
+      print("ERROR POMODORO 201: USER ALREADY IN A SESSION")
     else:
     #---------------START-UP---------------------
       session = await start_session(message)
@@ -59,7 +61,7 @@ async def on_message(message):
       session.rest_time_global = await handle_rest_time(await rest_time(message));
     #-------------------------------------------
     #----------------OPEN-CLOCK-----------------
-      await start_pomodoro();
+      await start_pomodoro(session);
     
       await message_avaiable_users_to_join(message, await avaiable_users_to_join(await list_keys(await get_keys(message)), await bot_id()));
     #-------------------------------------------
@@ -74,7 +76,7 @@ async def on_message(message):
     
       pomoclose.if_when('yes')
 
-      await after_30_seconds_close_pomodoro(message);
+      await after_30_seconds_close_pomodoro(message, session);
     #-------------------------------------------
       
   if message.content.startswith('.pomojoin'):
