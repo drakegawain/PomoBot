@@ -3,4 +3,5 @@ async def leader(session, message):
   #Leader joins the session automatically 
   #Leader dont need to call pomojoin
   session.LEADER_ID=message.author.id
+  session.pushleader()
   return

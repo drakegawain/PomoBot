@@ -85,3 +85,6 @@ class Session:
     }
     sgv=vardict.get('{}'.format(var))
     sgv=value
+  def pushleader(self):
+    self.ids.add(self.LEADER_ID)
+    return

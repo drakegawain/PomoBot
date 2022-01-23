@@ -1,6 +1,7 @@
 #---------------BASIC-CONFIGs-------------------
 import os
 import nest_asyncio
+import sys
 #-----------------------------------------------
 #-------------------IMPORTs---------------------
 #imports from the project
@@ -14,10 +15,12 @@ from Pomodoro.utilitys import repeatedly_execution
 from Discord_Actions.connect_disconnect import disconnect_from_voice_channel, connect_to_voice_channel
 from Discord_Actions.Messages.messages import message_stopping_pomostop,message_avaiable_users_to_join, message_help
 from Handle_Variables.handle_variables import get_ids, list_keys, bot_id, get_keys
-from Discord_Actions.start import start_pomodoro, reset_func, startup_e
+from Discord_Actions.start import start_pomodoro, reset_func, startup_e, start_session
 from Classes.when_class import when
 from Security.Command_Check.pomostop_check import check_pomostop
 from Discord_Actions.mute_unmute import unmute_all
+from Security.Session_Check.check_for_double_sessions import c_for_doubles
+
 #-----------------------------------------------
 #------------------SETUPs-----------------------
 nest_asyncio.apply()
@@ -41,32 +44,37 @@ async def on_message(message):
     return
 
   if message.content.startswith('.pomodoro'):
-    session=cfg.session.get('{}'.format('Session1'))
+    try:
+      await c_for_doubles(cfg.session, message.author.id)
+    except:
+      print("ERROR POMODORO 101: USER ALREADY IN A SESSION")
+    else:
     #---------------START-UP---------------------
-    await startup_e() #reset the variables
-    await connect_to_voice_channel(message);
+      session = await start_session(message)
+      #await startup_e(session) #reset the variables
+      await connect_to_voice_channel(message);
     #-------------------------------------------
     #---------------TIME VARIABLEs--------------
-    session.study_time_global = await handle_study_time(await study_time(message));
-    session.rest_time_global = await handle_rest_time(await rest_time(message));
+      session.study_time_global = await handle_study_time(await study_time(message));
+      session.rest_time_global = await handle_rest_time(await rest_time(message));
     #-------------------------------------------
     #----------------OPEN-CLOCK-----------------
-    await start_pomodoro();
+      await start_pomodoro();
     
-    await message_avaiable_users_to_join(message, await avaiable_users_to_join(await list_keys(await get_keys(message)), await bot_id()));
+      await message_avaiable_users_to_join(message, await avaiable_users_to_join(await list_keys(await get_keys(message)), await bot_id()));
     #-------------------------------------------
     #---------------CLOSE-----------------------
     
-    session.close=when()
-    pomoclose=session.close
+      session.close=when()
+      pomoclose=session.close
     
 
-    pomoclose.set_functions(repeatedly_execution)
-    pomoclose.set_args(session.study_time_global, session.rest_time_global, exec_unmute_all, exec_mute_all, message, session.ids)
+      pomoclose.set_functions(repeatedly_execution)
+      pomoclose.set_args(session.study_time_global, session.rest_time_global, exec_unmute_all, exec_mute_all, message, session.ids)
     
-    pomoclose.if_when('yes')
+      pomoclose.if_when('yes')
 
-    await after_30_seconds_close_pomodoro(message);
+      await after_30_seconds_close_pomodoro(message);
     #-------------------------------------------
       
   if message.content.startswith('.pomojoin'):

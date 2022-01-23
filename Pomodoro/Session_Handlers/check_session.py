@@ -18,8 +18,9 @@ async def new_session(dictio:dict):
   session=dictio.get('{Session_{number}}'.format(number=len(dictio)))
   return session
 
-async def gather(dictionary:dict):
+async def gather(dictio:dict):
   #Return last session
-  last_session=dictionary.len
-  last_session=dictionary[last_session]
-  return last_session
+  last_session=len(dictio)
+  keys=list(dictio.keys())
+  l_session=keys[last_session-1] # -1 BECAUSE ARRAY INDEXES START IN 0
+  return l_session
