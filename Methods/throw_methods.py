@@ -4,9 +4,8 @@ import Configs.configs as cfg
 #This methods assigns functions that handle status_class
 
 #---------------THROW--------------------
-def throw_pomodoro_status_close():
+def throw_pomodoro_status_close(session):
   #status_class = cfg.status_class
-  session=cfg.session.get('{}'.format('Session1'))
   status_class=session.status_class
   status_class.add_parameters(session.ids)
   status_class.set('close')

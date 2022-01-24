@@ -14,10 +14,10 @@ class MoreThanOneSession(Error):
   """USER CANT BE IN MORE THAN ONE SESSION"""
   def __init__(self, message):
     self.message=message
-    N_M=SecurityMessage('pomodoro', message, message.author.id)
-    loop=asyncio.get_event_loop
-    loop.run_until_complete(N_M.send(201))
-  pass
+    self.N_M=SecurityMessage('pomodoro', message, message.author.id)
+    loop=asyncio.get_event_loop()
+    loop.run_until_complete(self.N_M.send(201))
+
 
 async def c_for_doubles(dictio:dict, ID:int, message):
     search=await s_for_id(dictio, ID)

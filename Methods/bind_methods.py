@@ -6,8 +6,7 @@ from Pomodoro.utilitys import exec_mute_all, exec_unmute_all
 from Classes.classes import class_mute_all
 #------------------------------------
 #---------------FUNCTIONS-----------
-def bind_status_class_to_mute_all(message, ids):
-  session=cfg.session.get('{}'.format('Session1'))
+def bind_status_class_to_mute_all(message, ids, session):
   status_class=session.status_class
   #status_class = cfg.status_class
   status_class.add_parameters(message)

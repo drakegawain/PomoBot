@@ -3,10 +3,9 @@ from Handle_Variables.handle_joined import joined_function
 import Configs.configs as cfg
 #-------------------------------------
 #-------------CONNECT-----------------
-async def connect_to_voice_channel(message):
+async def connect_to_voice_channel(message, session):
   try:
     channel = message.author.voice.channel;
-    session=cfg.session.get('{}'.format('Session1'))
     session.vc=await channel.connect()
   except:
     await message.channel.send('<@%s> ```\nYou have to be on a voice channel to start Pomobot. Enter a voice channel and try again.```' % (message.author.id))

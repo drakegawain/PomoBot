@@ -54,7 +54,7 @@ async def on_message(message):
     #---------------START-UP---------------------
       session = await start_session(message)
       #await startup_e(session) #reset the variables
-      await connect_to_voice_channel(message);
+      await connect_to_voice_channel(message, session);
     #-------------------------------------------
     #---------------TIME VARIABLEs--------------
       session.study_time_global = await handle_study_time(await study_time(message));
@@ -80,7 +80,7 @@ async def on_message(message):
     #-------------------------------------------
       
   if message.content.startswith('.pomojoin'):
-    await get_ids(message)
+    await get_ids(message, session)
 
   if message.content.startswith('.pomotest'):
     try:
