@@ -33,6 +33,7 @@ class SecurityMessage:
     #implemented errors
     #pomostop_101 - User outside the session
     #pomodoro_201 - User already in another session
+    #pomodoro_271 - Only one session per voice_channel at the same time
     for key in db.keys():
       if str(error) in key:
         value=db[key]

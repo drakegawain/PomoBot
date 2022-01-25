@@ -20,6 +20,7 @@ from Classes.when_class import when
 from Security.Command_Check.pomostop_check import check_pomostop
 from Discord_Actions.mute_unmute import unmute_all
 from Security.Session_Check.check_for_double_sessions import c_for_doubles
+from Security.Command_Check.pomodoro_check import check_pomodoro
 
 #-----------------------------------------------
 #------------------SETUPs-----------------------
@@ -31,7 +32,7 @@ from replit import db
 #-------------------EVENTs----------------------
 @client.event
 async def on_ready():
-  #db["{command}_{bad_access}".format(command='pomodoro', bad_access='201')] = "{reason}".format(reason='Calling user already in a session.')
+  db["{command}_{bad_access}".format(command='pomodoro', bad_access='271')] = "{reason}".format(reason='Only one session can exist per v_channel at the same time')
   pass
 
 @client.event 
@@ -51,32 +52,39 @@ async def on_message(message):
     except:
       print("ERROR POMODORO 201: USER ALREADY IN A SESSION")
     else:
+    #---------------Check------------------------
+      try:
+        voice_channel_check=await check_pomodoro(message.author.voice.channel,cfg.session, message)
+        if voice_channel_check is True:
+          raise Exception
+      except:
+        print("ERROR POMODORO 271: ONLY ONE SESSION PER VC")
+      else:
+    #--------------------------------------------
     #---------------START-UP---------------------
-      session = await start_session(message)
-      #await startup_e(session) #reset the variables
-      await connect_to_voice_channel(message, session);
+        session = await start_session(message)
+        await connect_to_voice_channel(message, session);
     #-------------------------------------------
     #---------------TIME VARIABLEs--------------
-      session.study_time_global = await handle_study_time(await study_time(message));
-      session.rest_time_global = await handle_rest_time(await rest_time(message));
+        session.study_time_global = await handle_study_time(await study_time(message));
+        session.rest_time_global = await handle_rest_time(await rest_time(message));
     #-------------------------------------------
     #----------------OPEN-CLOCK-----------------
-      await start_pomodoro(session);
+        await start_pomodoro(session);
     
-      await message_avaiable_users_to_join(message, await avaiable_users_to_join(await list_keys(await get_keys(message)), await bot_id()));
+        await message_avaiable_users_to_join(message, await avaiable_users_to_join(await list_keys(await get_keys(message)), await bot_id()));
     #-------------------------------------------
     #---------------CLOSE-----------------------
-    
-      session.close=when()
-      pomoclose=session.close
+        session.close=when()
+        pomoclose=session.close
     
 
-      pomoclose.set_functions(repeatedly_execution)
-      pomoclose.set_args(session, session.study_time_global, session.rest_time_global, exec_unmute_all, exec_mute_all, message, session.ids, session)
+        pomoclose.set_functions(repeatedly_execution)
+        pomoclose.set_args(session, session.study_time_global, session.rest_time_global, exec_unmute_all, exec_mute_all, message, session.ids, session)
     
-      pomoclose.if_when('yes')
+        pomoclose.if_when('yes')
 
-      await after_30_seconds_close_pomodoro(message, session);
+        await after_30_seconds_close_pomodoro(message, session);
     #-------------------------------------------
       
   if message.content.startswith('.pomojoin'):
