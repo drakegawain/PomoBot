@@ -31,7 +31,7 @@ from replit import db
 #-------------------EVENTs----------------------
 @client.event
 async def on_ready():
-  db["{command}_{bad_access}".format(command='pomodoro', bad_access='201')] = "{reason}".format(reason='Calling user already in a session.')
+  #db["{command}_{bad_access}".format(command='pomodoro', bad_access='201')] = "{reason}".format(reason='Calling user already in a session.')
   pass
 
 @client.event 
@@ -72,7 +72,7 @@ async def on_message(message):
     
 
       pomoclose.set_functions(repeatedly_execution)
-      pomoclose.set_args(session.study_time_global, session.rest_time_global, exec_unmute_all, exec_mute_all, message, session.ids)
+      pomoclose.set_args(session, session.study_time_global, session.rest_time_global, exec_unmute_all, exec_mute_all, message, session.ids, session)
     
       pomoclose.if_when('yes')
 

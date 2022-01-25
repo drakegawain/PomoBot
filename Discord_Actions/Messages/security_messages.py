@@ -32,6 +32,7 @@ class SecurityMessage:
   def search_reason(self, error:int):
     #implemented errors
     #pomostop_101 - User outside the session
+    #pomodoro_201 - User already in another session
     for key in db.keys():
       if str(error) in key:
         value=db[key]

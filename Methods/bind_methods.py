@@ -7,10 +7,13 @@ from Classes.classes import class_mute_all
 #------------------------------------
 #---------------FUNCTIONS-----------
 def bind_status_class_to_mute_all(message, ids, session):
-  status_class=session.status_class
-  #status_class = cfg.status_class
-  status_class.add_parameters(message)
-  status_class.bind(exec_mute_all)
+  try:
+    print('bind_status_class_to_mute_all')
+    status_class=session.status_class
+    status_class.add_parameters(message)
+    status_class.bind(exec_mute_all)
+  except:
+    print('ERROR IN bind_status_class_to_mute_all')
   return
 
 #def bind_class_after_study_time(message):

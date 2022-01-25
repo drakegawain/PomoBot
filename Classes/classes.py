@@ -20,7 +20,7 @@ class class_mute_all:
   def set(self, status):
     self.status = status
     for x in self.commands:
-      x(self.parameters[0], self.parameters[1])
+      x(self.parameters[0], self.parameters[1], self.parameters[2])
   def bind(self, commands):
     self.commands.append(commands)
 #-------------------------------------

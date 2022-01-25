@@ -2,8 +2,7 @@
 import Configs.configs as cfg
 #----------------------------
 #---------JOINED-OR-NOT------
-async def handle_joined(message):
-  session=cfg.session.get('{}'.format('Session1'))
+async def handle_joined(message, session):
   #see if the user that try to join already joined
   ids_get=session.ids_get
   if ids_get.count(message.author.id)==1:
@@ -19,10 +18,9 @@ async def handle_joined(message):
     #cfg.joined = 2;
     #return
 
-async def joined_function(message):
+async def joined_function(message, session):
   #do something if already joined or not
-  session=cfg.session.get('{}'.format('Session1'))
-  await handle_joined(message);
+  await handle_joined(message, session);
   joined = session.joined
   if joined==1:
     return 'Joined'
