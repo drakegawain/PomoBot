@@ -5,19 +5,30 @@
 #--------IMPORTs-----------
 import Configs.configs as cfg
 from Discord_Actions.Messages.security_messages import SecurityMessage
+import asyncio
 #--------------------------
 
-async def check_pomostop(calling_id, message):
-  session=cfg.session.get('{}'.format('Session1'))
+class Error(Exception):
+  """Base error class"""
+
+class UserOutsideSession(Error):
+  def __init__(self, message):
+    self.message=message
+    N_M=SecurityMessage('.pomostop', message, message.author.id)
+    loop=asyncio.get_event_loop()
+    loop.run_until_complete(N_M.send(101))
+
+
+async def check_pomostop(calling_id, message, session):
   try:
     list_ids=list(session.ids)#cfg.ids)
     if list_ids == []:
-      raise Exception('TypeError')
+      raise Exception(TypeError)
     for id in list_ids:
       if id==calling_id:
-        return True
+        HANDLER=True
   except:
-    N_M=SecurityMessage('.pomostop', message, message.author.id)
-    await N_M.send(101)
-    return False
-  return
+    raise UserOutsideSession(message)
+    print('Error in: check_pomostop')
+    HANDLER=False
+  return HANDLER

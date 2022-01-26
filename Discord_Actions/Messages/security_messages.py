@@ -32,8 +32,10 @@ class SecurityMessage:
   def search_reason(self, error:int):
     #implemented errors
     #pomostop_101 - User outside the session
+    #pomostop_121 - No session running
     #pomodoro_201 - User already in another session
     #pomodoro_271 - Only one session per voice_channel at the same time
+    #pomojoin_301 - No session running
     for key in db.keys():
       if str(error) in key:
         value=db[key]

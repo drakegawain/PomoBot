@@ -7,6 +7,7 @@ async def connect_to_voice_channel(message, session):
   try:
     channel = message.author.voice.channel;
     session.vc=await channel.connect()
+    print(session.vc)
   except:
     await message.channel.send('<@%s> ```\nYou have to be on a voice channel to start Pomobot. Enter a voice channel and try again.```' % (message.author.id))
   return 

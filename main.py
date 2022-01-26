@@ -21,7 +21,9 @@ from Security.Command_Check.pomostop_check import check_pomostop
 from Discord_Actions.mute_unmute import unmute_all
 from Security.Session_Check.check_for_double_sessions import c_for_doubles
 from Security.Command_Check.pomodoro_check import check_pomodoro
-
+from Pomodoro.Session_Handlers.get_session import get_session_pomojoin, get_session_ps
+from Pomodoro.Session_Handlers.check_session import ch_session
+from Pomodoro.Session_Handlers.del_session import delete
 #-----------------------------------------------
 #------------------SETUPs-----------------------
 nest_asyncio.apply()
@@ -32,7 +34,8 @@ from replit import db
 #-------------------EVENTs----------------------
 @client.event
 async def on_ready():
-  db["{command}_{bad_access}".format(command='pomodoro', bad_access='271')] = "{reason}".format(reason='Only one session can exist per v_channel at the same time')
+  #db["{command}_{bad_access}".format(command='pomostop', bad_access='121')] = "{reason}".format(reason='No session running in this v_channel.')
+  print('online')
   pass
 
 @client.event 
@@ -88,7 +91,13 @@ async def on_message(message):
     #-------------------------------------------
       
   if message.content.startswith('.pomojoin'):
-    await get_ids(message, session)
+    try:
+      cur_vchan_session=await get_session_pomojoin(message, message.author.voice.channel, cfg.session)
+    except:
+      print('ERROR IN: .POMOJOIN')
+      raise Exception
+    else:
+      await get_ids(message, cur_vchan_session)
 
   if message.content.startswith('.pomotest'):
     try:
@@ -96,8 +105,40 @@ async def on_message(message):
       await check_pomostop(message.author.id, message)
     except TypeError:
       print('Erou')
+
   if message.content.startswith('.pomostop'):
-    session=cfg.session.get('{}'.format('Session1'))
+      cur_vchan_session=await get_session_ps(message, message.author.voice.channel, cfg.session)
+      try:
+          TRUE_OR_FALSE=await check_pomostop(message.author.id, message, cur_vchan_session)
+          if TRUE_OR_FALSE is False:
+            raise Exception
+      except:
+          print('ERROR IN: .pomostop')
+      else:
+          try:
+                cur_vchan_session.close.cancel()
+          except:
+                print('ERROR in : .pomostop.else.except')
+                cur_vchan_session.class_e.release_future()
+                cur_vchan_session.class_i.release_future()
+                try:
+                    FALSEORTRUE=await ch_session(cur_vchan_session)
+                    if FALSEORTRUE is True:
+                        cur_vchan_session.restart()
+                    if FALSEORTRUE is False:
+                        await delete(cfg.session, cur_vchan_session)
+                except:
+                    print('ERROR IN: .pomostop.else.except.try')
+                finally:
+                    message.channel.send('stopped')
+          else:
+                F_or_T=await ch_session(cur_vchan_session)
+                if F_or_T is True:
+                    cur_vchan_session.restart()
+                if F_or_T is False:
+                    await delete(cfg.session, cur_vchan_session)
+      
+    #session=cfg.session.get('{}'.format('Session1'))
     
     # try:
     #   security_test=await check_pomostop(message.author.id, message)
