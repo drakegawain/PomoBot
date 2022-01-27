@@ -6,7 +6,7 @@ class Error(Exception):
     
 class OneSessionPerVoiceChannel(Error):
     '''This class restrict only one session per voice channel'''
-    print(True)
+    print('True')
     def __init__(self, message):
         print('OneSessionPerVoiceChannel')
         self.message=message
@@ -16,12 +16,13 @@ class OneSessionPerVoiceChannel(Error):
         return
     
 async def check_pomodoro(context_vchannel, dictio:dict, message):
-  check=None
+  print('check pomodoro')
+  check=0
   for session in dictio:
-    if dictio[session].vc is context_vchannel:
+    if dictio["{}".format(session)].vc is context_vchannel:
+      print(dictio["{}".format(session)])
       check=True
       raise OneSessionPerVoiceChannel(message)
-    else:
-      print('@check_pomodoro:false{}'.format('pass'))
-      check=False
+  print('@check_pomodoro:false{}'.format('pass'))
+  check=False
   return check

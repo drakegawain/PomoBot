@@ -1,11 +1,20 @@
+
 #---------------BASIC-CONFIGs-------------------
 import os
 import nest_asyncio
 import sys
+os.system('clear')
+import gc
 #-----------------------------------------------
+print('collecting garbage')
+gc.collect(0)
+gc.collect(1)
+gc.collect(2)
+print('collected')
 #-------------------IMPORTs---------------------
 #imports from the project
 #you can see more of the functions in the respective files
+print('loading files')
 from Configs.configs import client
 from Pomodoro.close import after_30_seconds_close_pomodoro
 from Pomodoro.utilitys import exec_mute_all, exec_unmute_all
@@ -24,10 +33,10 @@ from Security.Command_Check.pomodoro_check import check_pomodoro
 from Pomodoro.Session_Handlers.get_session import get_session_pomojoin, get_session_ps
 from Pomodoro.Session_Handlers.check_session import ch_session
 from Pomodoro.Session_Handlers.del_session import delete
+print('loaded')
 #-----------------------------------------------
 #------------------SETUPs-----------------------
 nest_asyncio.apply()
-os.system('clear')
 import Configs.configs as cfg
 from replit import db
 #-----------------------------------------------
@@ -50,6 +59,7 @@ async def on_message(message):
   if message.content.startswith('.pomodoro'):
     try:
       doubles=await c_for_doubles(cfg.session, message.author.id, message)
+      print('.pomodoro first try')
       if doubles is True:
         raise Exception
     except:
@@ -57,9 +67,12 @@ async def on_message(message):
     else:
     #---------------Check------------------------
       try:
-        voice_channel_check=await check_pomodoro(message.author.voice.channel,cfg.session, message)
-        if voice_channel_check is True:
-          raise Exception
+        if hasattr(message, 'author.voice.channel'):
+          voice_channel_check=await check_pomodoro(message.author.voice.channel,cfg.session,message)
+          if voice_channel_check is True:
+            raise Exception
+        else:
+          pass
       except:
         print("ERROR POMODORO 271: ONLY ONE SESSION PER VC")
       else:
