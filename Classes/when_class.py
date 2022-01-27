@@ -1,11 +1,11 @@
-#This file assigns the classes that manipulate variables
-#the main class is when, that assigns a variable value to a function
-#and sets a variable when_, when the variable value is changed its value to when_, the function is executed.
 #-------------IMPORTs------------
 import asyncio
 #--------------------------------
 #--------------WHEN-CLASS--------
 class when:
+  """#This file assigns the classes that manipulate variables
+  the main class is when, that assigns a variable value to a function
+  and sets a variable when_, when the variable value is changed its value to when_, the function is executed."""
   def __init__(self):
     self.value = 0
     self.when_ = 0

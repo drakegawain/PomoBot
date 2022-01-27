@@ -1,9 +1,7 @@
-#--This-file-handles-the-current-session-
-#--and-its-status:Time-Remaining,-leader,  
-#--Status:Open,-Close,-Null
+#-----------------IMPORTs-------------------
 from Classes.classes import class_mute_all
 from Classes.when_class import when
-
+#-------------------------------------------
 class Session:
   def __init__(self):
     self.LEADER_ID=None

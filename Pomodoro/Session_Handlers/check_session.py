@@ -1,6 +1,5 @@
 #----------------IMPORTs------------------
 from Classes.session import Session
-import Configs.configs as cfg
 #-----------------------------------------
 #-----------------SETUPs------------------
 NEW_SESSION=Session()
@@ -19,7 +18,7 @@ async def new_session(dictio:dict):
   return session
 
 async def gather(dictio:dict):
-  #Return last session
+  """Return last session"""
   last_session=len(dictio)
   keys=list(dictio.keys())
   l_session=keys[last_session-1] # -1 BECAUSE ARRAY INDEXES START IN 0
