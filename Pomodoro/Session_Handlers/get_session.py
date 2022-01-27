@@ -35,9 +35,7 @@ async def get_session_pomojoin(message, v_channel, dictio:dict):
 async def get_session_ps(message, v_channel, dictio:dict):
   """This function get the current running session for command pomostop"""
   for session in dictio.values():
-    print(dictio[session])
-    print(v_channel)
-    if session.vc is v_channel:
+    if session.vc.channel is v_channel:
         return session
   raise NoSessionRunning_pomostop(message)
   return

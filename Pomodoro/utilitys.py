@@ -33,7 +33,6 @@ async def repeatedly_execution(session, timeout_1, timeout_2, function_1, functi
       await message_time_to_rest(args_1[0], session)
       await play_audio(session.vc, 'Sounds/Alarme.mp3')
       if (await timeout_function(timeout_2) == True):
-        print('function 2')
         function_2(*args_1);
         await message_time_to_study(args_1[0], session)
         await play_audio(session.vc, 'Sounds/Close.mp3')

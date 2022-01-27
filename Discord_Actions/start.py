@@ -6,7 +6,7 @@ from Pomodoro.Session_Handlers.session_leader import leader
 #-------------START-----------
 async def start_session(message):
   last_session = await gather(cfg.session)
-  isMain= await ch_session(cfg.session, last_session)
+  isMain=await ch_session(cfg.session, last_session)
   if isMain is True:
     session=last_session
   else:

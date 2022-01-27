@@ -4,13 +4,18 @@ from Classes.session import Session
 #-----------------SETUPs------------------
 NEW_SESSION=Session()
 #-----------------------------------------
-
 async def ch_session(dictio:dict, session):
-  if dictio[session] is dictio['Main']:
-    return True
-  else:
-    return False
-  return
+  print('ch_session')
+  try:
+    if dictio[session] is dictio['Main']:
+      print('ch_session done')
+      return True
+    else:
+      print('ch_session done')
+      return False
+  except:
+    raise Exception
+  return print('ch_session done')
 
 async def new_session(dictio:dict):
   dictio['Session_{number}'.format(number=len(dictio))]=NEW_SESSION

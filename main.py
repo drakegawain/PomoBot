@@ -33,6 +33,7 @@ from Pomodoro.Session_Handlers.get_session import get_session_pomojoin, get_sess
 from Pomodoro.Session_Handlers.check_session import ch_session
 from Pomodoro.Session_Handlers.del_session import delete
 from Commands.pomodoro import command_pomodoro
+from Commands.pomostop import command_pomostop
 print('loaded')
 #-----------------------------------------------
 #------------------SETUPs-----------------------
@@ -40,7 +41,8 @@ print('setting configurations...')
 nest_asyncio.apply()
 import Configs.configs as cfg
 from replit import db
-print('upping the bot')
+print('Sessions:{key}{value}'.format(key=cfg.session.keys(),value=cfg.session.values()))
+print('upping the bot...')
 #-----------------------------------------------
 #-------------------EVENTs----------------------
 @client.event
@@ -59,6 +61,7 @@ async def on_message(message):
     return
 
   if message.content.startswith('.pomodoro'):
+    print('Sessions:{key}{value}'.format(key=cfg.session.keys(),value=cfg.session.values()))
     await command_pomodoro(message)
   
   if message.content.startswith('.pomojoin'):
@@ -78,36 +81,43 @@ async def on_message(message):
       print('Erou')
 
   if message.content.startswith('.pomostop'):
-      cur_vchan_session=await get_session_ps(message, message.author.voice.channel, cfg.session)
-      try:
-          TRUE_OR_FALSE=await check_pomostop(message.author.id, message, cur_vchan_session)
-          if TRUE_OR_FALSE is False:
-            raise Exception
-      except:
-          print('ERROR IN: .pomostop')
-      else:
-          try:
-                cur_vchan_session.close.cancel()
-          except:
-                print('ERROR in : .pomostop.else.except')
-                cur_vchan_session.class_e.release_future()
-                cur_vchan_session.class_i.release_future()
-                try:
-                    FALSEORTRUE=await ch_session(cur_vchan_session)
-                    if FALSEORTRUE is True:
-                        cur_vchan_session.restart()
-                    if FALSEORTRUE is False:
-                        await delete(cfg.session, cur_vchan_session)
-                except:
-                    print('ERROR IN: .pomostop.else.except.try')
-                finally:
-                    message.channel.send('stopped')
-          else:
-                F_or_T=await ch_session(cur_vchan_session)
-                if F_or_T is True:
-                    cur_vchan_session.restart()
-                if F_or_T is False:
-                    await delete(cfg.session, cur_vchan_session)
+    print('Sessions:{key}{value}'.format(key=cfg.session.keys(),value=cfg.session.values()))
+    await command_pomostop(message)
+      # cur_vchan_session=await get_session_ps(message, message.author.voice.channel, cfg.session)
+      # try:
+      #     TRUE_OR_FALSE=await check_pomostop(message.author.id, message, cur_vchan_session)
+      #     if TRUE_OR_FALSE is False:
+      #       raise Exception
+      # except:
+      #     print('ERROR IN: .pomostop')
+      # else:
+      #     try:
+      #           cur_vchan_session.close.cancel()
+      #     except:
+      #           print('ERROR in : .pomostop.else.except')
+      #           cur_vchan_session.class_e.release_future()
+      #           cur_vchan_session.class_i.release_future()
+      #           try:
+      #               FALSEORTRUE=await ch_session(cur_vchan_session)
+      #               if FALSEORTRUE is True:
+      #                   cur_vchan_session.restart()
+      #               if FALSEORTRUE is False:
+      #                   await delete(cfg.session, cur_vchan_session)
+      #           except:
+      #               print('ERROR IN: .pomostop.else.except.try')
+      #           finally:
+      #               await disconnect_from_voice_channel()
+      #               await message.channel.send('stopped')
+      #     else:
+      #           F_or_T=await ch_session(cur_vchan_session)
+      #           if F_or_T is True:
+      #               cur_vchan_session.restart()
+      #           if F_or_T is False:
+      #               await delete(cfg.session, cur_vchan_session)
+      #     finally:
+      #       await disconnect_from_voice_channel()
+      #       await message.channel.send('stopped')
+
       
     #session=cfg.session.get('{}'.format('Session1'))
     
@@ -143,4 +153,5 @@ async def on_message(message):
 #---------------------------------------------
 #---------------LOGGIN-----------------
 client.run(os.environ['TOKEN'])
+
 #--------------------------------------
