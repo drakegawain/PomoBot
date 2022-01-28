@@ -29,16 +29,25 @@ class OutsideVoiceChannel(Error):
     N_M=SecurityMessage('.pomostop', message, message.author.id)
     loop=asyncio.get_event_loop()
     loop.run_until_complete(N_M.send(141))
-    
+
+class OutsideVoiceChannel_pjoin(Error):
+  """This class assign the error when user is outside a voice_channel"""
+  def __init__(self, message):
+    self.message=message
+    N_M=SecurityMessage('.pomojoin', message, message.author.id)
+    loop=asyncio.get_event_loop()
+    loop.run_until_complete(N_M.send(141))
+
+
 async def get_session_pomojoin(message, v_channel, dictio:dict):
   """This function get the current running session for command pomojoin"""
-  SESSION=None
-  for session in dictio:
-    if dictio[session].vc is v_channel:
-      SESSION=session
-  if SESSION is None:
-    raise NoSessionRunning_pomojoin(message)
-  return SESSION
+  for session in dictio.values():
+    if hasattr(session.vc, 'channel'):
+      if session.vc.channel is v_channel:
+        print(session)
+        return session
+  raise NoSessionRunning_pomojoin(message)
+  return 
 
 async def get_session_ps(message, v_channel, dictio:dict):
   """This function get the current running session for command pomostop"""

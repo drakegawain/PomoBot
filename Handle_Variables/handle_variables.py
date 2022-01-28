@@ -22,7 +22,7 @@ async def list_keys(keys):
   return keys_list;
 
 async def handle_c(session):
-  """#manipulates the counter c from the config File
+  """manipulates the counter c from the config File
   c is used to assign the index in a array to 
   a id from the author that typed .join
   is used in get_ids"""
@@ -43,7 +43,7 @@ async def get_ids(message, session):
     total_ids=set(session.ids_get)
     session.ids=total_ids
     print(session.ids)
-    await join_pomodoro(message)
+    await join_pomodoro(message, session)
     return
 #---------------------------------------------------
 #----------------------UNIMPLEMENTED----------------

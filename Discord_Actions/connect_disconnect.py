@@ -18,10 +18,9 @@ async def disconnect_from_voice_channel():
     await chn.disconnect()
   return
 
-async def join_pomodoro(message):
-  session=cfg.session.get('{}'.format('Session1'))
+async def join_pomodoro(message, session):
   if session.pomodoro_started is True:
-    x = await joined_function(message)
+    x = await joined_function(message, session)
     await message.channel.send('\n<@%s> %s' % (message.author.id,x))
     return
 #------------------------------

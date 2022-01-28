@@ -15,11 +15,10 @@ print('{}collected'.format(cfg.green))
 print('{}loading files'.format(cfg.black))
 from Configs.configs import client
 from Discord_Actions.Messages.messages import  message_help
-from Handle_Variables.handle_variables import get_ids
 from Security.Command_Check.pomostop_check import check_pomostop
-from Pomodoro.Session_Handlers.get_session import get_session_pomojoin
 from Commands.pomodoro import command_pomodoro
 from Commands.pomostop import command_pomostop
+from Commands.pomojoin import command_pomojoin
 print('{}loaded'.format(cfg.green))
 #-----------------------------------------------
 #------------------SETUPs-----------------------
@@ -32,7 +31,7 @@ print('{}uploading PomoBot...'.format(cfg.black))
 #-------------------EVENTs----------------------
 @client.event
 async def on_ready():
-  db["{command}_{bad_access}".format(command='pomostop', bad_access='141')] = "{reason}".format(reason='User outside V_Channel')
+  #db["{command}_{bad_access}".format(command='pomostop', bad_access='141')] = "{reason}".format(reason='User outside V_Channel')
   print('{}PomoBot: online'.format(cfg.blue))
   pass
 
@@ -50,13 +49,7 @@ async def on_message(message):
     await command_pomodoro(message)
   
   if message.content.startswith('.pomojoin'):
-    try:
-      cur_vchan_session=await get_session_pomojoin(message, message.author.voice.channel, cfg.session)
-    except:
-      print('ERROR IN: .POMOJOIN')
-      raise Exception
-    else:
-      await get_ids(message, cur_vchan_session)
+    await command_pomojoin(message)
 
   if message.content.startswith('.pomotest'):
     try:
