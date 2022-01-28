@@ -40,11 +40,7 @@ async def repeatedly_execution(session, timeout_1, timeout_2, function_1, functi
 #----------------------------------------------
 #------------------SLEEP-----------------------
 async def timeout_function(timeout):
-  try:
     await asyncio.sleep(timeout)
-  except:
-    print('Timeout function error')
-  else:
     return True
 #----------------------------------------------
 #----------------UNIMPLEMENTED-----------------

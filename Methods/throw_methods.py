@@ -1,7 +1,6 @@
 #-----------------IMPORTs-----------------
 #-------------------------------------------
 
-
 #---------------THROW--------------------
 def throw_pomodoro_status_close(session):
   """This methods assigns functions that handle status_class"""

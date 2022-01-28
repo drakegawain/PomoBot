@@ -5,17 +5,14 @@ from Classes.session import Session
 NEW_SESSION=Session()
 #-----------------------------------------
 async def ch_session(dictio:dict, session):
-  print('ch_session')
   try:
     if dictio[session] is dictio['Main']:
-      print('ch_session done')
       return True
     else:
-      print('ch_session done')
       return False
   except:
     raise Exception
-  return print('ch_session done')
+  return 
 
 async def new_session(dictio:dict):
   dictio['Session_{number}'.format(number=len(dictio))]=NEW_SESSION

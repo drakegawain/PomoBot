@@ -13,3 +13,8 @@ session={
 }
 #This class handles the information of the current sessions
 #------------------------------------------------
+#----------------AESTHETIC-CONFIGs---------------
+green="\033[0;32;40m"
+black="\033[0;30;47m"
+blue="\033[1;36;40m"
+#------------------------------------------------
