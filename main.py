@@ -12,8 +12,6 @@ gc.collect(1)
 gc.collect(2)
 print('{}collected'.format(cfg.green))
 #-------------------IMPORTs---------------------
-#imports from the project
-#you can see more of the functions in the respective files
 print('{}loading files'.format(cfg.black))
 from Configs.configs import client
 from Discord_Actions.Messages.messages import  message_help
@@ -29,14 +27,13 @@ print('{}setting configurations...'.format(cfg.black))
 nest_asyncio.apply()
 import Configs.configs as cfg
 from replit import db
-print('Sessions:{key}{value}'.format(key=cfg.session.keys(),value=cfg.session.values()))
 print('{}uploading PomoBot...'.format(cfg.black))
 #-----------------------------------------------
 #-------------------EVENTs----------------------
 @client.event
 async def on_ready():
-  #db["{command}_{bad_access}".format(command='pomostop', bad_access='121')] = "{reason}".format(reason='No session running in this v_channel.')
-  print('{}online'.format(cfg.blue))
+  db["{command}_{bad_access}".format(command='pomostop', bad_access='141')] = "{reason}".format(reason='User outside V_Channel')
+  print('{}PomoBot: online'.format(cfg.blue))
   pass
 
 @client.event 
@@ -69,8 +66,8 @@ async def on_message(message):
       print('Erou')
 
   if message.content.startswith('.pomostop'):
-    print('Sessions:{key}{value}'.format(key=cfg.session.keys(),value=cfg.session.values()))
     await command_pomostop(message)
+    
 #---------------------------------------------
 #---------------LOGGIN-----------------
 client.run(os.environ['TOKEN'])

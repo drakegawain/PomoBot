@@ -3,13 +3,17 @@ import Configs.configs as cfg
 import gc
 from Pomodoro.Session_Handlers.get_session import get_session_ps
 from Security.Command_Check.pomostop_check import check_pomostop
-from Pomodoro.Session_Handlers.check_session import ch_session
 from Pomodoro.Session_Handlers.del_session import delete
 from Discord_Actions.connect_disconnect import disconnect_from_voice_channel
 from Pomodoro.Session_Handlers.handle_session import session_handler
 from Discord_Actions.mute_unmute import unmute_all
-#----------------------------------------------
+from Pomodoro.Session_Handlers.get_session import OutsideVoiceChannel
+#---------------------------------------------
+
+
 async def command_pomostop(message):
+    if not hasattr(message.author.voice, "channel"):
+      raise OutsideVoiceChannel(message)
     cur_vchan_session=await get_session_ps(message, message.author.voice.channel, cfg.session)
     session=await session_handler(cfg.session, cur_vchan_session)
     value_session=cfg.session.get(session) # VALUE_SESSION IS THE CURRENT SESSION RUNNING IN THE VC
@@ -45,7 +49,6 @@ async def command_pomostop(message):
                       print(value_session)
                       print('{} ERROR in : .pomostop.else.except.try'.format('@Commands/pomostop:line->47'))
               finally:
-                      gc.collect(0)
                       return
         else:
           F_or_T=session

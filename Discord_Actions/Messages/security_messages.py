@@ -33,6 +33,7 @@ class SecurityMessage:
     #implemented errors
     #pomostop_101 - User outside the session
     #pomostop_121 - No session running
+    #pomostop_141 - User outside Voice_Channel
     #pomodoro_201 - User already in another session
     #pomodoro_271 - Only one session per voice_channel at the same time
     #pomojoin_301 - No session running
@@ -43,3 +44,5 @@ class SecurityMessage:
         print(value)
         return 
     return
+
+    
