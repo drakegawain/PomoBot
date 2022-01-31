@@ -1,33 +1,29 @@
-#This find asigns the classes that will be used in the bot
-#More details inside the classes
 #--------------IMPORTS---------------
 import asyncio
-import Configs.configs as cfg
 #------------------------------------
 #--------------MUTE-CLASS------------
 class class_mute_all:
-  #this class is used to bind a function to a variable
-  #when the variable is changed, the function binded is executed
-  #the variable is changed with the method set
+  """this class is used to bind a function to a variable
+  when the variable is changed, the function binded is executed
+  the variable is changed with the method set"""
   def __init__(self, status):
     self.status = status;
     self.commands = [];
     self.parameters = [];
   def add_parameters(self, parameter):
-    #this method handles the parameters of the binded function
+    """this method handles the parameters of the binded function"""
     self.parameters.append(parameter)
     return 
   def set(self, status):
     self.status = status
     for x in self.commands:
-      x(self.parameters[0], self.parameters[1])
+      x(self.parameters[0], self.parameters[1], self.parameters[2])
   def bind(self, commands):
     self.commands.append(commands)
 #-------------------------------------
 #-------------UNIMPLEMENTED-----------
 class exec_repeatedly_functions:
-  #this class executes a function every interval (in seconds)
-  #unimplemented
+  """this class executes a function every interval (in seconds)"""
   def __init__(self, interval, function, break_when):
     self.interval = interval;
     self.function = function;
@@ -55,24 +51,11 @@ class exec_repeatedly_functions:
       self.FUTURE.set_result(None)
 #--------------------------------------
 #---------------RESET------------------
-class startup:
-  #this class resets the global variables from file configs
-  def start(self):
-    cfg.c = 0;
-    cfg.pomodoro_started = False;
-    cfg.ids_get = [];
-    cfg.joined = 0;
-    cfg.ids = set();
-    cfg.study_time_global = 0;
-    cfg.rest_time_global = 0;
-    cfg.status_class = class_mute_all('none')
-    cfg.class_e=None
-    cfg.class_i=None
-    cfg.close=None
+
 #--------------------------------------
 #------------------TIME----------------
 class e_when_w_args:
-  #this class executes a function after a timeout
+  """this class executes a function after a timeout"""
   def __init__(
     self, TIMEOUT, FUNCTION, *ARGS
   ):

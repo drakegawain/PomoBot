@@ -1,31 +1,38 @@
 #---------------BASIC-CONFIGs-------------------
 import os
 import nest_asyncio
+import sys
+os.system('clear')
+import gc
+import Configs.configs as cfg
 #-----------------------------------------------
+print('{}collecting garbage'.format(cfg.black))
+gc.collect(0)
+gc.collect(1)
+gc.collect(2)
+print('{}collected'.format(cfg.green))
 #-------------------IMPORTs---------------------
-#imports from the project
-#you can see more of the functions in the respective files
+print('{}loading files'.format(cfg.black))
 from Configs.configs import client
-from Pomodoro.close import after_30_seconds_close_pomodoro
-from Discord_Actions.mute_unmute import mute_all, unmute_all;
-from Pomodoro.time_pomodoro import  handle_study_time, handle_rest_time, study_time, rest_time;
-from Discord_Actions.users_members import avaiable_users_to_join;
-from Pomodoro.utilitys import repeatedly_execution
-from Discord_Actions.connect_disconnect import disconnect_from_voice_channel, connect_to_voice_channel
-from Discord_Actions.Messages.messages import message_stopping_pomostop,message_avaiable_users_to_join, message_help
-from Handle_Variables.handle_variables import get_ids, list_keys, bot_id, get_keys
-from Discord_Actions.start import start_pomodoro, reset_func, startup_e
-from Classes.when_class import when
-from replit import db
+from Discord_Actions.Messages.messages import  message_help
+from Security.Command_Check.pomostop_check import check_pomostop
+from Commands.pomodoro import command_pomodoro
+from Commands.pomostop import command_pomostop
+from Commands.pomojoin import command_pomojoin
+print('{}loaded'.format(cfg.green))
 #-----------------------------------------------
 #------------------SETUPs-----------------------
+print('{}setting configurations...'.format(cfg.black))
 nest_asyncio.apply()
 import Configs.configs as cfg
+from replit import db
+print('{}uploading PomoBot...'.format(cfg.black))
 #-----------------------------------------------
 #-------------------EVENTs----------------------
 @client.event
 async def on_ready():
-  db["{command}_{bad_access}".format(command='pomostop', bad_access='101')] = "{reason}".format(reason='User outside a session cannot interrupt the session.')
+  #db["{command}_{bad_access}".format(command='pomostop', bad_access='141')] = "{reason}".format(reason='User outside V_Channel')
+  print('{}PomoBot: online'.format(cfg.blue))
   pass
 
 @client.event 
@@ -38,67 +45,24 @@ async def on_message(message):
     return
 
   if message.content.startswith('.pomodoro'):
-    
-    #---------------START-UP---------------------
-    await connect_to_voice_channel(message);
-    await startup_e() #reset the variables
-    #-------------------------------------------
-    #---------------TIME VARIABLEs--------------
-    cfg.study_time_global = await handle_study_time(await study_time(message));
-    cfg.rest_time_global = await handle_rest_time(await rest_time(message));
-    #-------------------------------------------
-    #----------------OPEN-CLOCK-----------------
-    await start_pomodoro();
-    
-    await message_avaiable_users_to_join(message, await avaiable_users_to_join(await list_keys(await get_keys(message)), await bot_id()));
-    #-------------------------------------------
-    #---------------CLOSE-----------------------
-    cfg.close = when()
-    pomoclose = cfg.close
-
-    pomoclose.set_functions(repeatedly_execution)
-    pomoclose.set_args(cfg.study_time_global, cfg.rest_time_global, unmute_all, mute_all, message, cfg.ids)
-    
-    pomoclose.if_when('yes')
-
-    await after_30_seconds_close_pomodoro(message);
-    #-------------------------------------------
-      
+    print('Sessions:{key}{value}'.format(key=cfg.session.keys(),value=cfg.session.values()))
+    await command_pomodoro(message)
+  
   if message.content.startswith('.pomojoin'):
-    await get_ids(message)
+    await command_pomojoin(message)
 
   if message.content.startswith('.pomotest'):
-    from Security.Command_Check.pomostop_check import check_pomostop
     try:
       print('pass')
       await check_pomostop(message.author.id, message)
     except TypeError:
       print('Erou')
+
   if message.content.startswith('.pomostop'):
-    try:
-      await unmute_all(message, cfg.ids)
-      await disconnect_from_voice_channel()
-    except:
-      await message.channel.send('User <@{}> isnt in voice channel.\nNo session started. See the documentation for more information ``.pomohelp``'.format(message.author.id))
-    else:
-      try:
-        cfg.close.cancel()
-      except:
-        try:
-          cfg.class_e.release_future()
-          cfg.class_i.release_future()
-          await message_stopping_pomostop(message)
-        except:
-          await message.channel.send('No session started. See the documentation for more information ``.pomohelp``')
-      else:
-        await message_stopping_pomostop(message)
-      finally:
-        await unmute_all(message, cfg.ids)
-        await disconnect_from_voice_channel()
-        await reset_func()
-        await message.channel.send('Stopped')
-        
+    await command_pomostop(message)
+    
 #---------------------------------------------
 #---------------LOGGIN-----------------
 client.run(os.environ['TOKEN'])
+
 #--------------------------------------

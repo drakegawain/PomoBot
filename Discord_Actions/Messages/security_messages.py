@@ -1,4 +1,4 @@
-#--------This-file-storage-security-messages
+#--------This-file-storage-security-messages-------
 from replit import db
 
 class SecurityMessage:
@@ -21,7 +21,7 @@ class SecurityMessage:
       message=self.ctx
       await message.channel.send(self.message)
     except:
-      print('Error in third block')
+      print('Error in third block SecurityMessage_send')
   def set_message(self):
     self.message=("<@{user}> \nUnfourtunally PomoBot could'nt call ``{command}`` because: ``{reason}``".format(user=self.user, command=self.command, reason=self.reason))
   def set_reason(
@@ -31,13 +31,18 @@ class SecurityMessage:
     db["{command}_{bad_access}".format(command=command, bad_acess=bad_access)] = "{reason}".format(reason=reason)
   def search_reason(self, error:int):
     #implemented errors
-    #101 - User outside the session
+    #pomostop_101 - User outside the session
+    #pomostop_121 - No session running
+    #pomostop_141 - User outside Voice_Channel
+    #pomodoro_201 - User already in another session
+    #pomodoro_271 - Only one session per voice_channel at the same time
+    #pomojoin_301 - No session running
     for key in db.keys():
       if str(error) in key:
         value=db[key]
         self.reason=value
         print(value)
         return 
-      else:
-        print('didnt got to if')
     return
+
+    
