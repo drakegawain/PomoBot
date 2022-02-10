@@ -19,6 +19,7 @@ from Security.Command_Check.pomostop_check import check_pomostop
 from Commands.pomodoro import command_pomodoro
 from Commands.pomostop import command_pomostop
 from Commands.pomojoin import command_pomojoin
+import discord
 print('{}loaded'.format(cfg.green))
 #-----------------------------------------------
 #------------------SETUPs-----------------------
@@ -34,6 +35,11 @@ async def on_ready():
   #db["{command}_{bad_access}".format(command='pomostop', bad_access='141')] = "{reason}".format(reason='User outside V_Channel')
   print('{}PomoBot: online'.format(cfg.blue))
   pass
+
+@client.event
+async def on_guild_join(guild: discord.Guild):
+  print(guild.name)
+  return
 
 @client.event 
 async def on_message(message):
@@ -64,5 +70,4 @@ async def on_message(message):
 #---------------------------------------------
 #---------------LOGGIN-----------------
 client.run(os.environ['TOKEN'])
-
 #--------------------------------------
