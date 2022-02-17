@@ -1,4 +1,19 @@
-
+#----------------IMPORTs-------------------
+from Discord_Actions.Messages.security_messages import SecurityMessage
+import asyncio
+from Commands.pomostop import command_pomostop
+#------------------------------------------
+#--------------Exception-------------------
+class Error(Exception):
+  '''Base error class'''
+class InputsMustBeInteger(Error):
+  def __init__(self, message):
+    self.message=message
+    self.N_M=SecurityMessage('pomodoro', message, message.author.id)
+    loop=asyncio.get_event_loop()
+    loop.run_until_complete(self.N_M.send(221))
+    loop.run_until_complete(command_pomostop(message))
+#------------------------------------------
 #------------HANDLE-TIME-VARIABLES---------
 async def handle_study_time(study_time):
   study_time = study_time * 60;
@@ -14,7 +29,11 @@ async def study_time(message):
   time_study = ''
   for char in pomodoro[9:12:1]:
     time_study = time_study + char;
-  return int(time_study);
+  try:
+    final_time=int(time_study)
+  except:
+    raise InputsMustBeInteger(message)
+  return final_time;
 
 async def rest_time(message):
   pomodoro = message.content;

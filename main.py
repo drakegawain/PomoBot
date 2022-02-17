@@ -28,12 +28,15 @@ nest_asyncio.apply()
 import Configs.configs as cfg
 from replit import db
 print('{}uploading PomoBot...'.format(cfg.black))
+
+
 #-----------------------------------------------
 #-------------------EVENTs----------------------
 @client.event
 async def on_ready():
-  #db["{command}_{bad_access}".format(command='pomostop', bad_access='141')] = "{reason}".format(reason='User outside V_Channel')
+  #db["{command}_{bad_access}".format(command='pomodoro', bad_access='221')] = "{reason}".format(reason='Inputs must be a integer')
   print('{}PomoBot: online'.format(cfg.blue))
+  print('{}guilds:{}'.format((cfg.black), cfg.total_guilds()))
   pass
 
 @client.event
@@ -51,7 +54,6 @@ async def on_message(message):
     return
 
   if message.content.startswith('.pomodoro'):
-    print('Sessions:{key}{value}'.format(key=cfg.session.keys(),value=cfg.session.values()))
     await command_pomodoro(message)
   
   if message.content.startswith('.pomojoin'):

@@ -1,6 +1,5 @@
 #---------------------IMPORTs------------------
 import Configs.configs as cfg
-import gc
 from Pomodoro.Session_Handlers.get_session import get_session_ps
 from Security.Command_Check.pomostop_check import check_pomostop
 from Pomodoro.Session_Handlers.del_session import delete
@@ -59,6 +58,7 @@ async def command_pomostop(message):
              await unmute_all(message, value_session.ids, value_session)
              await delete(cfg.session, session)
         finally:
+          value_session.restart()
           await disconnect_from_voice_channel()
           await message.channel.send('stopped')
           return

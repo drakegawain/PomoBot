@@ -27,11 +27,9 @@ async def start_pomodoro(session):
 #-----------------------------
 #-------------RESET-----------
 async def startup_e(session):
-  #session=cfg.session.get('{}'.format('Session1'))
   session.restart()
   return
 async def reset_func(session):
-  #session=cfg.session.get('{}'.format('Session1'))
   session.restart()
   return
 def reset(session):

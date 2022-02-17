@@ -11,10 +11,18 @@ NEW_SESSION=Session()
 session={
   'Main':NEW_SESSION
 }
-#This class handles the information of the current sessions
 #------------------------------------------------
 #----------------AESTHETIC-CONFIGs---------------
 green="\033[0;32;40m"
 black="\033[0;30;47m"
 blue="\033[1;36;40m"
 #------------------------------------------------
+#------------------Guilds------------------------
+def guilds_connected():
+  for guild in client.guilds:
+    print(guild.name)
+  return
+def total_guilds():
+  total=client.guilds
+  return len(total)
+#-------------------------------------------------

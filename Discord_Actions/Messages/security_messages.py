@@ -35,6 +35,7 @@ class SecurityMessage:
     #pomostop_121 - No session running
     #pomostop_141 - User outside Voice_Channel
     #pomodoro_201 - User already in another session
+    #pomodoro_221 - Inputs must be a integer
     #pomodoro_271 - Only one session per voice_channel at the same time
     #pomojoin_301 - No session running
     for key in db.keys():
