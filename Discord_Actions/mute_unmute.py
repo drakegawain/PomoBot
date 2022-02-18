@@ -22,7 +22,7 @@ async def mute_all(message, ids, session):
   guild = message.author.voice.channel.guild.id;
   got_guild = client.get_guild(guild);
   i_list=list(session.ids)
-  print(i_list)
+  print('muting:{}'.format(i_list))
   for ids in i_list:  
     member = got_guild.get_member(ids);
     await mute_method(member);
@@ -33,6 +33,7 @@ async def unmute_all(message, ids, session):
   guild = message.author.voice.channel.guild.id;
   got_guild = client.get_guild(guild);
   i_list=list(session.ids)
+  print('unmuting:{}'.format(i_list))
   for ids in i_list:
     member = got_guild.get_member(ids);
     await unmute_method(member)

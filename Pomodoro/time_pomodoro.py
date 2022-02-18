@@ -13,6 +13,14 @@ class InputsMustBeInteger(Error):
     loop=asyncio.get_event_loop()
     loop.run_until_complete(self.N_M.send(221))
     loop.run_until_complete(command_pomostop(message))
+
+class MustHaveTwoInputs(Error):
+  def __init__(self, message):
+    self.message=message
+    self.N_M=SecurityMessage('pomodoro', message, message.author.id)
+    loop=asyncio.get_event_loop()
+    loop.run_until_complete(self.N_M.send(251))
+    loop.run_until_complete(command_pomostop(message))
 #------------------------------------------
 #------------HANDLE-TIME-VARIABLES---------
 async def handle_study_time(study_time):
@@ -40,6 +48,12 @@ async def rest_time(message):
   rest_time = ''
   for char in pomodoro[12:15:1]:
     rest_time = rest_time + char;
-  return int(rest_time)
+  if rest_time == '':
+    raise MustHaveTwoInputs(message)
+  try:
+    rest_time=int(rest_time)
+  except:
+    raise InputsMustBeInteger(message)
+  return rest_time
 #--------------------------------------------
   

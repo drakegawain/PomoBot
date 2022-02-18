@@ -23,7 +23,7 @@ class SecurityMessage:
     except:
       print('Error in third block SecurityMessage_send')
   def set_message(self):
-    self.message=("<@{user}> \nUnfourtunally PomoBot could'nt call ``{command}`` because: ``{reason}``".format(user=self.user, command=self.command, reason=self.reason))
+    self.message=("\n>>> <@{user}> \nUnfourtunally PomoBot could'nt call ``{command}`` **because**: *{reason}*".format(user=self.user, command=self.command, reason=self.reason))
   def set_reason(
     self, command:str, bad_access:str # raise an error number
     , reason:str
@@ -36,6 +36,7 @@ class SecurityMessage:
     #pomostop_141 - User outside Voice_Channel
     #pomodoro_201 - User already in another session
     #pomodoro_221 - Inputs must be a integer
+    #pomodoro_251 - Must have two inputs
     #pomodoro_271 - Only one session per voice_channel at the same time
     #pomojoin_301 - No session running
     for key in db.keys():
