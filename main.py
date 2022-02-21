@@ -13,7 +13,7 @@ gc.collect(2)
 print('{}collected'.format(cfg.green))
 #-------------------IMPORTs---------------------
 print('{}loading files'.format(cfg.black))
-from Configs.configs import client
+from Configs.configs import client, create_sessions
 from Discord_Actions.Messages.messages import  message_help
 from Security.Command_Check.pomostop_check import check_pomostop
 from Commands.pomodoro import command_pomodoro
@@ -29,14 +29,17 @@ import Configs.configs as cfg
 from replit import db
 print('{}uploading PomoBot...'.format(cfg.black))
 
-
 #-----------------------------------------------
 #-------------------EVENTs----------------------
 @client.event
 async def on_ready():
-  #db["{command}_{bad_access}".format(command='pomodoro', bad_access='251')] = "{reason}".format(reason='pomodoro needs two integer inputs => try `.pomodoro 10 10` for 10 min of work and 10 min to rest.')
+  #db["{command}_{bad_access}".format(command='pomodoro', bad_access='271')] = "{reason}".format(reason='Only one session per voice_channel at the same time')
+  #db["{command}_{bad_access}".format(command='pomostop', bad_access='141')] = "{reason}".format(reason='User outside Voice_Channel')
+  print('{}creating sessions...'.format(cfg.black))
+  cfg.session_guilds = create_sessions()
   print('{}PomoBot: online'.format(cfg.blue))
-  print('{}guilds:{}'.format((cfg.black), cfg.total_guilds()))
+  print('{}total guilds:{}{}'.format((cfg.black),cfg.green ,cfg.total_guilds()))
+  #print('{}guild name:{}'.format((cfg.green), cfg.guilds_connected()))
   pass
 
 @client.event
