@@ -62,15 +62,10 @@ async def get_session(message, session_list:list):
   """This function finds the index from the list
     that handles the sessions"""
   guild_name=message.guild.name
-  print(guild_name)
-  for session in session_list:
-    session_name=session.get_guild_name()
-    print(session.get_guild_name())
-    print(session.get_index())
-    if session_name == guild_name:
-      print("inside if")
-      print(session.get_index())
-      return session.get_index()
+  for index in range(len(session_list)):
+    guild_name_session_list=session_list[index].get_guild_name()
+    if guild_name_session_list is guild_name:
+      return session_list[index].get_index()
 #async def get_session(message, dictio:dict):
   #"""This function get the guild's session"""
   #guild_name = message.guild.name

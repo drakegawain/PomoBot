@@ -7,12 +7,11 @@ client = discord.Client(intents=intents, activity=activity)
 from Classes.session import Session
 #------------------------------------------------
 #---------------Global Variables-----------------
-NEW_SESSION=Session()
 class SessionGuild():
   def __init__(self, guild_name, index):
     self.guild_name=guild_name
     self.session={
-      'Main':NEW_SESSION
+      'Main':Session()
     }
     self.index=index
   def get_index(self):
@@ -44,9 +43,9 @@ def create_sessions():
   indexX=0
   for guild in client.guilds:
     if indexX == 0:
-      session_guild.insert(indexX, SessionGuild(guild, indexX))
+      session_guild.insert(indexX, SessionGuild(guild.name, indexX))
     else:
-      session_guild.append(SessionGuild(guild, indexX))
+      session_guild.append(SessionGuild(guild.name, indexX))
     indexX=indexX+1
   session_guild.remove("None")
   print(session_guild)
