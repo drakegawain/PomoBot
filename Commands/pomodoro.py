@@ -42,7 +42,7 @@ async def command_pomodoro(message):
     #--------------------------------------------
     #---------------START-UP---------------------
         session = await start_session(message)
-        print(session)
+        print("starting command_pomodoro's session ")
         await connect_to_voice_channel(message, session);
     #-------------------------------------------
     #---------------TIME VARIABLEs--------------

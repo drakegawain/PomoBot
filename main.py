@@ -44,6 +44,7 @@ async def on_ready():
 
 @client.event
 async def on_guild_join(guild: discord.Guild):
+  cfg.session_guild.append(cfg.SessionGuild(guild.name, cfg.total_guilds()))
   print(guild.name)
   return
 

@@ -48,6 +48,5 @@ def create_sessions():
       session_guild.append(SessionGuild(guild.name, indexX))
     indexX=indexX+1
   session_guild.remove("None")
-  print(session_guild)
   return session_guild
 #-------------------------------------------------
