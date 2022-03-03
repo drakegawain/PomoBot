@@ -29,6 +29,7 @@ session_guilds=None
 green="\033[0;32;40m"
 black="\033[0;30;47m"
 blue="\033[1;36;40m"
+yellow="\x1b[3;33;40"
 #------------------------------------------------
 #------------------Guilds------------------------
 def guilds_connected():
@@ -46,6 +47,7 @@ def create_sessions():
       session_guild.insert(indexX, SessionGuild(guild.name, indexX))
     else:
       session_guild.append(SessionGuild(guild.name, indexX))
+    print(indexX, guild.name)
     indexX=indexX+1
   session_guild.remove("None")
   return session_guild

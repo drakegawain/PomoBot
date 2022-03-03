@@ -17,6 +17,7 @@ from Pomodoro.Session_Handlers.get_session import get_session
 
 async def command_pomodoro(message):
   index=await get_session(message, cfg.session_guilds)
+  print("{}id:{}".format(cfg.yellow ,index))
   session_class=cfg.session_guilds[index]
   dictio_session=session_class.session
   #session_guild=await get_session(message, cfg.session_guilds)
