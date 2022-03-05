@@ -22,7 +22,7 @@ async def command_pomostop(message):
         if TRUE_OR_FALSE is False:
             raise Exception
     except:
-        await message.channel.send('@{} To call pomostop you have to be inside the running session.'.format(message.author.id))
+        await message.channel.send('<@{}> To call pomostop you have to be inside the running session.'.format(message.author.id))
         print('@line 26 ERROR IN: .pomostop')
     else:
         try:
