@@ -34,6 +34,7 @@ class Session:
     self.STATUS=status
   async def get(self, var):
     vardict ={
+      'STATUS':self.STATUS,
       'c':self.c,
       'pomodoro_started':self.pomodoro_started,
       'ids_get':self.ids_get,

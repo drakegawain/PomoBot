@@ -16,10 +16,18 @@ from Pomodoro.Session_Handlers.get_session import get_session
 #----------------------------------
 
 async def command_pomodoro(message):
+  #---GETING_INFOS--
   index=await get_session(message, cfg.session_guilds)
   print("{}id:{}".format(cfg.yellow ,index))
   session_class=cfg.session_guilds[index]
   dictio_session=session_class.session
+  #---CHECKING-STATUS-OF-CURRENT-SESSION-MAIN--
+  session_status=dictio_session['Main']
+  session_status=await session_status.get('STATUS')
+  print(session_status)
+  if session_status is not None:
+    await message.channel.send('Only one session per guild is allowed in this version. We are working to improve! If you are a developer and want to help, checkout our github page! https://github.com/drakegawain/PomoBot')
+    raise Exception
   #session_guild=await get_session(message, cfg.session_guilds)
   #print(session_guild)
   try:
@@ -44,6 +52,9 @@ async def command_pomodoro(message):
     #---------------START-UP---------------------
         session = await start_session(message)
         print("starting command_pomodoro's session ")
+        session_status='Running'
+        await session.set_status(session_status)
+        print("{}session status set to {}".format(cfg.green, session_status))
         await connect_to_voice_channel(message, session);
     #-------------------------------------------
     #---------------TIME VARIABLEs--------------
