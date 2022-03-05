@@ -17,7 +17,7 @@ async def message_time_to_rest(message, session):
   return
 
 async def message_help(message):
-   await message.channel.send("\n<@%s>```Every command that need inputs will be interpreted by the bot as minutes.\nCommands: \n.pomohelp - Show the avaible commands \n.pomodoro - Starts pomodoro, example: .pomodoro 25 15\n.pomojoin - Join the current pomodoro's session \n.pomostop - Unmute's everyone and stop the current session. ```"  % message.author.id)
+   await message.channel.send(">>> \n<@%s> Hello! This is Pomobot. Let's start?\nCommands: \n.pomohelp - Show the avaible commands \n.pomodoro XX YY - Starts pomodoro, where XX is the time to study and YY is rest time => example: .pomodoro 25 15\n.pomojoin - Join the current pomodoro's session \n.pomostop - Unmute's everyone and stop the current session. \n.pomobug - Found a bug? Report to us!"  % message.author.id)
    return
 
 async def message_time_to_study(message, session):

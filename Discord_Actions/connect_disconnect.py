@@ -12,10 +12,14 @@ async def connect_to_voice_channel(message, session):
     session.restart()
   return 
 
-async def disconnect_from_voice_channel():
-  channel = cfg.client.voice_clients
-  for chn in channel:
-    await chn.disconnect()
+async def disconnect_from_voice_channel(message):
+  for voice_client in cfg.client.voice_clients:
+    if voice_client.guild.name == message.guild.name:
+      await voice_client.guild.voice_client.disconnect()
+        
+  #channel = cfg.client.voice_clients
+  #for chn in channel:
+    #await chn.disconnect()
   return
 
 async def join_pomodoro(message, session):

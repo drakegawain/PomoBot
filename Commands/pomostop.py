@@ -1,22 +1,22 @@
 #---------------------IMPORTs------------------
 import Configs.configs as cfg
-import gc
 from Pomodoro.Session_Handlers.get_session import get_session_ps
 from Security.Command_Check.pomostop_check import check_pomostop
 from Pomodoro.Session_Handlers.del_session import delete
 from Discord_Actions.connect_disconnect import disconnect_from_voice_channel
 from Pomodoro.Session_Handlers.handle_session import session_handler
 from Discord_Actions.mute_unmute import unmute_all
-from Pomodoro.Session_Handlers.get_session import OutsideVoiceChannel
+from Pomodoro.Session_Handlers.get_session import OutsideVoiceChannel, get_session
 #---------------------------------------------
-
-
 async def command_pomostop(message):
+    index=await get_session(message, cfg.session_guilds)
+    session_class=cfg.session_guilds[index]
+    dictio_session=session_class.session
     if not hasattr(message.author.voice, "channel"):
       raise OutsideVoiceChannel(message)
-    cur_vchan_session=await get_session_ps(message, message.author.voice.channel, cfg.session)
-    session=await session_handler(cfg.session, cur_vchan_session)
-    value_session=cfg.session.get(session) # VALUE_SESSION IS THE CURRENT SESSION RUNNING IN THE VC
+    cur_vchan_session=await get_session_ps(message, message.author.voice.channel, dictio_session)
+    session=await session_handler(dictio_session, cur_vchan_session)
+    value_session=dictio_session.get(session) # VALUE_SESSION IS THE CURRENT SESSION RUNNING IN THE VC
     try:
         TRUE_OR_FALSE=await check_pomostop(message.author.id, message, value_session)
         if TRUE_OR_FALSE is False:
@@ -43,7 +43,7 @@ async def command_pomostop(message):
                           value_session.restart()
                       else:
                           await unmute_all(message, value_session.ids, value_session)
-                          await delete(cfg.session, session)
+                          await delete(dictio_session, session)
               except:
                       print('FALSEORTRUE:{}'.format(F_OR_T_VARIABLE))
                       print(value_session)
@@ -57,8 +57,9 @@ async def command_pomostop(message):
             value_session.restart()
           else:
              await unmute_all(message, value_session.ids, value_session)
-             await delete(cfg.session, session)
+             await delete(dictio_session, session)
         finally:
-          await disconnect_from_voice_channel()
+          value_session.restart()
+          await disconnect_from_voice_channel(message)
           await message.channel.send('stopped')
           return

@@ -12,11 +12,18 @@ from Discord_Actions.users_members import avaiable_users_to_join
 from Classes.when_class import when
 from Pomodoro.utilitys import repeatedly_execution, exec_unmute_all, exec_mute_all
 from Pomodoro.close import after_30_seconds_close_pomodoro
+from Pomodoro.Session_Handlers.get_session import get_session
 #----------------------------------
 
 async def command_pomodoro(message):
+  index=await get_session(message, cfg.session_guilds)
+  print("{}id:{}".format(cfg.yellow ,index))
+  session_class=cfg.session_guilds[index]
+  dictio_session=session_class.session
+  #session_guild=await get_session(message, cfg.session_guilds)
+  #print(session_guild)
   try:
-      doubles=await c_for_doubles(cfg.session, message.author.id, message)
+      doubles=await c_for_doubles(dictio_session, message.author.id, message)
       if doubles is True:
         raise Exception
   except:
@@ -25,7 +32,7 @@ async def command_pomodoro(message):
     #---------------Check------------------------
       try:
         if hasattr(message, 'author.voice.channel'):
-          voice_channel_check=await check_pomodoro(message.author.voice.channel,cfg.session,message)
+          voice_channel_check=await check_pomodoro(message.author.voice.channel,dictio_session,message)
           if voice_channel_check is True:
             raise Exception
         else:
@@ -36,6 +43,7 @@ async def command_pomodoro(message):
     #--------------------------------------------
     #---------------START-UP---------------------
         session = await start_session(message)
+        print("starting command_pomodoro's session ")
         await connect_to_voice_channel(message, session);
     #-------------------------------------------
     #---------------TIME VARIABLEs--------------
