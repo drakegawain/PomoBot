@@ -2,7 +2,6 @@
 from Classes.session import Session
 #-----------------------------------------
 #-----------------SETUPs------------------
-NEW_SESSION=Session()
 #-----------------------------------------
 async def ch_session(dictio:dict, session):
   try:
@@ -15,7 +14,7 @@ async def ch_session(dictio:dict, session):
   return 
 
 async def new_session(dictio:dict):
-  dictio['Session_{number}'.format(number=len(dictio))]=NEW_SESSION
+  dictio['Session_{number}'.format(number=len(dictio))]=Session()
   session=dictio.get('{Session_{number}}'.format(number=len(dictio)))
   return session
 
