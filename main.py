@@ -42,7 +42,8 @@ async def on_ready():
 
 @client.event
 async def on_guild_join(guild: discord.Guild):
-  prntpdr(cfg.black, "creating session for :{}'.format(guild.name)")
+  prntpdr(cfg.black, "creating session for :{}".format(guild.name))
+  cfg.session_guilds.append(cfg.SessionGuild(guild.name, cfg.total_guilds() - 1))
   return
 
 @client.event
