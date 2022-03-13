@@ -13,18 +13,19 @@ from Classes.when_class import when
 from Pomodoro.utilitys import repeatedly_execution, exec_unmute_all, exec_mute_all
 from Pomodoro.close import after_30_seconds_close_pomodoro
 from Pomodoro.Session_Handlers.get_session import get_session
+from Cli_Commands.Print_Padronization.ppadron import prntpdr
 #----------------------------------
 
 async def command_pomodoro(message):
   #---GETING_INFOS--
   index=await get_session(message, cfg.session_guilds)
-  print("{}id:{}".format(cfg.yellow ,index))
+  prntpdr(cfg.yellow, ("id:{}".format(index)))
   session_class=cfg.session_guilds[index]
   dictio_session=session_class.session
   #---CHECKING-STATUS-OF-CURRENT-SESSION-MAIN--
   session_status=dictio_session['Main']
   session_status=await session_status.get('STATUS')
-  print(session_status)
+  prntpdr(cfg.black, "status:{}".format(session_status))
   if session_status is not None:
     await message.channel.send('Only one session per guild is allowed in this version. We are working to improve! If you are a developer and want to help, checkout our github page! https://github.com/drakegawain/PomoBot')
     raise Exception
@@ -35,7 +36,7 @@ async def command_pomodoro(message):
       if doubles is True:
         raise Exception
   except:
-      print("ERROR POMODORO 201: USER ALREADY IN A SESSION")
+      prntpdr(cfg.red, "ERROR POMODORO 201: USER ALREADY IN A SESSION")
   else:
     #---------------Check------------------------
       try:
@@ -46,16 +47,16 @@ async def command_pomodoro(message):
         else:
           pass
       except:
-        print("ERROR POMODORO 271: ONLY ONE SESSION PER VC")
+        prntpdr(cfg.red, "ERROR POMODORO 271: ONLY ONE SESSION PER VC")
       else:
     #--------------------------------------------
     #---------------START-UP---------------------
         session = await start_session(message)
-        print("starting command_pomodoro's session ")
+        prntpdr(cfg.green, "starting command_pomodoro's session")
         session_status='Running'
         await session.set_status(session_status)
-        print("{}session status set to {}".format(cfg.green, session_status))
-        await connect_to_voice_channel(message, session);
+        prntpdr(cfg.green, "session status set to {}".format(session_status))
+        await connect_to_voice_channel(message, session)
     #-------------------------------------------
     #---------------TIME VARIABLEs--------------
         session.study_time_global = await handle_study_time(await study_time(message));

@@ -5,6 +5,7 @@ intents.members = True
 activity = discord.Game(name=".pomohelp")
 client = discord.Client(intents=intents, activity=activity)
 from Classes.session import Session
+from Cli_Commands.Print_Padronization.ppadron import prntpdr
 #------------------------------------------------
 #---------------Global Variables-----------------
 class SessionGuild():
@@ -20,16 +21,17 @@ class SessionGuild():
     return self.session
   def get_guild_name(self):
     return self.guild_name
-#session={
-  #'Main':NEW_SESSION
-#}
+
 session_guilds=None
 #------------------------------------------------
 #----------------AESTHETIC-CONFIGs---------------
-green="\033[0;32;40m"
-black="\033[0;30;47m"
-blue="\033[1;36;40m"
-yellow="\033[3;33;40m"
+green="\033[38;5;40m"
+black="\033[38;5;230m"
+normal="\033[38;5;246m"
+blue="\033[38;5;27m"
+yellow="\033[38;5;190m"
+red="\033[38;5;196m"
+cli_date="\033[38;5;15m"
 #------------------------------------------------
 #------------------Guilds------------------------
 def guilds_connected():
@@ -47,7 +49,7 @@ def create_sessions():
       session_guild.insert(indexX, SessionGuild(guild.name, indexX))
     else:
       session_guild.append(SessionGuild(guild.name, indexX))
-    print(indexX, guild.name)
+    prntpdr(normal, "index:{} guild:{}".format(indexX, guild.name))
     indexX=indexX+1
   session_guild.remove("None")
   return session_guild

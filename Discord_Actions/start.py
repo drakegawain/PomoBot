@@ -3,10 +3,11 @@ import Configs.configs as cfg
 from Pomodoro.Session_Handlers.check_session import gather, ch_session, new_session
 from Pomodoro.Session_Handlers.session_leader import leader
 from Pomodoro.Session_Handlers.get_session import  get_session
+from Cli_Commands.Print_Padronization.ppadron import prntpdr
 #-----------------------------
 #-------------START-----------
 async def start_session(message):
-  print("{}calling from: {} {}user:{}".format(cfg.blue, message.guild.name, cfg.green, message.author))
+  prntpdr(cfg.blue, "calling from:{} user:{}".format(message.guild.name, message.author))
   index=await get_session(message, cfg.session_guilds)
   session_class=cfg.session_guilds[index]
   dictio_session=session_class.session

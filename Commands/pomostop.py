@@ -7,7 +7,9 @@ from Discord_Actions.connect_disconnect import disconnect_from_voice_channel
 from Pomodoro.Session_Handlers.handle_session import session_handler
 from Discord_Actions.mute_unmute import unmute_all
 from Pomodoro.Session_Handlers.get_session import OutsideVoiceChannel, get_session
+from Cli_Commands.Print_Padronization.ppadron import prntpdr
 #---------------------------------------------
+print()
 async def command_pomostop(message):
     index=await get_session(message, cfg.session_guilds)
     session_class=cfg.session_guilds[index]
@@ -23,20 +25,19 @@ async def command_pomostop(message):
             raise Exception
     except:
         await message.channel.send('<@{}> To call pomostop you have to be inside the running session.'.format(message.author.id))
-        print('@line 26 ERROR IN: .pomostop')
+        prntpdr(cfg.red, ".pomostop error @check_pomostop")()
     else:
         try:
             value_session.close.cancel()
         except:
-              print('{} ERROR in : .pomostop.else.except'.format('@Commands/pomostop:line->26'))
-              print('releasing futures')
+              prntpdr(cfg.red, "error in pomostop: couldnt verify value_session.close.cancel")
+              prntpdr(cfg.black, "releasing futures")
               value_session.class_e.release_future()
               value_session.class_i.release_future()
-              print('futures released')
+              prntpdr(cfg.green, "futures released")
               try:
                       try:
                         F_OR_T_VARIABLE=session
-                        print('FALSEORTRUE:{}'.format(F_OR_T_VARIABLE))
                       except:
                         raise Exception
                       if F_OR_T_VARIABLE == "Main":
@@ -46,9 +47,7 @@ async def command_pomostop(message):
                           await unmute_all(message, value_session.ids, value_session)
                           await delete(dictio_session, session)
               except:
-                      print('FALSEORTRUE:{}'.format(F_OR_T_VARIABLE))
-                      print(value_session)
-                      print('{} ERROR in : .pomostop.else.except.try'.format('@Commands/pomostop:line->47'))
+                      prntpdr(cfg.red, "error in pomostop: couldnt verify Main session")
               finally:
                       return
         else:

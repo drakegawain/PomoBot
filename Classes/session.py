@@ -1,6 +1,8 @@
 #-----------------IMPORTs-------------------
 from Classes.classes import class_mute_all
 from Classes.when_class import when
+from Cli_Commands.Print_Padronization.ppadron import prntpdr
+import Configs.configs as cfg
 #-------------------------------------------
 class Session:
   def __init__(self):
@@ -66,7 +68,7 @@ class Session:
     self.vc=None; 
     self.class_e=None 
     self.class_i=None
-    print("restarting...")
+    prntpdr(cfg.black, "restarting...")
     return
   def set_global_var(self, var, value):
     vardict ={

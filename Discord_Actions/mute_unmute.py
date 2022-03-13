@@ -1,5 +1,7 @@
 #---------------IMPORTs----------
 from Configs.configs import client
+from Cli_Commands.Print_Padronization.ppadron import prntpdr
+import Configs.configs as cfg
 #-------------------------------
 #------------MUTE-UNMUTE-METHODs---------
 async def mute_method(member):
@@ -22,7 +24,7 @@ async def mute_all(message, ids, session):
   guild = message.author.voice.channel.guild.id;
   got_guild = client.get_guild(guild);
   i_list=list(session.ids)
-  print('muting:{}'.format(i_list))
+  prntpdr(cfg.blue, "muting:{}".format(i_list))
   for ids in i_list:  
     member = got_guild.get_member(ids);
     await mute_method(member);
@@ -33,7 +35,7 @@ async def unmute_all(message, ids, session):
   guild = message.author.voice.channel.guild.id;
   got_guild = client.get_guild(guild);
   i_list=list(session.ids)
-  print('unmuting:{}'.format(i_list))
+  prntpdr(cfg.blue, "unmuting:{}".format(i_list))
   for ids in i_list:
     member = got_guild.get_member(ids);
     await unmute_method(member)
