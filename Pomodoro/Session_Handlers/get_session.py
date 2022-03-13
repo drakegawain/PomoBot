@@ -44,7 +44,6 @@ async def get_session_pomojoin(message, v_channel, dictio:dict):
   for session in dictio.values():
     if hasattr(session.vc, 'channel'):
       if session.vc.channel is v_channel:
-        print(session)
         return session
   raise NoSessionRunning_pomojoin(message)
   return 
