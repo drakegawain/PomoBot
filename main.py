@@ -50,6 +50,8 @@ async def on_guild_join(guild: discord.Guild):
 @client.event
 async def on_guild_remove(guild: discord.Guild):
   prntpdr(cfg.red, "leaving:{}".format(guild.name))
+  index=await search(guild, cfg.session_guilds)
+  await delete(index, cfg.session_guilds)
   return
 
 @client.event 
