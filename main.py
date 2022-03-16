@@ -16,10 +16,11 @@ prntpdr(cfg.green, "collected")
 prntpdr(cfg.black, "loading files")
 from Configs.configs import client, create_sessions
 from Discord_Actions.Messages.messages import  message_help
-from Security.Command_Check.pomostop_check import check_pomostop
 from Commands.pomodoro import command_pomodoro
 from Commands.pomostop import command_pomostop
 from Commands.pomojoin import command_pomojoin
+from Pomodoro.Session_Handlers.search_session import search
+from Pomodoro.Session_Handlers.del_session import delete
 import discord
 prntpdr(cfg.green, "loaded")
 #-----------------------------------------------
@@ -42,7 +43,7 @@ async def on_ready():
 
 @client.event
 async def on_guild_join(guild: discord.Guild):
-  prntpdr(cfg.black, "creating session for :{}".format(guild.name))
+  prntpdr(cfg.black, "creating session for:{}".format(guild.name))
   cfg.session_guilds.append(cfg.SessionGuild(guild.name, cfg.total_guilds() - 1))
   return
 

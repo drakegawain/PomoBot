@@ -4,6 +4,8 @@ import asyncio
 from Discord_Actions.mute_unmute import mute_all, unmute_all;
 from Discord_Actions.Messages.messages import message_time_to_rest, message_time_to_study
 from Discord_Actions.play_audio import play_audio
+from Cli_Commands.Print_Padronization.ppadron import prntpdr
+import Configs.configs as cfg
 #---------------------------------------------
 #-------------------EXEs-----------------------
 def exec_mute_all(message, ids, session):
@@ -11,7 +13,7 @@ def exec_mute_all(message, ids, session):
     loop = asyncio.get_running_loop()
     loop.run_until_complete(mute_all(message, ids, session))
   except:
-    print('error in exec_mute_all')
+    prntpdr(cfg.red, "error in exec_mute_all: {}".format(message.guild.name))
   return
 
 def exec_unmute_all(message, ids, session):
@@ -19,7 +21,7 @@ def exec_unmute_all(message, ids, session):
     loop = asyncio.get_running_loop()
     loop.run_until_complete(unmute_all(message, ids, session))
   except:
-    print('error in exec_unmute_all')
+    prntpdr(cfg.red, "error in exec_unmute_all: {}".format(message.guild.name))
     raise Exception
   return
 #----------------------------------------------

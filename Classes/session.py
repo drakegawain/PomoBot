@@ -1,4 +1,5 @@
 #-----------------IMPORTs-------------------
+import gc
 from Classes.classes import class_mute_all
 from Classes.when_class import when
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
@@ -22,6 +23,7 @@ class Session:
     self.vc=None; #This is a voice variable, its used in play_audio
     self.class_e=None #This variables are classes
     self.class_i=None
+    self.restart()
   async def set_leader_id(self, id):
     try:
       if self.LEADER_ID is not None:
@@ -55,6 +57,7 @@ class Session:
   def restart(self):
     self.LEADER_ID=None
     self.TIME=None
+    self.STATUS=gc.collect()
     self.STATUS=None
     self.c=0; #counter
     self.pomodoro_started=False;
