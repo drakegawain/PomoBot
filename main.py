@@ -37,7 +37,7 @@ async def on_ready():
   #db["{command}_{bad_access}".format(command='pomodoro', bad_access='271')] = "{reason}".format(reason='Only one session per voice_channel at the same time')
   prntpdr(cfg.black, "creating sessions...")
   cfg.session_guilds = create_sessions()
-  prntpdr(cfg.blue, "PomoBot: online")
+  prntpdr(cfg.blue, "PomoBot:online")
   prntpdr(cfg.black, "total guilds:{}{}".format(cfg.green, cfg.total_guilds()))
   pass
 

@@ -6,6 +6,18 @@ from Discord_Actions.Messages.messages import message_time_to_rest, message_time
 from Discord_Actions.play_audio import play_audio
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
 import Configs.configs as cfg
+from Commands.pomostop import command_pomostop
+#---------------------------------------------
+#------------------Error-Class----------------
+class Error(Exception):
+  '''This is the base error class'''
+
+class ExecError(Error):
+  '''This class raises pomostop command'''
+  def __init__(self, message):
+    await command_pomostop(message)
+    prntpdr(cfg.red, "ExecError:stopping")
+  pass
 #---------------------------------------------
 #-------------------EXEs-----------------------
 def exec_mute_all(message, ids, session):
@@ -14,6 +26,7 @@ def exec_mute_all(message, ids, session):
     loop.run_until_complete(mute_all(message, ids, session))
   except:
     prntpdr(cfg.red, "error in exec_mute_all: {}".format(message.guild.name))
+    raise ExecError(message)
   return
 
 def exec_unmute_all(message, ids, session):
@@ -22,7 +35,7 @@ def exec_unmute_all(message, ids, session):
     loop.run_until_complete(unmute_all(message, ids, session))
   except:
     prntpdr(cfg.red, "error in exec_unmute_all: {}".format(message.guild.name))
-    raise Exception
+    raise ExecError(message)
   return
 #----------------------------------------------
 #------------------LOOPs------------------------
