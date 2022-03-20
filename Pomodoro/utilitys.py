@@ -6,7 +6,7 @@ from Discord_Actions.Messages.messages import message_time_to_rest, message_time
 from Discord_Actions.play_audio import play_audio
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
 import Configs.configs as cfg
-from Commands.pomostop import command_pomostop
+from Commands.admin.pomostop_admin import admin_pomostop
 #---------------------------------------------
 #------------------Error-Class----------------
 class Error(Exception):
@@ -16,7 +16,7 @@ class ExecError(Error):
   '''This class raises pomostop command'''
   def __init__(self, message):
     loop=asyncio.get_event_loop()
-    loop.run_until_complete(command_pomostop(message))
+    loop.run_until_complete(admin_pomostop(message))
     prntpdr(cfg.red, "ExecError:stopping")
   pass
 #---------------------------------------------
