@@ -15,7 +15,8 @@ class Error(Exception):
 class ExecError(Error):
   '''This class raises pomostop command'''
   def __init__(self, message):
-    await command_pomostop(message)
+    loop=asyncio.get_event_loop()
+    loop.run_until_complete(command_pomostop(message))
     prntpdr(cfg.red, "ExecError:stopping")
   pass
 #---------------------------------------------
