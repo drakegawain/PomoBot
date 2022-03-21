@@ -5,15 +5,18 @@
 #----------------------------------------------
 
 async def search(guild, session_list):
-  guild_name=guild.name
-  for index in range(len(session_list)):
-    guild_name_session_list=session_list[index].get_guild_name()
-    if guild_name_session_list is guild_name:
-      return session_list[index].get_index()
-  for index in range(len(session_list)+1):
-    guild_name_session_list=session_list[index].get_guild_name()
-    if guild_name_session_list is guild_name:
-      return session_list[index].get_index()
+  for session in session_list:
+    if session.get_guild_name() == guild.name:
+      return session.get_index()
+  
+  #for index in range(len(session_list)):
+    #guild_name_session_list=session_list[index].get_guild_name()
+    #if guild_name_session_list is guild_name:
+      #return session_list[index].get_index()
+  #for index in range(len(session_list)+1):
+    #guild_name_session_list=session_list[index].get_guild_name()
+    #if guild_name_session_list is guild_name:
+      #return session_list[index].get_index()
 
 async def s_for_id(dictio:dict, ID:int):
     HANDLER=None

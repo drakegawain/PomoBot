@@ -2,12 +2,10 @@
 import Configs.configs as cfg
 import asyncio
 from Pomodoro.Session_Handlers.get_session import get_session_ps
-from Security.Command_Check.pomostop_check import check_pomostop
 from Pomodoro.Session_Handlers.del_session import delete
 from Discord_Actions.connect_disconnect import disconnect_from_voice_channel
 from Pomodoro.Session_Handlers.handle_session import session_handler
 from Discord_Actions.mute_unmute import unmute_all
-from Pomodoro.Session_Handlers.get_session import OutsideVoiceChannel, get_session
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
 #---------------------------------------------
 
