@@ -18,6 +18,7 @@ class ExecError(Error):
     loop=asyncio.get_event_loop()
     loop.run_until_complete(admin_pomostop(message))
     prntpdr(cfg.red, "ExecError:stopping")
+    return
   pass
 #---------------------------------------------
 #-------------------EXEs-----------------------

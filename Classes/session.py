@@ -10,6 +10,7 @@ class Session:
     self.LEADER_ID=None
     self.TIME=None
     self.STATUS=None
+    self.STATUS=gc.collect()
     #-----Global-Variables-from-the-session
     self.c=0; #counter
     self.pomodoro_started=False;
@@ -57,7 +58,6 @@ class Session:
   def restart(self):
     self.LEADER_ID=None
     self.TIME=None
-    self.STATUS=gc.collect()
     self.STATUS=None
     self.c=0; #counter
     self.pomodoro_started=False;
@@ -66,7 +66,7 @@ class Session:
     self.ids=set();
     self.study_time_global=0;
     self.rest_time_global=0;
-    self.status_class=class_mute_all(None) 
+    self.status_class=class_mute_all(None)
     self.close=when() 
     self.vc=None; 
     self.class_e=None 
@@ -92,4 +92,22 @@ class Session:
     sgv=value
   def pushleader(self):
     self.ids.add(self.LEADER_ID)
+    return
+  def clear(self):
+    self.LEADER_ID=gc.collect()
+    self.TIME=gc.collect()
+    self.STATUS=gc.collect()
+    self.c=gc.collect()
+    self.pomodoro_started=gc.collect()
+    self.ids_get=gc.collect()
+    self.joined=gc.collect()
+    self.ids=gc.collect()
+    self.study_time_global=gc.collect()
+    self.rest_time_global=gc.collect()
+    self.status_class=gc.collect()
+    self.close=gc.collect()
+    self.vc=gc.collect()
+    self.class_e=gc.collect()
+    self.class_e=gc.collect()
+    prntpdr(cfg.green, "cleanning...")
     return

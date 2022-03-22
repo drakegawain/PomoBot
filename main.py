@@ -76,7 +76,9 @@ async def on_message(message):
 
   if message.content.startswith('.pomostop'):
     await command_pomostop(message)
-    
+
+  if message.content.startswith('.pomodoro stop'):
+    await command_pomostop(message)
 #---------------------------------------------
 #---------------LOGGIN-----------------
 client.run(os.environ['TOKEN'])

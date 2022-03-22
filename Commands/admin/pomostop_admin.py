@@ -1,7 +1,7 @@
 #---------------------IMPORTs------------------
 import Configs.configs as cfg
 import asyncio
-from Pomodoro.Session_Handlers.get_session import get_session_ps
+from Pomodoro.Session_Handlers.get_session import get_session_ps, get_session
 from Pomodoro.Session_Handlers.del_session import delete
 from Discord_Actions.connect_disconnect import disconnect_from_voice_channel
 from Pomodoro.Session_Handlers.handle_session import session_handler
@@ -15,12 +15,12 @@ class Error(Exception):
 class LeftVC(Error):
     def __init__(self, message, dictio_session):
       loop=asyncio.get_event_loop()
-      loop.run_until_complete(message.channel.send("User left voice channel:stopping"))
       dictio_session["Main"].class_e.release_future()
       dictio_session["Main"].class_i.release_future()
+      dictio_session["Main"].clear()
       dictio_session["Main"].restart()
       loop.run_until_complete(disconnect_from_voice_channel(message))
-      prntpdr(cfg.red, "raising LeftVC")
+      prntpdr(cfg.red, "raising LeftVoiceChannel:{}".format(message.guild.name))
       return
 
 async def admin_pomostop(message):
