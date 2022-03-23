@@ -1,4 +1,5 @@
 #-----------------IMPORTs-------------------
+import gc
 from Classes.classes import class_mute_all
 from Classes.when_class import when
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
@@ -9,6 +10,7 @@ class Session:
     self.LEADER_ID=None
     self.TIME=None
     self.STATUS=None
+    self.STATUS=gc.collect()
     #-----Global-Variables-from-the-session
     self.c=0; #counter
     self.pomodoro_started=False;
@@ -22,6 +24,7 @@ class Session:
     self.vc=None; #This is a voice variable, its used in play_audio
     self.class_e=None #This variables are classes
     self.class_i=None
+    self.restart()
   async def set_leader_id(self, id):
     try:
       if self.LEADER_ID is not None:
@@ -63,7 +66,7 @@ class Session:
     self.ids=set();
     self.study_time_global=0;
     self.rest_time_global=0;
-    self.status_class=class_mute_all(None) 
+    self.status_class=class_mute_all(None)
     self.close=when() 
     self.vc=None; 
     self.class_e=None 
@@ -89,4 +92,22 @@ class Session:
     sgv=value
   def pushleader(self):
     self.ids.add(self.LEADER_ID)
+    return
+  def clear(self):
+    self.LEADER_ID=gc.collect()
+    self.TIME=gc.collect()
+    self.STATUS=gc.collect()
+    self.c=gc.collect()
+    self.pomodoro_started=gc.collect()
+    self.ids_get=gc.collect()
+    self.joined=gc.collect()
+    self.ids=gc.collect()
+    self.study_time_global=gc.collect()
+    self.rest_time_global=gc.collect()
+    self.status_class=gc.collect()
+    self.close=gc.collect()
+    self.vc=gc.collect()
+    self.class_e=gc.collect()
+    self.class_e=gc.collect()
+    prntpdr(cfg.green, "cleanning...")
     return
