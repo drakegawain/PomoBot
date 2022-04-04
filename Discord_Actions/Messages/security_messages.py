@@ -1,5 +1,7 @@
 #--------This-file-storage-security-messages-------
 from replit import db
+from Cli_Commands.Print_Padronization.ppadron import prntpdr
+import Configs.configs as cfg
 
 class SecurityMessage:
   def __init__(self, command:str, ctxmessage:str, userid:int):
@@ -43,7 +45,7 @@ class SecurityMessage:
       if str(error) in key:
         value=db[key]
         self.reason=value
-        print(value)
+        prntpdr(cfg.red, value)
         return 
     return
 
