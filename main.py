@@ -17,12 +17,14 @@ prntpdr(cfg.black, "loading files")
 from Configs.configs import client, create_sessions
 from Discord_Actions.Messages.messages import  message_help
 from Commands.pomodoro import command_pomodoro
+from Slash.Commands.pomodoro import command_pomodoro as sc_pomodoro
 from Commands.pomostop import command_pomostop
 from Commands.pomojoin import command_pomojoin
 from Pomodoro.Session_Handlers.search_session import search
 from Pomodoro.Session_Handlers.del_session import delete
 import nextcord
 from nextcord.ext import commands as Ncommands
+from Slash.Utilitys.fetch_informations import fetch
 prntpdr(cfg.green, "loaded")
 #-----------------------------------------------
 #------------------SETUPs-----------------------
@@ -84,19 +86,23 @@ async def on_message(message):
 #------------------SLASH-COMMANDS-------------------
 
 @client.slash_command(
-    name="pomodoro_",
+    name="pomodoro",
     description="This command starts pomodoro",
     guild_ids=[951998637045604372],
 )
-async def pomodoro_(ctx: Ncommands.Context, 
-        arg: str=nextcord.SlashOption(
-          name='input',
+async def pomodoro(ctx: Ncommands.Context, 
+        study_time: int=nextcord.SlashOption(
+          name='study_time',
           description='time for study and time for rest',
           required=True,
-          autocomplete=True,
+    ),
+        rest_time: int=nextcord.SlashOption(
+          name='rest_time',
+          description='time to rest',
+          required=True,
     ),
   ):
-    await ctx.send('Hello')
+    await sc_pomodoro(ctx,study_time,rest_time)
 
 #---------------------------------------------------
 #---------------LOGGIN-----------------
