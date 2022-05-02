@@ -1,9 +1,9 @@
 #----------------Discord Configuration-----------
-import discord
-intents = discord.Intents.default()
+import nextcord
+intents = nextcord.Intents.default()
 intents.members = True
-activity = discord.Game(name=".pomohelp")
-client = discord.Client(intents=intents, activity=activity)
+activity = nextcord.Game(name=".pomohelp")
+client = nextcord.Client(intents=intents, activity=activity)
 from Classes.session import Session
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
 #------------------------------------------------

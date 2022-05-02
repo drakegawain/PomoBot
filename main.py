@@ -1,7 +1,7 @@
 #---------------BASIC-CONFIGs-------------------
 import os
 import nest_asyncio
-import sys
+#import interactions
 os.system('clear')
 import gc
 import Configs.configs as cfg
@@ -21,7 +21,8 @@ from Commands.pomostop import command_pomostop
 from Commands.pomojoin import command_pomojoin
 from Pomodoro.Session_Handlers.search_session import search
 from Pomodoro.Session_Handlers.del_session import delete
-import discord
+import nextcord
+from nextcord.ext import commands as Ncommands
 prntpdr(cfg.green, "loaded")
 #-----------------------------------------------
 #------------------SETUPs-----------------------
@@ -42,13 +43,13 @@ async def on_ready():
   pass
 
 @client.event
-async def on_guild_join(guild: discord.Guild):
+async def on_guild_join(guild: nextcord.Guild):
   prntpdr(cfg.black, "creating session for:{}".format(guild.name))
   cfg.session_guilds.append(cfg.SessionGuild(guild.name, cfg.total_guilds() - 1))
   return
 
 @client.event
-async def on_guild_remove(guild: discord.Guild):
+async def on_guild_remove(guild: nextcord.Guild):
   prntpdr(cfg.red, "leaving:{}".format(guild.name))
   index=await search(guild, cfg.session_guilds)
   await delete(index, cfg.session_guilds)
@@ -80,6 +81,26 @@ async def on_message(message):
   if message.content.startswith('.pomodoro stop'):
     await command_pomostop(message)
 #---------------------------------------------
+#------------------SLASH-COMMANDS-------------------
+
+@client.slash_command(
+    name="pomodoro_",
+    description="This command starts pomodoro",
+    guild_ids=[951998637045604372],
+)
+async def pomodoro_(ctx: Ncommands.Context, 
+        arg: str=nextcord.SlashOption(
+          name='input',
+          description='time for study and time for rest',
+          required=True,
+          autocomplete=True,
+    ),
+  ):
+    await ctx.send('Hello')
+
+#---------------------------------------------------
 #---------------LOGGIN-----------------
-client.run(os.environ['TOKEN'])
+token=os.environ['TOKEN']
+client.run(token)
+#bot.start()
 #--------------------------------------
