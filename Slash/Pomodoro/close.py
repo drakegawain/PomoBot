@@ -2,7 +2,7 @@
 from Slash.Discord_Actions.Messages.messages import message_closed_pomodoro
 from Classes.classes import e_when_w_args 
 from Methods.throw_methods import throw_pomodoro_status_close
-from Methods.bind_methods import bind_status_class_to_mute_all
+from Slash.Methods.bind_methods import bind_status_class_to_mute_all
 #----------------------------------------
 #--------------CLOSE-FUNCTIONS-----------
 def close_pomodoro(ctx, session):

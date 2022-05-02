@@ -10,7 +10,8 @@ from Slash.Discord_Actions.start import start_pomodoro
 from Slash.Discord_Actions.Messages.messages import message_avaiable_users_to_join
 from Discord_Actions.users_members import avaiable_users_to_join
 from Classes.when_class import when
-from Pomodoro.utilitys import repeatedly_execution, exec_unmute_all, exec_mute_all
+from Slash.Pomodoro.utilitys import exec_unmute_all, exec_mute_all
+from Pomodoro.utilitys import repeatedly_execution
 from Slash.Pomodoro.close import after_30_seconds_close_pomodoro
 from Slash.Session_Handlers.get_session import get_session
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
@@ -18,7 +19,7 @@ from Slash.Utilitys.fetch_informations import fetch
 #----------------------------------
 
 async def command_pomodoro(ctx, study_time, rest_time):
-  #---GETING_INFOS--
+  #---GETtING_INFOS--
   response=fetch(ctx)
   guild=response[2]
   author=response[1]

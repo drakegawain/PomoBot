@@ -22,6 +22,7 @@ from Commands.pomostop import command_pomostop
 from Commands.pomojoin import command_pomojoin
 from Pomodoro.Session_Handlers.search_session import search
 from Pomodoro.Session_Handlers.del_session import delete
+from Pomodoro.time_pomodoro import handle_rest_time, handle_study_time
 import nextcord
 from nextcord.ext import commands as Ncommands
 from Slash.Utilitys.fetch_informations import fetch
@@ -102,6 +103,8 @@ async def pomodoro(ctx: Ncommands.Context,
           required=True,
     ),
   ):
+    study_time=await handle_study_time(study_time)
+    rest_time=await handle_rest_time(rest_time)
     await sc_pomodoro(ctx,study_time,rest_time)
 
 #---------------------------------------------------
