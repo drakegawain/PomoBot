@@ -17,7 +17,7 @@ async def message_time_to_rest(message, session):
   return
 
 async def message_help(message):
-   await message.channel.send(">>> <@%s> \n:man_mage: Hello! This is Pomobot. **Let's start?**\nCommands:\n \n:tools:`.pomohelp` - Show avaiable commands \n\n:handshake:`.pomodoro XX YY` - Starts pomodoro, Where XX is study time and YY is rest time => example: `.pomodoro 25 15`\n\n:calling:`.pomojoin` - Join current pomodoro's session \n\n:hand_splayed:`.pomostop` - Unmute's everyone and stop the current session. \n\n:cold_face:`.pomobug` - Found a bug? Report to us!"  % message.author.id)
+   await message.channel.send(">>> <@%s> \n:man_mage: Hello! This is Pomobot. **Let's start?**\nCommands:\n \n:tools:`.pomohelp` - Show avaiable commands \n\n:handshake:`.pomodoro XX YY` - Starts pomodoro, Where XX is study time and YY is rest time => example: `.pomodoro 25 15`\n\n:calling:`.pomojoin` - Join current pomodoro's session \n\n:hand_splayed:`.pomostop` - Unmute's everyone and stop the current session. \n\n:cold_face:`.pomobug` - Found a bug? Report to us! \n\nAccording to discord new best practices, we are implementing Slash commands. **Try it out!** \n\n:handshake:`/pomodoro` \n\n:calling:`/pomojoin` \n\n:hand_splayed:`/pomostop`"  % message.author.id)
    return
 
 async def message_time_to_study(message, session):
