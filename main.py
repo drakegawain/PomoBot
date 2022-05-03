@@ -15,17 +15,18 @@ prntpdr(cfg.green, "collected")
 #-------------------IMPORTs---------------------
 prntpdr(cfg.black, "loading files")
 from Configs.configs import client, create_sessions
-from Discord_Actions.Messages.messages import  message_help
+from Discord_Actions.Messages.messages import message_help
 from Commands.pomodoro import command_pomodoro
-from Slash.Commands.pomodoro import command_pomodoro as sc_pomodoro
 from Commands.pomostop import command_pomostop
 from Commands.pomojoin import command_pomojoin
+from Slash.Commands.pomodoro import command_pomodoro as sc_pomodoro
+from Slash.Commands.pomostop import command_pomostop as sc_pomostop
+from Slash.Commands.pomojoin import command_pomojoin as sc_pomojoin
 from Pomodoro.Session_Handlers.search_session import search
 from Pomodoro.Session_Handlers.del_session import delete
 from Pomodoro.time_pomodoro import handle_rest_time, handle_study_time
 import nextcord
 from nextcord.ext import commands as Ncommands
-from Slash.Utilitys.fetch_informations import fetch
 prntpdr(cfg.green, "loaded")
 #-----------------------------------------------
 #------------------SETUPs-----------------------
@@ -84,8 +85,7 @@ async def on_message(message):
   if message.content.startswith('.pomodoro stop'):
     await command_pomostop(message)
 #---------------------------------------------
-#------------------SLASH-COMMANDS-------------------
-
+#------------------SLASH-COMMANDS-------------
 @client.slash_command(
     name="pomodoro",
     description="This command starts pomodoro",
@@ -107,7 +107,22 @@ async def pomodoro(ctx: Ncommands.Context,
     rest_time=await handle_rest_time(rest_time)
     await sc_pomodoro(ctx,study_time,rest_time)
 
-#---------------------------------------------------
+@client.slash_command(
+  name="pomostop",
+  description="Stops the current pomodoro's session",
+  guild_ids=[951998637045604372],
+)
+async def pomostop(ctx: Ncommands.Context):
+  await sc_pomostop(ctx)
+
+@client.slash_command(
+  name="pomojoin",
+  description="Join the current pomodoro's session",
+  guild_ids=[951998637045604372],
+)
+async def pomojoin(ctx: Ncommands.Context):
+  await sc_pomojoin(ctx)
+#---------------------------------------------
 #---------------LOGGIN-----------------
 token=os.environ['TOKEN']
 client.run(token)
