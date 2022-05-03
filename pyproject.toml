@@ -11,9 +11,9 @@ version = "0.1.0"
 [tool.poetry.dependencies]
 PyNaCl = "1.4.0"
 config = "0.5.1"
-discord = "1.7.3"
 nest-asyncio = "1.5.4"
 python = "^3.8"
 replit = "3.2.4"
 timer = "0.2.2"
+nextcord = "^2.0.0-alpha.10"
 [tool.poetry.dev-dependencies]
