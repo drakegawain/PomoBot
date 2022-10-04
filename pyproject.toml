@@ -1,19 +1,42 @@
 [build-system]
-build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core>=1.0.0"]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "Pomobot"
+version = "0.0.1"
+authors = [
+  { name="drakegawain", email="thales.souzalopes@gmail.com" },
+]
+description = "Discord bot"
+#readme = "README.md"
+#license = { file="LICENSE" }
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/drakegawain/PomoBot"
+"Bug Tracker" = "https://github.com/drakegawain/PomoBot/issues"
+#[build-system]
+#build-backend = "poetry.core.masonry.api"
+#requires = ["poetry-core>=1.0.0"]
 
 [tool]
 [tool.poetry]
-authors = ["Your Name <you@example.com>"]
+authors = ["drakegawain"]
 description = ""
 name = "repl_python3_TimeBot"
-version = "0.1.0"
+version = "1.0.0"
 [tool.poetry.dependencies]
 PyNaCl = "1.4.0"
 config = "0.5.1"
-nest-asyncio = "1.5.4"
+nest-asyncio = "^1.5.4"
+nextcord = "2.0.0-alpha.10"
 python = "^3.8"
 replit = "3.2.4"
 timer = "0.2.2"
-nextcord = "^2.0.0-alpha.10"
 [tool.poetry.dev-dependencies]
