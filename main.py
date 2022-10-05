@@ -31,7 +31,7 @@ prntpdr(cfg.green, "loaded")
 #-----------------------------------------------
 #------------------SETUPs-----------------------
 prntpdr(cfg.black, "setting configurations...")
-logging.basicConfig(filename='log.log', filemode='w', level=logging.WARNING)
+logging.basicConfig(filename='log.log', filemode='a', level=logging.WARNING, format='%(asctime)s - %(message)s')
 nest_asyncio.apply()
 import Configs.configs as cfg
 from replit import db
@@ -49,12 +49,14 @@ async def on_ready():
 
 @client.event
 async def on_guild_join(guild: nextcord.Guild):
+  logging.warning("{} joined".format(guild.name))
   prntpdr(cfg.black, "creating session for:{}".format(guild.name))
   cfg.session_guilds.append(cfg.SessionGuild(guild.name, cfg.total_guilds() - 1))
   return
 
 @client.event
 async def on_guild_remove(guild: nextcord.Guild):
+  logging.warning("{} left".format(guild.name))
   prntpdr(cfg.red, "leaving:{}".format(guild.name))
   index=await search(guild, cfg.session_guilds)
   await delete(index, cfg.session_guilds)
@@ -94,6 +96,7 @@ async def on_guild_remove(guild: nextcord.Guild):
 )
 async def pomohelp(ctx: Ncommands.Context):
     await message_help(ctx)
+    logging.warning("{} raised pomohelp".format(ctx.guild.name))
     return
   
 @client.slash_command(
@@ -113,6 +116,7 @@ async def pomodoro(ctx: Ncommands.Context,
           required=True,
     ),
   ):
+    logging.warning("{} raised pomodoro".format(ctx.guild.name))
     study_time=await handle_study_time(study_time)
     rest_time=await handle_rest_time(rest_time)
     await sc_pomodoro(ctx,study_time,rest_time)
@@ -124,6 +128,7 @@ async def pomodoro(ctx: Ncommands.Context,
   force_global=True,
 )
 async def pomostop(ctx: Ncommands.Context):
+  logging.warning("{} raised pomostop".format(ctx.guild.name))
   await sc_pomostop(ctx)
   return
 
@@ -133,6 +138,7 @@ async def pomostop(ctx: Ncommands.Context):
   force_global=True,
 )
 async def pomojoin(ctx: Ncommands.Context):
+  logging.warning("{} raised pomojoin".format(ctx.guild.name))
   await sc_pomojoin(ctx)
   return
 
