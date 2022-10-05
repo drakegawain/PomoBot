@@ -69,19 +69,14 @@ async def command_pomodoro(ctx, study_time, rest_time):
     #-------------------------------------------
     #----------------OPEN-CLOCK-----------------
         await start_pomodoro(session);
-    
         await message_avaiable_users_to_join(ctx, await avaiable_users_to_join(await list_keys(await get_keys(ctx)), await bot_id()));
     #-------------------------------------------
     #---------------CLOSE-----------------------
         session.close=when()
         pomoclose=session.close
-    
-
         pomoclose.set_functions(repeatedly_execution)
         pomoclose.set_args(session, session.study_time_global, session.rest_time_global, exec_unmute_all, exec_mute_all, ctx, session.ids, session)
-    
         pomoclose.if_when('yes')
-
         await after_30_seconds_close_pomodoro(ctx, session);
     #-------------------------------------------
   return
