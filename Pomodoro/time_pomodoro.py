@@ -6,6 +6,7 @@ from Commands.pomostop import command_pomostop
 #--------------Exception-------------------
 class Error(Exception):
   '''Base error class'''
+  
 class InputsMustBeInteger(Error):
   def __init__(self, message):
     self.message=message

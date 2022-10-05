@@ -12,17 +12,17 @@ class Session:
     self.STATUS=None
     self.STATUS=gc.collect()
     #-----Global-Variables-from-the-session
-    self.c=0; #counter
+    self.c=0; 
     self.pomodoro_started=False;
     self.ids_get=[];
     self.joined=0;
     self.ids=set();
     self.study_time_global=0;
     self.rest_time_global=0;
-    self.status_class=class_mute_all(None) #This class mute's all
-    self.close=when() #Starts a when class, see in when_class
-    self.vc=None; #This is a voice variable, its used in play_audio
-    self.class_e=None #This variables are classes
+    self.status_class=class_mute_all(None) 
+    self.close=when() 
+    self.vc=None; 
+    self.class_e=None 
     self.class_i=None
     self.restart()
   async def set_leader_id(self, id):

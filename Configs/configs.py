@@ -1,9 +1,9 @@
 #----------------Discord Configuration-----------
 import nextcord
-intents = nextcord.Intents.default()
 #intents.members = True
-activity = nextcord.Game(name=".pomohelp")
-client = nextcord.Client(activity=activity)
+intents = nextcord.Intents(guilds=True, voice_states=True)
+activity = nextcord.Game(name="/pomohelp")
+client = nextcord.Client(activity=activity, intents=intents)
 from Classes.session import Session
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
 #------------------------------------------------
@@ -43,14 +43,14 @@ def total_guilds():
   return len(total)
 def create_sessions():
   session_guild=["None"]
-  indexX=0
+  index=0
   for guild in client.guilds:
-    if indexX == 0:
-      session_guild.insert(indexX, SessionGuild(guild.name, indexX))
+    if index == 0:
+      session_guild.insert(index, SessionGuild(guild.name, index))
     else:
-      session_guild.append(SessionGuild(guild.name, indexX))
-    prntpdr(normal, "index:{} guild:{}".format(indexX, guild.name))
-    indexX=indexX+1
+      session_guild.append(SessionGuild(guild.name, index))
+    prntpdr(normal, "index:{} guild:{}".format(index, guild.name))
+    index=index+1
   session_guild.remove("None")
   return session_guild
 #-------------------------------------------------
