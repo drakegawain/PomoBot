@@ -25,7 +25,7 @@ async def message_time_to_study(message, session):
   return
 
 async def message_stopping_pomostop(message):
-  await message.channel.send('\nStopping...\n\nYou can start a new session typing ``.pomodoro XX YY``.\nTo see the orientations: ``.pomohelp``')
+  await message.channel.send('\nStopping...\n\nYou can start a new session typing ``.pomodoro XX YY``.\nTo see the orientations: ``/pomohelp``')
   return
 #--------------------------------------------
 #-----------------UNIMPLEMENTED--------------

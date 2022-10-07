@@ -51,16 +51,18 @@ def get_ctx_session(ctx):
   session = dictio_session['Main']
   return session
 
-def srest(ctx, ids):
-  session=get_ctx_session(ctx)
-  rest_time=session.rest_time_global
-  ctx.send("Time to rest. <@{ids}> [{rest}] minutes".format(ids=ids, rest=rest_time/60))
+def srest(ctx, session):
+  loop=asyncio.get_running_loop()
+  loop.run_until_complete(
+    ctx.send("Time to rest. <@{ids}> [{rest}] minutes".format(ids=session.ids, rest=session.rest_time_global/60))  
+  )
   return
 
-def sstdy(ctx, ids):
-  session=get_ctx_session(ctx)
-  study_time=session.study_time_global
-  ctx.send("Time to work/study. <@{ids}> [{study}] minutes".format(ids=ids, study=study_time/60))
+def sstdy(ctx, session):
+  loop=asyncio.get_running_loop()
+  loop.run_until_complete(
+    ctx.send("Time to work/study. ```<@%s>``` ```%i minutes```" %(list(session.ids), session.rest_time_global/60)) 
+  )
   return
 
 async def timeout_function(timeout):

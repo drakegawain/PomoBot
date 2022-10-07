@@ -6,7 +6,7 @@ from Slash.Discord_Actions.start import start_session
 from Slash.Discord_Actions.start import start_pomodoro
 from Slash.Discord_Actions.Messages.messages import msg_slnt
 #from Discord_Actions.users_members import avaiable_users_to_join
-#from Classes.when_class import when
+from Classes.when_class import when
 from Slash.Pomodoro.utilitys import srest, sstdy
 from Slash.Pomodoro.utilitys import repeatedly_execution
 from Slash.Pomodoro.close import sec30close
@@ -39,9 +39,12 @@ async def stpomo(ctx, study_time, rest_time, logger):
   session.rest_time_global=rest_time
   await start_pomodoro(session);
   await msg_slnt(ctx)
+  session.close=when()
   pomoclose=session.close
   pomoclose.set_functions(repeatedly_execution)
-  pomoclose.set_args(session, session.study_time_global, session.rest_time_global, srest, sstdy, ctx, session.ids)
+  srest(ctx, session)
+  sstdy(ctx, session)
+  pomoclose.set_args(session, session.study_time_global, session.rest_time_global, srest, sstdy, ctx, session)
   pomoclose.if_when('yes')
   await sec30close(ctx, session, logger)
   return
