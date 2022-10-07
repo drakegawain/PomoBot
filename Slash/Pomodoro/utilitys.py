@@ -3,6 +3,7 @@ import asyncio
 import Configs.configs as cfg
 from Slash.Discord_Actions.mute_unmute import mute_all, unmute_all
 from Slash.Utilitys.fetch_informations import fetch
+from Slash.Session_Handlers.get_session import get_session
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
 from Commands.admin.pomostop_admin import admin_pomostop
 #---------------
@@ -41,11 +42,24 @@ def exec_unmute_all(ctx, ids, session):
     raise ExecError(ctx)
   return
 
-def srest(ctx, ids, rest_time):
+def get_ctx_session(ctx):
+  response = fetch(ctx)
+  guild = response[2]
+  index = get_session(guild, cfg.session_guilds)
+  session_class = cfg.session_guilds[index]
+  dictio_session = session_class.session
+  session = dictio_session['Main']
+  return session
+
+def srest(ctx, ids):
+  session=get_ctx_session(ctx)
+  rest_time=session.rest_time_global
   ctx.send("Time to rest. <@{ids}> [{rest}] minutes".format(ids=ids, rest=rest_time/60))
   return
 
-def sstdy(ctx, ids, study_time):
+def sstdy(ctx, ids):
+  session=get_ctx_session(ctx)
+  study_time=session.study_time_global
   ctx.send("Time to work/study. <@{ids}> [{study}] minutes".format(ids=ids, study=study_time/60))
   return
 
@@ -58,7 +72,9 @@ async def repeatedly_execution(session, timeout_1, timeout_2, function_1, functi
   timeout_2 in loop"""
   argmt1=args_1.append(timeout_1)
   argmt2=args_1.append(timeout_2)
+  print(argmt1, argmt2)
   while True:
+    print("inside while")
     if (await timeout_function(timeout_1) == True):
       function_1(argmt1);
       if (await timeout_function(timeout_2) == True):

@@ -22,7 +22,7 @@ async def command_pomostop(ctx):
       raise OutsideVoiceChannel(ctx)
     cur_vchan_session=await get_session_ps(ctx, author.voice.channel, dictio_session)
     session=await session_handler(dictio_session, cur_vchan_session)
-    value_session=dictio_session.get(session) # VALUE_SESSION IS THE CURRENT SESSION RUNNING IN THE VC
+    value_session=dictio_session.get(session) 
     try:
         TRUE_OR_FALSE=await check_pomostop(author.id, ctx, value_session)
         if TRUE_OR_FALSE is False:

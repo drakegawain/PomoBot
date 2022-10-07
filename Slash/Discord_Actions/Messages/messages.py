@@ -3,7 +3,11 @@ import asyncio
 #---------------------------------------------------
 
 async def message_avaiable_users_to_join(ctx, ids_mention):
-  await ctx.send("```\nPomodoro starts in 30 seconds. The avaible users are:```\n%s ```\nType .pomojoin to join pomodoro.```" % ids_mention);
+  await ctx.send("```\nPomodoro starts in 30 seconds. The avaible users are:```\n%s ```\nType /pomojoin to join pomodoro.```" % ids_mention);
+  return
+
+async def msg_slnt(ctx):
+  await ctx.send("```\nPomodoro starts in 30 seconds. /pomojoin to join```")
   return
 
 def message_closed_pomodoro(ctx, session):

@@ -1,12 +1,12 @@
 import Configs.configs as cfg
 from Slash.Security.Session_Check.check_for_double_sessions import c_for_doubles
-from Slash.Security.Command_Check.pomodoro_check import check_pomodoro
+#from Slash.Security.Command_Check.pomodoro_check import check_pomodoro
 from Slash.Discord_Actions.start import start_session
-from Slash.Handle_Variables.handle_variables import list_keys, get_keys, bot_id
+#from Slash.Handle_Variables.handle_variables import list_keys, get_keys, bot_id
 from Slash.Discord_Actions.start import start_pomodoro
-from Slash.Discord_Actions.Messages.messages import message_avaiable_users_to_join
-from Discord_Actions.users_members import avaiable_users_to_join
-from Classes.when_class import when
+from Slash.Discord_Actions.Messages.messages import msg_slnt
+#from Discord_Actions.users_members import avaiable_users_to_join
+#from Classes.when_class import when
 from Slash.Pomodoro.utilitys import srest, sstdy
 from Slash.Pomodoro.utilitys import repeatedly_execution
 from Slash.Pomodoro.close import sec30close
@@ -21,6 +21,7 @@ async def stpomo(ctx, study_time, rest_time, logger):
   session_class = cfg.session_guilds[index]
   dictio_session = session_class.session
   session_status = dictio_session['Main']
+  setattr(session_status, 'silent', True)
   session_status = await session_status.get('STATUS')
   if session_status is not None:
     await ctx.send('Only one session per guild is allowed in this version.')
@@ -37,10 +38,10 @@ async def stpomo(ctx, study_time, rest_time, logger):
   session.study_time_global=study_time
   session.rest_time_global=rest_time
   await start_pomodoro(session);
-  await message_avaiable_users_to_join(ctx, await avaiable_users_to_join(await list_keys(await get_keys(ctx)), await bot_id()))
+  await msg_slnt(ctx)
   pomoclose=session.close
   pomoclose.set_functions(repeatedly_execution)
   pomoclose.set_args(session, session.study_time_global, session.rest_time_global, srest, sstdy, ctx, session.ids)
   pomoclose.if_when('yes')
-  await sec30close(ctx, session, study_time, logger)
+  await sec30close(ctx, session, logger)
   return
