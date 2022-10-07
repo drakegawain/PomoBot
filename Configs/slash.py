@@ -3,6 +3,7 @@ from Slash.Commands.pomodoro import command_pomodoro as sc_pomodoro
 from Slash.Commands.pomostop import command_pomostop as sc_pomostop
 from Slash.Commands.pomojoin import command_pomojoin as sc_pomojoin
 from Pomodoro.time_pomodoro import handle_rest_time, handle_study_time
+from Slash.Commands.Silent.stpomo import stpomo
 from Configs.configs import client
 import nextcord
 from nextcord.ext import commands as Ncommands
@@ -25,26 +26,29 @@ async def slash(logger):
   )
   async def pomodoro(ctx: Ncommands.Context, 
           study_time: int=nextcord.SlashOption(
-          name='study time',
-          description='time for study and time for rest',
+          name='study_time',
+          description='Time to study',
           required=True,
     ),
         rest_time: int=nextcord.SlashOption(
-          name='rest time',
-          description='time to rest',
+          name='rest_time',
+          description='Time to rest',
           required=True,
     ),
         silent: bool=nextcord.SlashOption(
-          name='silent mode',
+          name='silent_mode',
           description="Only text reminders",
-          required=False,
+          required=True,
           default=True,
         )
   ):
     logger.warning("{} raised pomodoro".format(ctx.guild.name))
-    study_time=await handle_study_time(study_time)
-    rest_time=await handle_rest_time(rest_time)
-    await sc_pomodoro(ctx,study_time,rest_time, silent)
+    study_time = await handle_study_time(study_time)
+    rest_time = await handle_rest_time(rest_time)
+    if silent == False:
+      await sc_pomodoro(ctx, study_time, rest_time)
+    if silent == True:
+      await stpomo(ctx, study_time, rest_time, logger)
     return
 
   @client.slash_command(

@@ -40,3 +40,27 @@ def exec_unmute_all(ctx, ids, session):
     prntpdr(cfg.red, "error in exec_unmute_all: {}".format(guild.name))
     raise ExecError(ctx)
   return
+
+def srest(ctx, ids, rest_time):
+  ctx.send("Time to rest. <@{ids}> [{rest}] minutes".format(ids=ids, rest=rest_time/60))
+  return
+
+def sstdy(ctx, ids, study_time):
+  ctx.send("Time to work/study. <@{ids}> [{study}] minutes".format(ids=ids, study=study_time/60))
+  return
+
+async def timeout_function(timeout):
+    await asyncio.sleep(timeout)
+    return True
+
+async def repeatedly_execution(session, timeout_1, timeout_2, function_1, function_2, *args_1):
+  """execute function_1 after timeout_1 and function_2 after
+  timeout_2 in loop"""
+  argmt1=args_1.append(timeout_1)
+  argmt2=args_1.append(timeout_2)
+  while True:
+    if (await timeout_function(timeout_1) == True):
+      function_1(argmt1);
+      if (await timeout_function(timeout_2) == True):
+        function_2(argmt2);
+  return

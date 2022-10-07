@@ -4,7 +4,6 @@ from Slash.Security.Session_Check.check_for_double_sessions import c_for_doubles
 from Slash.Security.Command_Check.pomodoro_check import check_pomodoro
 from Slash.Discord_Actions.connect_disconnect import connect_to_voice_channel
 from Slash.Discord_Actions.start import start_session
-#from Pomodoro.time_pomodoro import study_time, rest_time,handle_study_time, handle_rest_time
 from Slash.Handle_Variables.handle_variables import list_keys, get_keys, bot_id
 from Slash.Discord_Actions.start import start_pomodoro
 from Slash.Discord_Actions.Messages.messages import message_avaiable_users_to_join
@@ -20,13 +19,13 @@ from Slash.Utilitys.fetch_informations import fetch
 
 async def command_pomodoro(ctx, study_time, rest_time):
   #---GETtING_INFOS--
-  response=fetch(ctx)
-  guild=response[2]
-  author=response[1]
-  index=await get_session(guild, cfg.session_guilds)
+  response = fetch(ctx)
+  guild = response[2]
+  author = response[1]
+  index = await get_session(guild, cfg.session_guilds)
   prntpdr(cfg.yellow, ("id:{}".format(index)))
-  session_class=cfg.session_guilds[index]
-  dictio_session=session_class.session
+  session_class = cfg.session_guilds[index]
+  dictio_session = session_class.session
   #---CHECKING-STATUS-OF-CURRENT-SESSION-MAIN--
   session_status=dictio_session['Main']
   session_status=await session_status.get('STATUS')
