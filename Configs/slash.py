@@ -4,6 +4,7 @@ from Slash.Commands.pomostop import command_pomostop as sc_pomostop
 from Slash.Commands.pomojoin import command_pomojoin as sc_pomojoin
 from Pomodoro.time_pomodoro import handle_rest_time, handle_study_time
 from Slash.Commands.Silent.stpomo import stpomo
+from Slash.Commands.Silent.ststop import ststop
 from Configs.configs import client
 import nextcord
 from nextcord.ext import commands as Ncommands
@@ -58,7 +59,8 @@ async def slash(logger):
   )
   async def pomostop(ctx: Ncommands.Context):
     logger.warning("{} raised pomostop".format(ctx.guild.name))
-    await sc_pomostop(ctx)
+    #await sc_pomostop(ctx)
+    await ststop(ctx)
     return
 
   @client.slash_command(

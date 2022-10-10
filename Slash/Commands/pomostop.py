@@ -6,7 +6,6 @@ from Pomodoro.Session_Handlers.del_session import delete
 from Slash.Discord_Actions.connect_disconnect import disconnect_from_voice_channel
 from Pomodoro.Session_Handlers.handle_session import session_handler
 from Slash.Discord_Actions.mute_unmute import unmute_all
-#from Pomodoro.Session_Handlers.get_session import OutsideVoiceChannel
 from Slash.Session_Handlers.get_session import get_session, OutsideVoiceChannel
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
 from Slash.Utilitys.fetch_informations import fetch
