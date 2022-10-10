@@ -43,15 +43,6 @@ def exec_unmute_all(ctx, ids, session):
     raise ExecError(ctx)
   return
 
-def get_ctx_session(ctx):
-  response = fetch(ctx)
-  guild = response[2]
-  index = get_session(guild, cfg.session_guilds)
-  session_class = cfg.session_guilds[index]
-  dictio_session = session_class.session
-  session = dictio_session['Main']
-  return session
-
 def srest(ctx, session):
   LOOP=asyncio.get_running_loop()
   IDS_MENTION=LOOP.run_until_complete(mention_ids(session))
@@ -72,16 +63,12 @@ async def timeout_function(timeout):
     await asyncio.sleep(timeout)
     return True
 
-async def repeatedly_execution(session, timeout_1, timeout_2, function_1, function_2, *args_1):
+async def repeatedly_execution(timeout_1, timeout_2, function_1, function_2, *args_1):
   """execute function_1 after timeout_1 and function_2 after
   timeout_2 in loop"""
-  argmt1=args_1.append(timeout_1)
-  argmt2=args_1.append(timeout_2)
-  print(argmt1, argmt2)
   while True:
-    print("inside while")
     if (await timeout_function(timeout_1) == True):
-      function_1(argmt1);
+      function_1(*args_1);
       if (await timeout_function(timeout_2) == True):
-        function_2(argmt2);
+        function_2(*args_1);
   return

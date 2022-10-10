@@ -41,10 +41,9 @@ async def stpomo(ctx, study_time, rest_time, logger):
   await msg_slnt(ctx)
   session.close=when()
   pomoclose=session.close
+  await repeatedly_execution(session.study_time_global, session.rest_time_global, srest, sstdy, ctx, session)
   pomoclose.set_functions(repeatedly_execution)
-  srest(ctx, session)
-  sstdy(ctx, session)
-  pomoclose.set_args(session, session.study_time_global, session.rest_time_global, srest, sstdy, ctx, session)
+  pomoclose.set_args(session.study_time_global, session.rest_time_global, srest, sstdy, ctx, session)
   pomoclose.if_when('yes')
   await sec30close(ctx, session, logger)
   return
