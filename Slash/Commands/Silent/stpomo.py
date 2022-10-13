@@ -18,7 +18,6 @@ async def stpomo(ctx, study_time, rest_time, logger):
   session_class = cfg.session_guilds[index]
   dictio_session = session_class.session
   session_status = dictio_session['Main']
-  setattr(session_status, 'silent', True)
   session_status = await session_status.get('STATUS')
   if session_status is not None:
     await ctx.send('Only one session per guild is allowed in this version.')
@@ -34,6 +33,7 @@ async def stpomo(ctx, study_time, rest_time, logger):
   await session.set_status(session_status)
   session.study_time_global=study_time
   session.rest_time_global=rest_time
+  session.silent=True
   await start_pomodoro(session);
   await msg_slnt(ctx)
   session.close=when()

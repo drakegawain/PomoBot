@@ -63,6 +63,7 @@ async def command_pomodoro(ctx, study_time, rest_time):
         await connect_to_voice_channel(ctx, session)
     #-------------------------------------------
     #---------------TIME VARIABLEs--------------
+        session.silent=False
         session.study_time_global=study_time
         session.rest_time_global=rest_time
     #-------------------------------------------
