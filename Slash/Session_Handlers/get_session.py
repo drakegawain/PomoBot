@@ -1,8 +1,7 @@
-#-------IMPORTS------
 from Slash.Discord_Actions.Messages.security_messages import SecurityMessage
 from Slash.Utilitys.fetch_informations import fetch
 import asyncio
-#--------------------
+
 class Error(Exception):
   '''Base error class'''
 
@@ -12,7 +11,7 @@ class OutsideVoiceChannel(Error):
     response=fetch(ctx)
     author=response[1]
     self.ctx=ctx
-    N_M=SecurityMessage('.pomostop', ctx, author.id)
+    N_M=SecurityMessage('/pomostop', ctx, author.id)
     loop=asyncio.get_event_loop()
     loop.run_until_complete(N_M.send(141))
 
@@ -22,7 +21,7 @@ class OutsideVoiceChannel_pjoin(Error):
     response=fetch(ctx)
     author=response[1]
     self.ctx=ctx
-    N_M=SecurityMessage('.pomojoin', ctx, author.id)
+    N_M=SecurityMessage('/pomojoin', ctx, author.id)
     loop=asyncio.get_event_loop()
     loop.run_until_complete(N_M.send(141))
 
@@ -32,7 +31,7 @@ class NoSessionRunning_pomojoin(Error):
     response=fetch(ctx)
     author=response[1]
     self.ctx=ctx
-    self.N_M=SecurityMessage('pomojoin', ctx, author.id)
+    self.N_M=SecurityMessage('/pomojoin', ctx, author.id)
     loop=asyncio.get_event_loop()
     loop.run_until_complete(self.N_M.send(301))
     
@@ -42,7 +41,7 @@ class NoSessionRunning_pomostop(Error):
     response=fetch(ctx)
     author=response[1]
     self.ctx=ctx
-    self.N_M=SecurityMessage('pomostop', ctx, author.id)
+    self.N_M=SecurityMessage('/pomostop', ctx, author.id)
     loop=asyncio.get_event_loop()
     loop.run_until_complete(self.N_M.send(121))
 
@@ -77,3 +76,4 @@ async def get_session_ps(ctx, v_channel, dictio:dict):
           return session
   raise NoSessionRunning_pomostop(ctx)
   return
+

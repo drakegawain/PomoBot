@@ -1,11 +1,12 @@
 from Slash.Discord_Actions.Messages.messages import message_help
+from Slash.Session_Handlers.get_session import NoSessionRunning_pomojoin, NoSessionRunning_pomostop
 from Slash.Commands.pomodoro import command_pomodoro as sc_pomodoro
 from Slash.Commands.pomostop import command_pomostop as sc_pomostop
 from Slash.Commands.pomojoin import command_pomojoin as sc_pomojoin
-from Pomodoro.time_pomodoro import handle_rest_time, handle_study_time
 from Slash.Commands.Silent.stpomo import stpomo
 from Slash.Commands.Silent.ststop import ststop
 from Slash.Commands.Silent.stjoin import stjoin
+from Pomodoro.time_pomodoro import handle_rest_time, handle_study_time
 from Configs.setup import get_silent
 from Configs.configs import client
 import nextcord
@@ -66,6 +67,8 @@ async def slash(logger):
       await ststop(ctx, logger)
     if silent == False:
       await sc_pomostop(ctx)
+    if str(silent) == "None":
+      raise NoSessionRunning_pomostop(ctx)
     return
 
   @client.slash_command(
@@ -80,6 +83,8 @@ async def slash(logger):
       await stjoin(ctx, logger)
     if silent == False:
       await sc_pomojoin(ctx)
+    if str(silent) == "None":
+      raise NoSessionRunning_pomojoin(ctx)
     return
 
   @client.slash_command(

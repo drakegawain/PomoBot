@@ -4,9 +4,13 @@ from Slash.Session_Handlers.get_session import get_session, get_session_pomojoin
 from Slash.Handle_Variables.handle_variables import get_ids
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
 from Slash.Utilitys.fetch_informations import fetch
+from Slash.Discord_Actions.Messages.security_messages import SecurityMessage
 #--------------------------------------------
 
 async def command_pomojoin(ctx):
+  print("command_pomojoin")
+  N_M=SecurityMessage('/pomojoin', ctx, 1324675)
+  await N_M.send(141)
   response=fetch(ctx)
   author=response[1]
   guild=response[2]

@@ -3,6 +3,9 @@ import asyncio
 from Configs.configs import client
 from Initialization.start import start
 
+#Errors:
+#SM.log receiving multiple logs in one call 
+
 async def main():
   await start()
   token=os.environ['TOKEN']

@@ -7,16 +7,16 @@ import logging
 
 def setup():
   prntpdr(cfg.black, "setting configurations...")
-  logger = logging.getLogger(__name__)
-  logger.setLevel(level=logging.WARNING)
+  LOGGER = logging.getLogger(__name__)
+  LOGGER.setLevel(level = logging.WARNING)
   logging_handler=logging.FileHandler(filename='log.log', mode='a')
   logging_format=logging.Formatter('%(asctime)s - %(message)s')
   logging_handler.setFormatter(logging_format)
-  logger.addHandler(logging_handler)
+  LOGGER.addHandler(logging_handler)
   nest_asyncio.apply()
   prntpdr(cfg.black, "uploading PomoBot...")
-  return logger
-
+  return LOGGER
+  
 async def get_silent(ctx):
   response = fetch(ctx)
   guild = response[2]

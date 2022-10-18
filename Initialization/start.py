@@ -5,6 +5,7 @@ from Cli_Commands.Print_Padronization.ppadron import prntpdr
 from Configs.setup import setup
 from Configs.events import events
 from Configs.slash import slash
+#from replit import db
 
 async def start():
   os.system('clear')

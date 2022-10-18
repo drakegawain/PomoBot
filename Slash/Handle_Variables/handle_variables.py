@@ -1,11 +1,9 @@
-#----------------IMPORTS-------------
 from Configs.configs import client
 from Slash.Discord_Actions.connect_disconnect import join_pomodoro
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
 from Slash.Utilitys.fetch_informations import fetch
 import Configs.configs as cfg
-#------------------------------------
-#----------------MANIPULATE-VARIABLEs-------------
+
 async def get_keys(ctx):
   response=fetch(ctx)
   author=response[1]
@@ -43,7 +41,7 @@ async def get_ids(ctx, session):
   else:
     """assigns a index to a id, wich is a set
     id is saved in a set because a user cannot
-    enter the pomodoro more than once"""
+    enter pomodoro more than once"""
     await handle_c(session);
     session.ids_get.append(session.c - 1)
     session.ids_get[session.c - 1]=author.id
