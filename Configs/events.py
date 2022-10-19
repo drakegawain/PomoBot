@@ -8,7 +8,6 @@ import nextcord
 async def events(logger):
   @client.event
   async def on_ready():
-    #db["{command}_{bad_access}".format(command='pomodoro', bad_access='221')] =   "{reason}".format(reason='Inputs must be integers => .pomohelp to + information')
     prntpdr(cfg.black, "creating sessions...")
     cfg.session_guilds = create_sessions()
     prntpdr(cfg.blue, "PomoBot:online")

@@ -4,7 +4,8 @@ from Configs.configs import client
 from Initialization.start import start
 
 #Errors:
-#SM.log receiving multiple logs in one call 
+#It seems to work
+#Implement a way to load time remaining
 
 async def main():
   await start()

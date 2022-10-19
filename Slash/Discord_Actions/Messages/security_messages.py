@@ -1,7 +1,7 @@
 from replit import db
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
-from Configs.loggers import SMLOG
 import Configs.configs as cfg
+import logging
 
 class SecurityMessage:
   def __init__(self, command:str, ctx:str, userid:int):
@@ -10,7 +10,7 @@ class SecurityMessage:
     self.ctx=ctx
     self.reason=''
     self.user=userid
-    self.logger=SMLOG()
+    self.logger=logging.getLogger("SecurityMessage")
     self.error=None
   async def send(self, error:int):
     try:

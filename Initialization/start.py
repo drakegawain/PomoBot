@@ -5,6 +5,7 @@ from Cli_Commands.Print_Padronization.ppadron import prntpdr
 from Configs.setup import setup
 from Configs.events import events
 from Configs.slash import slash
+import logging
 #from replit import db
 
 async def start():
@@ -15,8 +16,9 @@ async def start():
   gc.collect(2)
   prntpdr(cfg.green, "collected")
   prntpdr(cfg.black, "loading files")
-  prntpdr(cfg.green, "loaded")
-  logger=setup()
+  setup()
+  logger=logging.getLogger("Event")
   await events(logger)
   await slash(logger)
+  prntpdr(cfg.green, "loaded")
   return

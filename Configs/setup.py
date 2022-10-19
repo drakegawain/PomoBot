@@ -3,19 +3,16 @@ import Configs.configs as cfg
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
 from Slash.Utilitys.fetch_informations import fetch
 from Slash.Session_Handlers.get_session import get_session
-import logging
+from Configs.loggers import EVENTLOG, SMLOG
+
 
 def setup():
   prntpdr(cfg.black, "setting configurations...")
-  LOGGER = logging.getLogger(__name__)
-  LOGGER.setLevel(level = logging.WARNING)
-  logging_handler=logging.FileHandler(filename='log.log', mode='a')
-  logging_format=logging.Formatter('%(asctime)s - %(message)s')
-  logging_handler.setFormatter(logging_format)
-  LOGGER.addHandler(logging_handler)
+  EVENTLOG()
+  SMLOG()
   nest_asyncio.apply()
   prntpdr(cfg.black, "uploading PomoBot...")
-  return LOGGER
+  return 
   
 async def get_silent(ctx):
   response = fetch(ctx)

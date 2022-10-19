@@ -12,7 +12,7 @@ async def msg_slnt(ctx):
 
 def message_closed_pomodoro(ctx, session):
   loop = asyncio.get_running_loop()
-  loop.run_until_complete(ctx.send("```\nPomodoro is now closed. The clock is ticking, go do some work/study.\n{} minutes left.```"  .format(int(session.study_time_global/60))));
+  loop.run_until_complete(ctx.send("```\nPomodoro is now closed. Let's study!.\n{} minutes left.```"  .format(int(session.study_time_global/60))));
   return
 
 async def message_help(ctx):
