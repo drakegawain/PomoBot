@@ -1,7 +1,7 @@
-#--------This-file-storage-security-messages-------
 from replit import db
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
 import Configs.configs as cfg
+import logging
 
 class SecurityMessage:
   def __init__(self, command:str, ctx:str, userid:int):
@@ -10,6 +10,8 @@ class SecurityMessage:
     self.ctx=ctx
     self.reason=''
     self.user=userid
+    self.logger=logging.getLogger("SecurityMessage")
+    self.error=None
   async def send(self, error:int):
     try:
       self.search_reason(error)
@@ -22,8 +24,10 @@ class SecurityMessage:
     try:
       message=self.ctx
       await message.channel.send(self.message)
+      self.logger.error("{}  :  {}".format(self.error, self.command))
     except:
-      print('Error in third block SecurityMessage_send')
+      self.logger.error("Error in third block SecurityMessage_send")
+      
   def set_message(self):
     self.message=("\n>>> <@{user}> \nUnfourtunally PomoBot could'nt call ``{command}`` **because**: *{reason}*".format(user=self.user, command=self.command, reason=self.reason))
   def set_reason(
@@ -32,6 +36,7 @@ class SecurityMessage:
   ):
     db["{command}_{bad_access}".format(command=command, bad_acess=bad_access)] = "{reason}".format(reason=reason)
   def search_reason(self, error:int):
+    self.error = error
     #implemented errors
     #pomostop_101 - User outside the session
     #pomostop_121 - No session running

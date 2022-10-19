@@ -24,6 +24,7 @@ class Session:
     self.vc=None; 
     self.class_e=None 
     self.class_i=None
+    self.silent=None
     self.restart()
   async def set_leader_id(self, id):
     try:
@@ -59,7 +60,7 @@ class Session:
     self.LEADER_ID=None
     self.TIME=None
     self.STATUS=None
-    self.c=0; #counter
+    self.c=0; 
     self.pomodoro_started=False;
     self.ids_get=[];
     self.joined=0;
@@ -71,6 +72,7 @@ class Session:
     self.vc=None; 
     self.class_e=None 
     self.class_i=None
+    self.silent=None
     prntpdr(cfg.black, "restarting...")
     return
   def set_global_var(self, var, value):

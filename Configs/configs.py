@@ -1,6 +1,5 @@
 #----------------Discord Configuration-----------
 import nextcord
-#intents.members = True
 intents = nextcord.Intents(guilds=True, voice_states=True)
 activity = nextcord.Game(name="/pomohelp")
 client = nextcord.Client(activity=activity, intents=intents)

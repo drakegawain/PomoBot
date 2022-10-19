@@ -1,4 +1,3 @@
-
 #This function finds the avaiable users to participate the study/work
 #-----------------USERS--------------------
 async def avaiable_users_to_join(list_keys, bot_id):

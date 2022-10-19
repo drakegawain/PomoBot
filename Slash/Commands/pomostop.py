@@ -6,7 +6,6 @@ from Pomodoro.Session_Handlers.del_session import delete
 from Slash.Discord_Actions.connect_disconnect import disconnect_from_voice_channel
 from Pomodoro.Session_Handlers.handle_session import session_handler
 from Slash.Discord_Actions.mute_unmute import unmute_all
-#from Pomodoro.Session_Handlers.get_session import OutsideVoiceChannel
 from Slash.Session_Handlers.get_session import get_session, OutsideVoiceChannel
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
 from Slash.Utilitys.fetch_informations import fetch
@@ -22,7 +21,7 @@ async def command_pomostop(ctx):
       raise OutsideVoiceChannel(ctx)
     cur_vchan_session=await get_session_ps(ctx, author.voice.channel, dictio_session)
     session=await session_handler(dictio_session, cur_vchan_session)
-    value_session=dictio_session.get(session) # VALUE_SESSION IS THE CURRENT SESSION RUNNING IN THE VC
+    value_session=dictio_session.get(session) 
     try:
         TRUE_OR_FALSE=await check_pomostop(author.id, ctx, value_session)
         if TRUE_OR_FALSE is False:

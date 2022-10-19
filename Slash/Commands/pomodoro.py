@@ -4,7 +4,6 @@ from Slash.Security.Session_Check.check_for_double_sessions import c_for_doubles
 from Slash.Security.Command_Check.pomodoro_check import check_pomodoro
 from Slash.Discord_Actions.connect_disconnect import connect_to_voice_channel
 from Slash.Discord_Actions.start import start_session
-#from Pomodoro.time_pomodoro import study_time, rest_time,handle_study_time, handle_rest_time
 from Slash.Handle_Variables.handle_variables import list_keys, get_keys, bot_id
 from Slash.Discord_Actions.start import start_pomodoro
 from Slash.Discord_Actions.Messages.messages import message_avaiable_users_to_join
@@ -20,13 +19,13 @@ from Slash.Utilitys.fetch_informations import fetch
 
 async def command_pomodoro(ctx, study_time, rest_time):
   #---GETtING_INFOS--
-  response=fetch(ctx)
-  guild=response[2]
-  author=response[1]
-  index=await get_session(guild, cfg.session_guilds)
+  response = fetch(ctx)
+  guild = response[2]
+  author = response[1]
+  index = await get_session(guild, cfg.session_guilds)
   prntpdr(cfg.yellow, ("id:{}".format(index)))
-  session_class=cfg.session_guilds[index]
-  dictio_session=session_class.session
+  session_class = cfg.session_guilds[index]
+  dictio_session = session_class.session
   #---CHECKING-STATUS-OF-CURRENT-SESSION-MAIN--
   session_status=dictio_session['Main']
   session_status=await session_status.get('STATUS')
@@ -64,24 +63,20 @@ async def command_pomodoro(ctx, study_time, rest_time):
         await connect_to_voice_channel(ctx, session)
     #-------------------------------------------
     #---------------TIME VARIABLEs--------------
+        session.silent=False
         session.study_time_global=study_time
         session.rest_time_global=rest_time
     #-------------------------------------------
     #----------------OPEN-CLOCK-----------------
         await start_pomodoro(session);
-    
         await message_avaiable_users_to_join(ctx, await avaiable_users_to_join(await list_keys(await get_keys(ctx)), await bot_id()));
     #-------------------------------------------
     #---------------CLOSE-----------------------
         session.close=when()
         pomoclose=session.close
-    
-
         pomoclose.set_functions(repeatedly_execution)
         pomoclose.set_args(session, session.study_time_global, session.rest_time_global, exec_unmute_all, exec_mute_all, ctx, session.ids, session)
-    
         pomoclose.if_when('yes')
-
         await after_30_seconds_close_pomodoro(ctx, session);
     #-------------------------------------------
   return

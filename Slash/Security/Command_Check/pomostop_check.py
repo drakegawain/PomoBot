@@ -16,7 +16,7 @@ class UserOutsideSession(Error):
     response=fetch(ctx)
     author=response[1]
     self.ctx=ctx
-    N_M=SecurityMessage('.pomostop', ctx, author.id)
+    N_M=SecurityMessage('/pomostop', ctx, author.id)
     loop=asyncio.get_event_loop()
     loop.run_until_complete(N_M.send(101))
 

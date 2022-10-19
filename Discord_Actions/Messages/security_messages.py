@@ -3,6 +3,7 @@ from replit import db
 from Cli_Commands.Print_Padronization.ppadron import prntpdr
 import Configs.configs as cfg
 
+
 class SecurityMessage:
   def __init__(self, command:str, ctxmessage:str, userid:int):
     self.command=command
@@ -10,6 +11,7 @@ class SecurityMessage:
     self.ctx=ctxmessage
     self.reason=''
     self.user=userid
+    
   async def send(self, error:int):
     try:
       self.search_reason(error)
@@ -20,8 +22,11 @@ class SecurityMessage:
     except:
       print('error in send set_message')
     try:
+      
       message=self.ctx
       await message.channel.send(self.message)
+      self.logger.error(self.message)
+      
     except:
       print('Error in third block SecurityMessage_send')
   def set_message(self):
@@ -37,7 +42,7 @@ class SecurityMessage:
     #pomostop_121 - No session running
     #pomostop_141 - User outside Voice_Channel
     #pomodoro_201 - User already in another session
-    #pomodoro_221 - Inputs must be a integer
+    #pomodoro_221 - Inputs must be integers
     #pomodoro_251 - Must have two inputs
     #pomodoro_271 - Only one session per voice_channel at the same time
     #pomojoin_301 - No session running
