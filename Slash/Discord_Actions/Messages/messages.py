@@ -16,5 +16,5 @@ def message_closed_pomodoro(ctx, session):
   return
 
 async def message_help(ctx):
-   await ctx.send(">>> \nAccording to discord new best practices, we are implementing Slash commands. **Try it out!** \n\n:handshake:`/pomodoro` \n\n:calling:`/pomojoin` \n\n:hand_splayed:`/pomostop` \n\n:man_mechanic:`/pomobug`")
+   await ctx.send(">>><@%s>\nAccording to discord new best practices Slash commands are implemented! **Try it out!** \n\n:handshake:`/pomodoro` to start a new pomodoro session \n\n:calling:`/pomojoin` to join a session [only necessary with two or more users] \n\n:hand_splayed:`/pomostop` to shut down the current session")
    return
