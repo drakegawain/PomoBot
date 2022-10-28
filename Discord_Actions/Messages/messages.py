@@ -17,7 +17,7 @@ async def message_time_to_rest(message, session):
   return
 
 async def message_help(message):
-   await message.channel.send(">>> <@%s> \n\nAccording to discord new best practices, we are implementing Slash commands. **Try it out!** \n\n:handshake:`/pomodoro` \n\n:calling:`/pomojoin` \n\n:hand_splayed:`/pomostop`"  % message.author.id)
+   await message.channel.send(">>><@%s>\nAccording to discord new best practices, we are implementing Slash commands. **Try it out!** \n\n:handshake:`/pomodoro` to start a new pomodoro session \n\n:calling:`/pomojoin` to join a session [only necessary with two or more users] \n\n:hand_splayed:`/pomostop` to shut down the current session"  % message.author.id)
    return
 
 async def message_time_to_study(message, session):
