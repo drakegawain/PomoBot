@@ -1,7 +1,9 @@
-from replit import db
-from Cli_Commands.Print_Padronization.ppadron import prntpdr
 import Configs.configs as cfg
 import logging
+import os
+from replit import db
+from Cli_Commands.Print_Padronization.ppadron import prntpdr
+
 
 class SecurityMessage:
   def __init__(self, command:str, ctx:str, userid:int):
@@ -12,6 +14,7 @@ class SecurityMessage:
     self.user=userid
     self.logger=logging.getLogger("SecurityMessage")
     self.error=None
+    self.table=os.getenv("error_table")
   async def send(self, error:int):
     try:
       self.search_reason(error)
@@ -47,7 +50,7 @@ class SecurityMessage:
     #pomodoro_271 - Only one session per voice_channel at the same time
     #pomojoin_301 - No session running
     cursor = cfg.cursor
-    cursor.execute("select message from ERROR where number = '{}'".format(self.error))
+    cursor.execute("select message from {table} where number = '{number}'".format(self.table, self.error))
     res = cfg.extract(cursor)
     self.reason = res[0]
     return
