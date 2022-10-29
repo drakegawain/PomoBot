@@ -50,7 +50,7 @@ class SecurityMessage:
     #pomodoro_271 - Only one session per voice_channel at the same time
     #pomojoin_301 - No session running
     cursor = cfg.cursor
-    cursor.execute("select message from {table} where number = '{number}'".format(self.table, self.error))
+    cursor.execute("select message from {table} where number = '{number}'".format(table=self.table, number=self.error))
     res = cfg.extract(cursor)
     self.reason = res[0]
     return
