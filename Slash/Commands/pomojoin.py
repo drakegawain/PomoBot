@@ -8,9 +8,6 @@ from Slash.Discord_Actions.Messages.security_messages import SecurityMessage
 #--------------------------------------------
 
 async def command_pomojoin(ctx):
-  print("command_pomojoin")
-  N_M=SecurityMessage('/pomojoin', ctx, 1324675)
-  await N_M.send(141)
   response=fetch(ctx)
   author=response[1]
   guild=response[2]
