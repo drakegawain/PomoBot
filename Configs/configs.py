@@ -67,7 +67,7 @@ db=mysql.connector.connect(
     host="localhost",
     user=os.getenv("db_usr"),
     passwd=os.getenv("db_psswd"),
-    database="main"
+    database=os.getenv("database")
 )
 cursor=db.cursor()
 #-------------------------------------------------
