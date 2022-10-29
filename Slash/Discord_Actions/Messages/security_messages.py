@@ -46,12 +46,10 @@ class SecurityMessage:
     #pomodoro_251 - Must have two inputs
     #pomodoro_271 - Only one session per voice_channel at the same time
     #pomojoin_301 - No session running
-    for key in db.keys():
-      if str(error) in key:
-        value=db[key]
-        self.reason=value
-        prntpdr(cfg.red, value)
-        return 
+    cursor = cfg.cursor
+    cursor.execute("select message from ERROR where number = '{}'".format(self.error))
+    res = cfg.extract(cursor)
+    self.reason = res[0]
     return
 
     

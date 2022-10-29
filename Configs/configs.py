@@ -1,5 +1,7 @@
 #----------------Discord Configuration-----------
 import nextcord
+import mysql.connector
+import os
 intents = nextcord.Intents(guilds=True, voice_states=True)
 activity = nextcord.Game(name="/pomohelp")
 client = nextcord.Client(activity=activity, intents=intents)
@@ -52,4 +54,20 @@ def create_sessions():
     index=index+1
   session_guild.remove("None")
   return session_guild
+#-------------------------------------------------
+#----------------------DB-------------------------
+def extract(cursor):
+    res=list()
+    for response in cursor:
+        for r in response:
+            res.append(r)
+    return res
+
+db=mysql.connector.connect(
+    host="localhost",
+    user=os.getenv("db_usr"),
+    passwd=os.getenv("db_psswd"),
+    database="main"
+)
+cursor=db.cursor()
 #-------------------------------------------------
