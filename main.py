@@ -1,11 +1,12 @@
 import os
 import asyncio
-from Configs.configs import client
-from Initialization.start import start
+from src.Configs.configs import client
+from src.Initialization.start import start
 
-#Errors:
-#It seems to work
+#Tasks:
 #Implement a way to load time remaining
+#Implement a way to warn when time is up
+#Delete the old message oriented implementations
 
 async def main():
   await start()
