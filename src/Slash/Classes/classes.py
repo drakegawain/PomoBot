@@ -20,8 +20,8 @@ class e_when_w_args:
       self.FUTURE.set_result(None)
   
 class class_mute_all:
-  """this class is used to bind a function to a variable
-  when the variable is changed, the function binded is executed
+  """This class is used to bind a function to a variable.
+  When this variable is changed, the function binded is executed and
   the variable is changed with the method set"""
   def __init__(self, status):
     self.status = status

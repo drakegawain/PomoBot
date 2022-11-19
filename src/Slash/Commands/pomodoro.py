@@ -1,24 +1,25 @@
 #------------IMPORTs---------------
-import src.Configs.configs as cfg
 import logging
-from src.Slash.Security.Session_Check.check_for_double_sessions import c_for_doubles
-from src.Slash.Security.Command_Check.pomodoro_check import check_pomodoro
-from src.Slash.Discord_Actions.connect_disconnect import connect_to_voice_channel
-from src.Slash.Discord_Actions.start import start_session
-from src.Slash.Handle_Variables.handle_variables import list_keys, get_keys, bot_id
-from src.Slash.Discord_Actions.start import start_pomodoro
-from src.Slash.Discord_Actions.Messages.messages import message_avaiable_users_to_join
-from src.Slash.Discord_Actions.user_members import avaiable_users_to_join
-from src.Slash.Classes.when_class import when
-from src.Slash.Pomodoro.utilitys import exec_unmute_all, exec_mute_all
-from src.Slash.Pomodoro.utilitys import repeatedly_execution_with_sounds
-from src.Slash.Pomodoro.close import after_30_seconds_close_pomodoro
-from src.Slash.Session_Handlers.get_session import get_session
-from src.cli.ppadron import prntpdr
-from src.Slash.Utilitys.fetch_informations import fetch
+import nextcord
+from ...Configs import configs as cfg
+from ...Slash.Security.Session_Check.check_for_double_sessions import c_for_doubles
+from ...Slash.Security.Command_Check.pomodoro_check import check_pomodoro
+from ...Slash.Discord_Actions.connect_disconnect import connect_to_voice_channel
+from ...Slash.Discord_Actions.start import start_session
+from ...Slash.Handle_Variables.handle_variables import list_keys, get_keys, bot_id
+from ...Slash.Discord_Actions.start import start_pomodoro
+from ...Slash.Discord_Actions.Messages.messages import message_avaiable_users_to_join
+from ...Slash.Discord_Actions.user_members import avaiable_users_to_join
+from ...Slash.Classes.when_class import when
+from ...Slash.Pomodoro.utilitys import exec_unmute_all, exec_mute_all
+from ...Slash.Pomodoro.utilitys import repeatedly_execution_with_sounds
+from ...Slash.Pomodoro.close import after_30_seconds_close_pomodoro
+from ...Slash.Session_Handlers.get_session import get_session
+from ...cli.ppadron import prntpdr
+from ...Slash.Utilitys.fetch_informations import fetch
 #----------------------------------
 
-async def command_pomodoro(ctx, study_time, rest_time, SM:logging.Logger, logger:logging.Logger):
+async def command_pomodoro(ctx:nextcord.Interaction, study_time, rest_time, SM:logging.Logger, logger:logging.Logger):
   #---GETtING_INFOS--
   response = fetch(ctx)
   guild = response[2]

@@ -1,8 +1,8 @@
 #-----------------IMPORTs-------------------
 import gc
 import logging
-from src.Slash.Classes.classes import class_mute_all
-from src.Slash.Classes.when_class import when
+from ..Classes.classes import class_mute_all
+from ..Classes.when_class import when
 
 #-------------------------------------------
 class Session:

@@ -1,5 +1,5 @@
 #---------------IMPORTs-------------
-from src.Slash.Utilitys.fetch_informations import fetch
+from ...Slash.Utilitys.fetch_informations import fetch
 #-----------------------------------
 
 async def leader(session, ctx):

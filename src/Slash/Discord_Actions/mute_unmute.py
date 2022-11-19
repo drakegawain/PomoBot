@@ -1,7 +1,7 @@
 #---------------IMPORTs----------
-from src.Configs.configs import client
-import src.Configs.configs as cfg
-from src.Slash.Utilitys.fetch_informations import fetch
+from ...Configs.configs import client
+from ...Configs import configs as cfg
+from ...Slash.Utilitys.fetch_informations import fetch
 #-------------------------------
 #------------MUTE-UNMUTE-METHODs---------
 async def mute_method(member):

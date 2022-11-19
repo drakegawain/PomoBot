@@ -1,7 +1,7 @@
 #-------------IMPORTS-----------------
-from src.Slash.Handle_Variables.handle_joined import joined_function
-from src.Slash.Utilitys.fetch_informations import fetch
-import src.Configs.configs as cfg
+from ...Configs import configs as cfg
+from ...Slash.Handle_Variables.handle_joined import joined_function
+from ...Slash.Utilitys.fetch_informations import fetch
 #-------------------------------------
 #-------------CONNECT-----------------
 async def connect_to_voice_channel(ctx, session):

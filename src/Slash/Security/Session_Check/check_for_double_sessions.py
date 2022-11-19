@@ -2,9 +2,9 @@
 #ALREADY IS IN ANOTHER SESSION
 #IF YES RAISE AN ERROR
 #-----------------IMPORTs-----------
-from src.Slash.Session_Handlers.search_session import s_for_id
-from src.Slash.Discord_Actions.Messages.security_messages import SecurityMessage
-from src.Slash.Utilitys.fetch_informations import fetch
+from ....Slash.Session_Handlers.search_session import s_for_id
+from ....Slash.Discord_Actions.Messages.security_messages import SecurityMessage
+from ....Slash.Utilitys.fetch_informations import fetch
 import asyncio
 #-----------------------------------
 

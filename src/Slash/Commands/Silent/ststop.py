@@ -1,7 +1,10 @@
-from src.Slash.Session_Handlers.get_session import get_session
-from src.Slash.Utilitys.fetch_informations import fetch
-import src.Configs.configs as cfg
-async def ststop(ctx, logger):
+import logging
+import nextcord
+from ....Slash.Session_Handlers.get_session import get_session
+from ....Slash.Utilitys.fetch_informations import fetch
+from ....Configs import configs as cfg
+
+async def ststop(ctx:nextcord.Interaction, logger:logging.Logger):
   response=fetch(ctx)
   guild=response[2]
   index=await get_session(guild, cfg.session_guilds)

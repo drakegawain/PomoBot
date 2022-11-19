@@ -1,11 +1,11 @@
 import os
 import gc
-import src.Configs.configs as cfg
 import logging
-from src.cli.ppadron import prntpdr
-from src.Configs.setup import setup
-from src.Configs.events import events
-from src.Configs.slash import slash
+from ..Configs import configs as cfg
+from ..cli.ppadron import prntpdr
+from ..Configs.setup import setup
+from ..Configs.events import events
+from ..Configs.slash import slash
 
 async def start():
   os.system('clc')

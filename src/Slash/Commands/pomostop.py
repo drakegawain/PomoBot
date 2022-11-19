@@ -1,16 +1,17 @@
 #---------------------IMPORTs------------------
-import src.Configs.configs as cfg
 import logging
-from src.Slash.Session_Handlers.get_session import get_session_ps
-from src.Slash.Security.Command_Check.pomostop_check import check_pomostop
-from src.Slash.Session_Handlers.del_session import delete
-from src.Slash.Discord_Actions.connect_disconnect import disconnect_from_voice_channel
-from src.Slash.Session_Handlers.handle_session import session_handler
-from src.Slash.Discord_Actions.mute_unmute import unmute_all
-from src.Slash.Session_Handlers.get_session import get_session, OutsideVoiceChannel
-from src.Slash.Utilitys.fetch_informations import fetch
+import nextcord
+from ...Configs import configs as cfg
+from ...Slash.Session_Handlers.get_session import get_session_ps
+from ...Slash.Security.Command_Check.pomostop_check import check_pomostop
+from ...Slash.Session_Handlers.del_session import delete
+from ...Slash.Discord_Actions.connect_disconnect import disconnect_from_voice_channel
+from ...Slash.Session_Handlers.handle_session import session_handler
+from ...Slash.Discord_Actions.mute_unmute import unmute_all
+from ...Slash.Session_Handlers.get_session import get_session, OutsideVoiceChannel
+from ...Slash.Utilitys.fetch_informations import fetch
 #---------------------------------------------
-async def command_pomostop(ctx, SM:logging.Logger):
+async def command_pomostop(ctx:nextcord.Interaction, SM:logging.Logger):
     response=fetch(ctx)
     guild=response[2]
     author=response[1]

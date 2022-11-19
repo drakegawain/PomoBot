@@ -1,7 +1,7 @@
-import src.Configs.configs as cfg
-from src.Configs.configs import client, create_sessions
-from src.Slash.Session_Handlers.search_session import search
-from src.Slash.Session_Handlers.del_session import delete
+from ..Configs import configs as cfg
+from ..Configs.configs import client, create_sessions
+from ..Slash.Session_Handlers.search_session import search
+from ..Slash.Session_Handlers.del_session import delete
 import nextcord
 
 async def events(logger):

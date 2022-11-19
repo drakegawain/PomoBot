@@ -1,9 +1,11 @@
-import src.Configs.configs as cfg
-from src.Slash.Session_Handlers.get_session import get_session
-from src.Slash.Handle_Variables.handle_variables import get_ids
-from src.Slash.Utilitys.fetch_informations import fetch
+import nextcord
+import logging
+from ....Configs import configs as cfg
+from ....Slash.Session_Handlers.get_session import get_session
+from ....Slash.Handle_Variables.handle_variables import get_ids
+from ....Slash.Utilitys.fetch_informations import fetch
 
-async def stjoin(ctx, logger):
+async def stjoin(ctx:nextcord.Interaction, logger:logging.Logger):
   response=fetch(ctx)
   author=response[1]
   guild=response[2]

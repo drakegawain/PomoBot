@@ -1,17 +1,17 @@
 import logging
 import nextcord
 from nextcord.ext import commands as Ncommands
-from src.Slash.Discord_Actions.Messages.messages import message_help
-from src.Slash.Session_Handlers.get_session import NoSessionRunning_pomojoin, NoSessionRunning_pomostop
-from src.Slash.Commands.pomodoro import command_pomodoro as sc_pomodoro
-from src.Slash.Commands.pomostop import command_pomostop as sc_pomostop
-from src.Slash.Commands.pomojoin import command_pomojoin as sc_pomojoin
-from src.Slash.Commands.Silent.stpomo import stpomo
-from src.Slash.Commands.Silent.ststop import ststop
-from src.Slash.Commands.Silent.stjoin import stjoin
-from src.Slash.Pomodoro.time_pomodoro import handle_rest_time, handle_study_time
-from src.Configs.setup import get_silent
-from src.Configs.configs import client
+from ..Slash.Discord_Actions.Messages.messages import message_help
+from ..Slash.Session_Handlers.get_session import NoSessionRunning_pomojoin, NoSessionRunning_pomostop
+from ..Slash.Commands.pomodoro import command_pomodoro as sc_pomodoro
+from ..Slash.Commands.pomostop import command_pomostop as sc_pomostop
+from ..Slash.Commands.pomojoin import command_pomojoin as sc_pomojoin
+from ..Slash.Commands.Silent.stpomo import stpomo
+from ..Slash.Commands.Silent.ststop import ststop
+from ..Slash.Commands.Silent.stjoin import stjoin
+from ..Slash.Pomodoro.time_pomodoro import handle_rest_time, handle_study_time
+from ..Configs.setup import get_silent
+from ..Configs.configs import client
 
 async def slash(logger:logging.Logger, SM:logging.Logger):
   @client.slash_command(
@@ -19,7 +19,7 @@ async def slash(logger:logging.Logger, SM:logging.Logger):
     description="Show all the commands",
     force_global=True,
   )
-  async def pomohelp(ctx: Ncommands.Context):
+  async def pomohelp(ctx:nextcord.Interaction):
       await message_help(ctx)
       logger.warning("{} raised pomohelp".format(ctx.guild.name))
       return
@@ -29,7 +29,7 @@ async def slash(logger:logging.Logger, SM:logging.Logger):
       description="This command starts pomodoro",
       force_global=True,
   )
-  async def pomodoro(ctx: Ncommands.Context, 
+  async def pomodoro(ctx:nextcord.Interaction, 
           study_time: int=nextcord.SlashOption(
           name='study_time',
           description='Time to study',
@@ -61,7 +61,7 @@ async def slash(logger:logging.Logger, SM:logging.Logger):
     description="Stops the current pomodoro's session",
     force_global=True,
   )
-  async def pomostop(ctx: Ncommands.Context):
+  async def pomostop(ctx:nextcord.Interaction):
     logger.warning("{} raised pomostop".format(ctx.guild.name))
     silent=await get_silent(ctx)
     if silent == True:
@@ -77,7 +77,7 @@ async def slash(logger:logging.Logger, SM:logging.Logger):
     description="Join the current pomodoro's session",
     force_global=True,
   )
-  async def pomojoin(ctx: Ncommands.Context):
+  async def pomojoin(ctx:nextcord.Interaction):
     logger.warning("{} raised pomojoin".format(ctx.guild.name))
     silent=await get_silent(ctx)
     if silent == True:
@@ -93,7 +93,7 @@ async def slash(logger:logging.Logger, SM:logging.Logger):
     description="Found a bug? Send to us!",
     force_global=True,
   )
-  async def pomobug(ctx: Ncommands.Context):
+  async def pomobug(ctx:nextcord.Interaction):
     await ctx.send('Found a bug? Please, send us a report in the following form : https://forms.gle/ABgZpRq3JPBrurve7 or in https://github.com/drakegawain/PomoBot/issues')
     logger.warning("Bug on {}".format(ctx.guild.name))
     return

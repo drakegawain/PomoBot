@@ -1,14 +1,15 @@
 #--------------------IMPORTs-----------------
-import src.Configs.configs as cfg
-from src.Slash.Session_Handlers.get_session import get_session, get_session_pomojoin, OutsideVoiceChannel_pjoin
-from src.Slash.Handle_Variables.handle_variables import get_ids
-from src.Slash.Utilitys.fetch_informations import fetch
-from src.Slash.Discord_Actions.Messages.security_messages import SecurityMessage
-from src.cli.ppadron import prntpdr
+from ...Configs import configs as cfg
+from ...Slash.Session_Handlers.get_session import get_session, get_session_pomojoin, OutsideVoiceChannel_pjoin
+from ...Slash.Handle_Variables.handle_variables import get_ids
+from ...Slash.Utilitys.fetch_informations import fetch
+from ...Slash.Discord_Actions.Messages.security_messages import SecurityMessage
+from ...cli.ppadron import prntpdr
 import logging
+import nextcord
 #--------------------------------------------
 
-async def command_pomojoin(ctx, logger:logging.Logger, SM:logging.Logger):
+async def command_pomojoin(ctx:nextcord.Interaction, logger:logging.Logger, SM:logging.Logger):
   response=fetch(ctx)
   author=response[1]
   guild=response[2]

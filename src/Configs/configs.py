@@ -5,8 +5,8 @@ import os
 intents = nextcord.Intents(guilds=True, voice_states=True)
 activity = nextcord.Game(name="/pomohelp")
 client = nextcord.Client(activity=activity, intents=intents)
-from src.Slash.Classes.session import Session
-from src.cli.ppadron import prntpdr
+from ..Slash.Classes.session import Session
+from ..cli.ppadron import prntpdr
 #------------------------------------------------
 #---------------Global Variables-----------------
 class SessionGuild():

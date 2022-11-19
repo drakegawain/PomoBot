@@ -1,9 +1,9 @@
 #---------------IMPORTS------------------
 import logging
-from src.Slash.Discord_Actions.Messages.messages import message_closed_pomodoro
-from src.Slash.Classes.classes import e_when_w_args 
-from src.Slash.Methods.throw_methods import throw_pomodoro_status_close
-from src.Slash.Methods.bind_methods import bind_status_class_to_mute_all, bind_status_class_silent
+from ...Slash.Discord_Actions.Messages.messages import message_closed_pomodoro
+from ...Slash.Classes.classes import e_when_w_args 
+from ...Slash.Methods.throw_methods import throw_pomodoro_status_close
+from ...Slash.Methods.bind_methods import bind_status_class_to_mute_all, bind_status_class_silent
 #----------------------------------------
 #--------------CLOSE-FUNCTIONS-----------
 def close_pomodoro(ctx, session):

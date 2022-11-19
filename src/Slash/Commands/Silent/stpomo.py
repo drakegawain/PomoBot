@@ -1,16 +1,18 @@
-import src.Configs.configs as cfg
-from src.Slash.Classes.when_class import when
-from src.Slash.Security.Session_Check.check_for_double_sessions import c_for_doubles
-from src.Slash.Discord_Actions.start import start_session
-from src.Slash.Discord_Actions.start import start_pomodoro
-from src.Slash.Discord_Actions.Messages.messages import msg_slnt
-from src.Slash.Pomodoro.utilitys import srest, sstdy
-from src.Slash.Pomodoro.utilitys import repeatedly_execution
-from src.Slash.Pomodoro.close import sec30close
-from src.Slash.Session_Handlers.get_session import get_session
-from src.Slash.Utilitys.fetch_informations import fetch
+import logging
+import nextcord
+from ....Configs import configs as cfg
+from ....Slash.Classes.when_class import when
+from ....Slash.Security.Session_Check.check_for_double_sessions import c_for_doubles
+from ....Slash.Discord_Actions.start import start_session
+from ....Slash.Discord_Actions.start import start_pomodoro
+from ....Slash.Discord_Actions.Messages.messages import msg_slnt
+from ....Slash.Pomodoro.utilitys import srest, sstdy
+from ....Slash.Pomodoro.utilitys import repeatedly_execution
+from ....Slash.Pomodoro.close import sec30close
+from ....Slash.Session_Handlers.get_session import get_session
+from ....Slash.Utilitys.fetch_informations import fetch
 
-async def stpomo(ctx, study_time, rest_time, logger):
+async def stpomo(ctx:nextcord.Interaction, study_time:int, rest_time:int, logger:logging.Logger):
   response = fetch(ctx)
   guild = response[2]
   author = response[1]

@@ -1,7 +1,7 @@
 import os
 import asyncio
-from src.Configs.configs import client
-from src.Initialization.start import start
+from .src.Configs.configs import client
+from .src.Initialization.start import start
 
 #Tasks:
 #Implement a way to load time remaining

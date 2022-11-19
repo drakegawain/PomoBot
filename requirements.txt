@@ -1,0 +1,6 @@
+PyNaCl == 1.4.0
+config == 0.5.1
+nest-asyncio == 1.5.4
+nextcord == 2.3.2
+mysql == 0.0.3
+mysql-connector-python == 8.0.31
