@@ -1,7 +1,6 @@
 import os
 import gc
 import logging
-import asyncio
 from ..Configs import configs as cfg
 from ..cli.ppadron import prntpdr
 from ..Configs.setup import setup

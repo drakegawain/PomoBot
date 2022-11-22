@@ -2,3 +2,4 @@
 test_sql.py
 .breakpoints
 __pycache__
+*.pyc
