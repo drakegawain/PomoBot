@@ -2,7 +2,7 @@
 #a change in this class execute the binded function
 #---------------IMPORTS--------------
 import logging
-from src.Slash.Pomodoro.utilitys import exec_mute_all, sstdy
+from ...Slash.Pomodoro.utilitys import exec_mute_all, sstdy
 #------------------------------------
 #---------------FUNCTIONS-----------
 def bind_status_class_to_mute_all(ctx, ids, session, logger:logging.Logger):

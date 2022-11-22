@@ -1,5 +1,5 @@
 #--------IMPORTS-------------
-from src.Slash.Utilitys.fetch_informations import fetch
+from ...Slash.Utilitys.fetch_informations import fetch
 #----------------------------
 #---------JOINED-OR-NOT------
 async def handle_joined(ctx, session):

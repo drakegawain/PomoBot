@@ -1,4 +1,4 @@
-import src.Configs.configs as cfg
+from ..Configs import configs as cfg
 import datetime
 
 def now_time():

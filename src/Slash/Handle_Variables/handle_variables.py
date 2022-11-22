@@ -1,8 +1,8 @@
-import src.Configs.configs as cfg
 import logging
-from src.Configs.configs import client
-from src.Slash.Discord_Actions.connect_disconnect import join_pomodoro
-from src.Slash.Utilitys.fetch_informations import fetch
+from ...Configs import configs as cfg
+from ...Configs.configs import client
+from ...Slash.Discord_Actions.connect_disconnect import join_pomodoro
+from ...Slash.Utilitys.fetch_informations import fetch
 
 async def get_keys(ctx):
   response=fetch(ctx)

@@ -1,6 +1,6 @@
-import src.Configs.configs as cfg
 import logging
 import os
+from ....Configs import configs as cfg
 
 class SecurityMessage:
   def __init__(self, command:str, ctx:str, userid:int):

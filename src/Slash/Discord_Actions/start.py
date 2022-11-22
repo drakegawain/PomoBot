@@ -1,10 +1,10 @@
 #------------IMPORTs----------
-import src.Configs.configs as cfg
 import logging
-from src.Slash.Session_Handlers.check_session import gather, ch_session, new_session
-from src.Slash.Session_Handlers.session_leader import leader
-from src.Slash.Session_Handlers.get_session import  get_session
-from src.Slash.Utilitys.fetch_informations import fetch
+from ...Configs import configs as cfg
+from ...Slash.Session_Handlers.check_session import gather, ch_session, new_session
+from ...Slash.Session_Handlers.session_leader import leader
+from ...Slash.Session_Handlers.get_session import  get_session
+from ...Slash.Utilitys.fetch_informations import fetch
 #-----------------------------
 #-------------START-----------
 async def start_session(ctx, logger:logging.Logger):

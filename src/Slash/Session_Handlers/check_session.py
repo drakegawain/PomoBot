@@ -1,5 +1,5 @@
 #----------------IMPORTs------------------
-from src.Slash.Classes.session import Session
+from ...Slash.Classes.session import Session
 #-----------------------------------------
 #-----------------SETUPs------------------
 #-----------------------------------------

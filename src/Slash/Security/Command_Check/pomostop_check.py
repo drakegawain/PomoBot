@@ -3,8 +3,8 @@
 #--------the-actual-session--------------------
 
 #--------IMPORTs-----------
-from src.Slash.Discord_Actions.Messages.security_messages import SecurityMessage
-from src.Slash.Utilitys.fetch_informations import fetch
+from ....Slash.Discord_Actions.Messages.security_messages import SecurityMessage
+from ....Slash.Utilitys.fetch_informations import fetch
 import asyncio
 #--------------------------
 

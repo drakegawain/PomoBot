@@ -1,6 +1,6 @@
 import gc
 import logging
-import src.Configs.configs as cfg
+from ...Configs import configs as cfg
 
 async def delete(index, list):
   try:

@@ -1,5 +1,5 @@
 #---------------IMPORTs-------------------
-import src.Configs.configs as cfg
+from ..Configs import configs as cfg
 #-----------------------------------------
 
 def guilds_names():
