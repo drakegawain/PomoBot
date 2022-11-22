@@ -1,3 +1,4 @@
 *.log
 test_sql.py
 .breakpoints
+__pycache__
