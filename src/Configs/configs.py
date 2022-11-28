@@ -2,11 +2,15 @@
 import nextcord
 import mysql.connector
 import os
+import threading
+global client
 intents = nextcord.Intents(guilds=True, voice_states=True)
 activity = nextcord.Game(name="/pomohelp")
 client = nextcord.Client(activity=activity, intents=intents)
 from ..Slash.Classes.session import Session
-from ..cli.ppadron import prntpdr
+#------------------------------------------------
+#--------------------Threads---------------------
+t1 = None
 #------------------------------------------------
 #---------------Global Variables-----------------
 class SessionGuild():
@@ -24,6 +28,7 @@ class SessionGuild():
     return self.guild_name
 
 session_guilds=None
+ready = False
 #------------------------------------------------
 #----------------AESTHETIC-CONFIGs---------------
 green="\033[38;5;40m"
@@ -58,6 +63,8 @@ def create_sessions():
 #-------------------------------------------------
 #----------------------DB-------------------------
 def extract(cursor):
+    if cursor == None:
+      return None
     res=list()
     for response in cursor:
         for r in response:
@@ -66,8 +73,9 @@ def extract(cursor):
 db=mysql.connector.connect(
     host="localhost",
     user=os.getenv("db_usr"),
-    passwd=os.getenv("db_psswd"),
+    password=os.getenv("db_psswd"),
     database=os.getenv("database")
 )
-cursor=db.cursor()
+cursor=db.cursor(buffered=True)
+cursor2=db.cursor(buffered=True)
 #-------------------------------------------------

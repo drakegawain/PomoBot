@@ -1,13 +1,25 @@
+import tracemalloc
+import nextcord
 from ..Configs import configs as cfg
+from .configs import cursor, db, extract
 from ..Configs.configs import client, create_sessions
 from ..Slash.Session_Handlers.search_session import search
 from ..Slash.Session_Handlers.del_session import delete
-import nextcord
-import json
 async def events(logger):
   @client.event
   async def on_ready():
     cfg.session_guilds = create_sessions()
+    try:
+        cursor.execute("insert into botstatus (status, total, memory_usage) values ('Online', '{total}', '{memory_usage}');".format(
+        total = cfg.total_guilds(), memory_usage = tracemalloc.get_traced_memory()[0]))
+        db.commit()
+        cursor.reset(True)
+        #search = cursor.execute("select status from botstatus")
+        #print(search)
+        #print(cursor.fetchone()[0])
+        #print(extract(cursor))
+    except:
+      raise Exception
     pass
 
   @client.event

@@ -1,6 +1,7 @@
 import logging
 import os
 from ....Configs import configs as cfg
+from ....Configs.configs import cursor as db
 
 class SecurityMessage:
   def __init__(self, command:str, ctx:str, userid:int):
@@ -29,7 +30,7 @@ class SecurityMessage:
       self.logger.error("Error in third block SecurityMessage_send")
       
   def set_message(self):
-    self.message=("\n>>> <@{user}> \nUnfourtunally PomoBot could'nt call ``{command}`` **because**: *{reason}*".format(user=self.user, command=self.command, reason=self.reason))
+    self.message=("\n>>> <@{user}> \nUnfourtunally PomoBot could'nt call ``{command}`` **because**: **{reason}**".format(user=self.user, command=self.command, reason=self.reason))
   def search_reason(self, error:int):
     self.error = error
     #implemented errors
@@ -41,9 +42,9 @@ class SecurityMessage:
     #pomodoro_251 - Must have two inputs
     #pomodoro_271 - Only one session per voice_channel at the same time
     #pomojoin_301 - No session running
-    cursor = cfg.cursor
-    cursor.execute("select message from {table} where number = '{number}'".format(table=self.table, number=self.error))
-    res = cfg.extract(cursor)
+    #cursor = cfg.cursor
+    db.execute("select message from {table} where number = '{number}'".format(table=self.table, number=self.error))
+    res = cfg.extract(db)
     self.reason = res[0]
     return
 

@@ -3,15 +3,16 @@ import asyncio
 import nest_asyncio
 import nextcord
 import threading
-from PomoBot.src.Configs.configs import *
-from PomoBot.src.boot.start import start
-from PomoBot.src.Configs.configs import db
+from .Configs.configs import *
+from .boot.start import start
+
 nest_asyncio.apply()
 #Tasks:
 #Implement a way to load time remaining
 #Implement a way to warn when time is up
 #Delete the old message oriented implementations
-
+task = None
+print(__name__)
 def main():
     global worker, ws, start
     def worker(ws:nextcord.Client, loop:asyncio.AbstractEventLoop, token):
@@ -31,12 +32,13 @@ def main():
     loop2 = asyncio.new_event_loop()
     p1 = threading.Thread(target=worker, args=(client, loop, auth,), daemon=True)
     var2 = threading.Thread(target = wrker, args=(loop2,))
-    if __name__ == '__main__':
+    if __name__ == 'PomoBot.main':
+        print(__name__)
         var2.start()
         p1.start()
-        p1.join()
         var2.join()
+        p1.join()
     return 
 
-if __name__ == '__main__':
-  main()
+#if __name__ == "__main__":
+#  main()
