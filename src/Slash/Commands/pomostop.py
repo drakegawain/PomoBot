@@ -11,7 +11,7 @@ from ...Slash.Discord_Actions.mute_unmute import unmute_all
 from ...Slash.Session_Handlers.get_session import get_session, OutsideVoiceChannel
 from ...Slash.Utilitys.fetch_informations import fetch
 #---------------------------------------------
-async def command_pomostop(ctx:nextcord.Interaction, SM:logging.Logger):
+async def command_pomostop(ctx:nextcord.Interaction, SM:logging.Logger, embed = nextcord.Embed):
     response=fetch(ctx)
     guild=response[2]
     author=response[1]
@@ -28,7 +28,7 @@ async def command_pomostop(ctx:nextcord.Interaction, SM:logging.Logger):
         if TRUE_OR_FALSE is False:
             raise Exception
     except:
-        await ctx.send('<@{}> To call pomostop you have to be inside the running session.'.format(author.id))
+        await ctx.send('<@{}> To call pomostop you have to be inside the running session.'.format(author.id), embed=embed)
         SM.error("{} {} user outside voice_channel".format(__name__, guild.name))
     else:
         try:
@@ -63,5 +63,5 @@ async def command_pomostop(ctx:nextcord.Interaction, SM:logging.Logger):
         finally:
           value_session.restart()
           await disconnect_from_voice_channel(ctx)
-          await ctx.send('stopped')
+          await ctx.send('stopped', embed=embed)
           return

@@ -3,14 +3,16 @@ import nextcord
 import mysql.connector
 import os
 import threading
+from ..Slash.Classes.session import Session
 global client
 intents = nextcord.Intents(guilds=True, voice_states=True)
 activity = nextcord.Game(name="/pomohelp")
 client = nextcord.Client(activity=activity, intents=intents)
-from ..Slash.Classes.session import Session
+color = nextcord.Colour.dark_magenta()
+embed = nextcord.Embed()
+embed.colour = color
 #------------------------------------------------
 #--------------------Threads---------------------
-t1 = None
 #------------------------------------------------
 #---------------Global Variables-----------------
 class SessionGuild():

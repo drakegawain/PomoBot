@@ -9,7 +9,8 @@ import time
 import sys
 import asyncio
 from ..Configs import configs as cfg
-from ..Configs.configs import db, cursor, cursor2, extract, t1
+from ..Configs.configs import db, cursor, cursor2, embed
+from ..Configs.loops import loopReady
 from mysql.connector import RefreshOption
 from ..cli.ppadron import prntpdr
 from ..Configs.setup import setup
@@ -20,9 +21,6 @@ async def start():
   prntpdr(cfg.black, "collecting garbage")
   tracemalloc.start()
   assert truncateStatus(db, cursor, "botstatus") == True, "Fail to truncate botstatus"
-  #sch = cursor.execute("select status from botstatus")
-  #print(extract(sch))
-  #time.sleep(10)
   gc.collect(0)
   gc.collect(1)
   gc.collect(2)
@@ -31,21 +29,15 @@ async def start():
   def worker(loop:asyncio.AbstractEventLoop, db:mysql.connector.CMySQLConnection, cursor:mysql.connector.connection.CursorBase):
     asyncio.set_event_loop(loop)
     loop.run_until_complete(isReady(db, cursor))
-    loop.close()
-  loop = asyncio.new_event_loop()
-  t1 = threading.Thread(target=worker, args=[loop, db, cursor2])
+  t1 = threading.Thread(target=worker, args=[loopReady, db, cursor2])
   t1.start()
-  #isReady(db, cursor2)
   #assert await loadGuilds(db, cursor, cfg.session_guilds) == True, "Fail to load guilds"
   setup()
   SM = logging.getLogger("SecurityMessage")
   logger = logging.getLogger("Event")
   grsrc = logging.getLogger("GuildRsrc")
   await events(grsrc)
-  await slash(logger, SM)
-  #time.sleep(10)
-  #sch = cursor.execute("select status from botstatus")
-  #print(extract(sch))
+  await slash(logger, SM, embed)
   return True
 
 async def loadGuilds(db:mysql.connector.CMySQLConnection, cursor:mysql.connector.connection.CursorBase, guilds:list):
@@ -64,12 +56,10 @@ async def loadGuilds(db:mysql.connector.CMySQLConnection, cursor:mysql.connector
 
 async def isReady(db:mysql.connector.CMySQLConnection, cursor:mysql.connector.connection.CursorBase):
     time.sleep(0.5)
-    #it seems to work
     state = "status"
-    for c in itertools.cycle(['.', '/', '-', '\\']):
+    for c in itertools.cycle(['.', '..', '...']):
         search = cursor.execute("select {state} from botstatus".format(state = state))
         search = cursor.fetchone()
-        #search = extract(search)
         if search != None and search != []:
           if search[0] == 'Online':
             t = threading.main_thread()
@@ -77,10 +67,12 @@ async def isReady(db:mysql.connector.CMySQLConnection, cursor:mysql.connector.co
             prntpdr(cfg.green, "{}".format(search[0]))
             t.join()
             pass
-        sys.stdout.write('\r[{time}][{aesthetic}loading{commonAesthetic}'.format(time = datetime.datetime.now(), aesthetic = cfg.black, commonAesthetic = cfg.cli_date) + c + ']')
+        sys.stdout.write('\r[{time}][{aesthetic}loading{commonAesthetic} {insertion} ]'.format(
+          time = datetime.datetime.now(), aesthetic = cfg.black, commonAesthetic = cfg.cli_date, insertion = c
+          ))
         sys.stdout.flush()
         cursor.reset(True)
-        time.sleep(0.1)
+        time.sleep(0.2)
         
 
 def truncateStatus(db:mysql.connector.CMySQLConnection, cursor:mysql.connector.connection.CursorBase, table:str):

@@ -4,7 +4,7 @@ from ....Slash.Session_Handlers.get_session import get_session
 from ....Slash.Utilitys.fetch_informations import fetch
 from ....Configs import configs as cfg
 
-async def ststop(ctx:nextcord.Interaction, logger:logging.Logger):
+async def ststop(ctx:nextcord.Interaction, logger:logging.Logger, embed:nextcord.Embed):
   response=fetch(ctx)
   guild=response[2]
   index=await get_session(guild, cfg.session_guilds)
@@ -18,6 +18,6 @@ async def ststop(ctx:nextcord.Interaction, logger:logging.Logger):
     logger.warning("Exception in session.close.cancel")
     pass
   session.restart()
-  await ctx.send('stopped')
+  await ctx.send('stopped', embed=embed)
   logger.warning("{} stopped".format(guild.name))
   return

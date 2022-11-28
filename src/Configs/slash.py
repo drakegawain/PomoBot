@@ -13,15 +13,18 @@ from ..Slash.Pomodoro.time_pomodoro import handle_rest_time, handle_study_time
 from ..Configs.setup import get_silent
 from ..Configs.configs import client
 
-async def slash(logger:logging.Logger, SM:logging.Logger):
+async def slash(logger:logging.Logger, SM:logging.Logger, embed:nextcord.Embed):
   @client.slash_command(
     name="pomohelp",
     description="Show all the commands",
     force_global=True,
   )
   async def pomohelp(ctx:nextcord.Interaction):
-      await message_help(ctx)
+    try:
+      await message_help(ctx, embed)
       logger.warning("{} raised pomohelp".format(ctx.guild.name))
+    except:
+      raise Exception
       return
   
   @client.slash_command(
@@ -51,9 +54,9 @@ async def slash(logger:logging.Logger, SM:logging.Logger):
     study_time = await handle_study_time(study_time)
     rest_time = await handle_rest_time(rest_time)
     if silent == False:
-      await sc_pomodoro(ctx, study_time, rest_time, SM, logger)
+      await sc_pomodoro(ctx, study_time, rest_time, SM, logger, embed)
     if silent == True:
-      await stpomo(ctx, study_time, rest_time, logger)
+      await stpomo(ctx, study_time, rest_time, logger, embed)
     return
 
   @client.slash_command(
@@ -65,9 +68,9 @@ async def slash(logger:logging.Logger, SM:logging.Logger):
     logger.warning("{} raised pomostop".format(ctx.guild.name))
     silent=await get_silent(ctx)
     if silent == True:
-      await ststop(ctx, logger)
+      await ststop(ctx, logger, embed)
     if silent == False:
-      await sc_pomostop(ctx, SM)
+      await sc_pomostop(ctx, SM, embed)
     if str(silent) == "None":
       raise NoSessionRunning_pomostop(ctx)
     return
@@ -83,7 +86,7 @@ async def slash(logger:logging.Logger, SM:logging.Logger):
     if silent == True:
       await stjoin(ctx, logger)
     if silent == False:
-      await sc_pomojoin(ctx, logger, SM)
+      await sc_pomojoin(ctx, logger, SM, embed)
     if str(silent) == "None":
       raise NoSessionRunning_pomojoin(ctx)
     return
@@ -94,7 +97,7 @@ async def slash(logger:logging.Logger, SM:logging.Logger):
     force_global=True,
   )
   async def pomobug(ctx:nextcord.Interaction):
-    await ctx.send('Found a bug? Please, send us a report in the following form : https://forms.gle/ABgZpRq3JPBrurve7 or in https://github.com/drakegawain/PomoBot/issues')
+    await ctx.send('Found a bug? Please, send us a report in the following form : https://forms.gle/ABgZpRq3JPBrurve7 or in https://github.com/drakegawain/PomoBot/issues', embed=embed)
     logger.warning("Bug on {}".format(ctx.guild.name))
     return
     

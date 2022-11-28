@@ -9,7 +9,7 @@ import logging
 import nextcord
 #--------------------------------------------
 
-async def command_pomojoin(ctx:nextcord.Interaction, logger:logging.Logger, SM:logging.Logger):
+async def command_pomojoin(ctx:nextcord.Interaction, logger:logging.Logger, SM:logging.Logger, embed:nextcord.Embed):
   response=fetch(ctx)
   author=response[1]
   guild=response[2]

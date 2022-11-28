@@ -12,7 +12,7 @@ from ....Slash.Pomodoro.close import sec30close
 from ....Slash.Session_Handlers.get_session import get_session
 from ....Slash.Utilitys.fetch_informations import fetch
 
-async def stpomo(ctx:nextcord.Interaction, study_time:int, rest_time:int, logger:logging.Logger):
+async def stpomo(ctx:nextcord.Interaction, study_time:int, rest_time:int, logger:logging.Logger, embed:nextcord.Embed):
   response = fetch(ctx)
   guild = response[2]
   author = response[1]
@@ -22,7 +22,7 @@ async def stpomo(ctx:nextcord.Interaction, study_time:int, rest_time:int, logger
   session_status = dictio_session['Main']
   session_status = await session_status.get('STATUS')
   if session_status is not None:
-    await ctx.send('Only one session per guild is allowed in this version.')
+    await ctx.send('Only one session per guild is allowed in this version.', embed=embed)
     raise Exception
   try:
       doubles = await c_for_doubles(dictio_session, author.id, ctx)
@@ -37,7 +37,7 @@ async def stpomo(ctx:nextcord.Interaction, study_time:int, rest_time:int, logger
   session.rest_time_global=rest_time
   session.silent=True
   await start_pomodoro(session)
-  await msg_slnt(ctx)
+  await msg_slnt(ctx, embed)
   session.close=when()
   pomoclose=session.close
   pomoclose.set_functions(repeatedly_execution)

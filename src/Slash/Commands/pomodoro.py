@@ -18,8 +18,7 @@ from ...Slash.Session_Handlers.get_session import get_session
 from ...cli.ppadron import prntpdr
 from ...Slash.Utilitys.fetch_informations import fetch
 #----------------------------------
-
-async def command_pomodoro(ctx:nextcord.Interaction, study_time, rest_time, SM:logging.Logger, logger:logging.Logger):
+async def command_pomodoro(ctx:nextcord.Interaction, study_time, rest_time, SM:logging.Logger, logger:logging.Logger, embed:nextcord.Embed):
   #---GETtING_INFOS--
   response = fetch(ctx)
   guild = response[2]
@@ -33,7 +32,9 @@ async def command_pomodoro(ctx:nextcord.Interaction, study_time, rest_time, SM:l
   session_status=await session_status.get('STATUS')
   logger.warning("{} {} status:{}".format(__name__, guild.name, session_status))
   if session_status is not None:
-    await ctx.send('Only one session per guild is allowed in this version. We are working to improve! If you are a developer and want to help, checkout our github page! https://github.com/drakegawain/PomoBot')
+    message = 'Only one session per guild is allowed in this version. We are working to improve! If you are a developer and want to help, checkout our github page! https://github.com/drakegawain/PomoBot'
+    embed.add_field(name = "", value=message)
+    await ctx.send(embed)
     raise Exception
   try:
       doubles=await c_for_doubles(dictio_session, author.id, ctx)
@@ -46,7 +47,7 @@ async def command_pomodoro(ctx:nextcord.Interaction, study_time, rest_time, SM:l
       try:
         if hasattr(author, "voice.channel"):
           voice_channel_check=await check_pomodoro(author.voice.channel,dictio_session,ctx)
-          if voice_channel_check is True:
+          if voice_channel_check:
             raise Exception
         else:
           pass
@@ -67,7 +68,7 @@ async def command_pomodoro(ctx:nextcord.Interaction, study_time, rest_time, SM:l
     #-------------------------------------------
     #----------------OPEN-CLOCK-----------------
         await start_pomodoro(session)
-        await message_avaiable_users_to_join(ctx, await avaiable_users_to_join(await list_keys(await get_keys(ctx)), await bot_id()))
+        await message_avaiable_users_to_join(ctx, await avaiable_users_to_join(await list_keys(await get_keys(ctx)), await bot_id()), embed)
     #-------------------------------------------
     #---------------CLOSE-----------------------
         try:

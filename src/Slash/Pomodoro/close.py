@@ -3,14 +3,15 @@ import logging
 from ...Slash.Discord_Actions.Messages.messages import message_closed_pomodoro
 from ...Slash.Classes.classes import e_when_w_args 
 from ...Slash.Methods.throw_methods import throw_pomodoro_status_close
-from ...Slash.Methods.bind_methods import bind_status_class_to_mute_all, bind_status_class_silent
+from ...Slash.Methods.bind_methods import bind_status_class_to_mute_all
+from ...Configs.configs import embed
 #----------------------------------------
 #--------------CLOSE-FUNCTIONS-----------
 def close_pomodoro(ctx, session):
   try:
     session.close.set('yes')
     session.pomodoro_started = False
-    message_closed_pomodoro(ctx, session)
+    message_closed_pomodoro(ctx, session, embed)
   except:
     raise Exception
   return
