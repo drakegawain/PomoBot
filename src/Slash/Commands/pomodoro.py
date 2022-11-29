@@ -33,7 +33,7 @@ async def command_pomodoro(ctx:nextcord.Interaction, study_time, rest_time, SM:l
   logger.warning("{} {} status:{}".format(__name__, guild.name, session_status))
   if session_status is not None:
     message = 'Only one session per guild is allowed in this version. We are working to improve! If you are a developer and want to help, checkout our github page! https://github.com/drakegawain/PomoBot'
-    embed.add_field(name = "", value=message)
+    embed.add_field(name = "Error", value=message)
     await ctx.send(embed)
     raise Exception
   try:
@@ -75,7 +75,10 @@ async def command_pomodoro(ctx:nextcord.Interaction, study_time, rest_time, SM:l
           session.close=when()
           pomoclose=session.close
           pomoclose.set_functions(repeatedly_execution_with_sounds)
-          pomoclose.set_args(session, session.study_time_global, session.rest_time_global, exec_unmute_all, exec_mute_all, ctx, session.ids, session)
+          pomoclose.set_args(
+            session, session.study_time_global, session.rest_time_global, exec_unmute_all, exec_mute_all, 
+            ctx, session.ids, session, logger, embed
+            )
           pomoclose.if_when('yes')
           await after_30_seconds_close_pomodoro(ctx, session, logger)
         except:

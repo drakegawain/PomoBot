@@ -28,7 +28,6 @@ def exec_mute_all(ctx, ids, session):
   logger = logging.getLogger("Event")
   try:
     LOOP = asyncio.get_running_loop()
-    LOOP.run_until_complete(play(session.vc, "src/Sounds/Close.mp3"))
     LOOP.run_until_complete(mute_all(ctx, ids, session, logger))
   except:
     SM = logging.getLogger("SecurityMessage")
@@ -82,12 +81,24 @@ async def repeatedly_execution(timeout_1, timeout_2, function_1, function_2, *ar
 async def repeatedly_execution_with_sounds(session, timeout_1, timeout_2, function_1, function_2, *args_1):
   """execute function_1 after timeout_1 and function_2 after
   timeout_2 in loop"""
+  #have to fix the play function, current not working
+  funcArgs = list(args_1)
+  funcArgs.pop(len(args_1)-1)
+  funcArgs.pop(len(args_1)-2)
   while True:
     if (await timeout_function(timeout_1) == True):
-      function_1(*args_1)
-      await message_time_to_rest(args_1[0], session)
-      await play(session.vc, "src/Sounds/Alarme.mp3")
+      try:
+        print(function_1, args_1, funcArgs)
+        function_1(*funcArgs)
+        #improve here
+        asyncio.run_coroutine_threadsafe(message_time_to_rest(args_1[0], session, args_1[len(args_1)-1]))
+        print("after message_time_to_rest")
+        #asyncio.create_task(play(session.vc, "src/Sounds/Alarme.mp3"))
+      except:
+        raise Exception
       if (await timeout_function(timeout_2) == True):
-        function_2(*args_1)
-        await message_time_to_study(args_1[0], session)
+        print(function_2)
+        function_2(*funcArgs)
+        asyncio.create_task(message_time_to_study(args_1[0], session, args_1[len(args_1)-1]))
+        print("after message_time_to_study")
   return
