@@ -3,8 +3,6 @@ import threading
 import types
 from typing import Optional
 
-#threading.Thread.
-
 class Worker:
     def __init__(self, loop:asyncio.AbstractEventLoop, func:types.CoroutineType, args:Optional[tuple] = (), kargs:Optional[dict] = {}, parent: threading.Thread = threading.current_thread()) -> None:
         self.loop = loop

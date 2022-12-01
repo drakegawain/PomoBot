@@ -3,8 +3,8 @@ import nextcord
 from ..Configs import configs as cfg
 from .configs import cursor, db, extract
 from ..Configs.configs import client, create_sessions
-from ..Slash.Session_Handlers.search_session import search
-from ..Slash.Session_Handlers.del_session import delete
+from ..Slash.manageClasses import search, delete
+
 async def events(logger):
   @client.event
   async def on_ready():

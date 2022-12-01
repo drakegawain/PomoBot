@@ -4,9 +4,13 @@ import asyncio
 import threading
 import logging
 from ..Configs import configs as cfg
-from ..Configs.labor import Worker
+from ..Configs.configs import client
 from ..Configs.loops import loopClient
-from .Utilitys.fetch_informations import fetch
+from .classes import Session
+from .manageVars import fetch, joined_function
+from .manageClasses import get_session, gather, ch_session, new_session, leader
+from .errorClasses import ExecError
+from .messages import message_time_to_rest, message_time_to_study
 #-------------------------------------
 #-------------CONNECT-----------------
 async def connect_to_voice_channel(ctx:nextcord.Interaction, session):

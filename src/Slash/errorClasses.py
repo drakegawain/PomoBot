@@ -1,8 +1,29 @@
+import asyncio
+import logging
+import nextcord
+from .classes import SecurityMessage
+from .manageVars import fetch
+
+class Error:
+    """Base error class"""
+    def __init__(self) -> None:
+      pass
+
 class ExecError(Error):
   '''This class raises pomostop command'''
-  def __init__(self, ctx, SM:logging.Logger):
+  def __init__(self, func=None, *args):
+    if func != None:
+      self.func = func
+    else:
+      self.func = self.__stop()
+    self.args = args
+    embed = [arg for arg in self.args if arg.__name__ == "embed"][0]
+    embed.clear_fields()
+    message = "Some error ocurred, stopping..."
+    embed.add_field(name="Error", value=message)
     LOOP=asyncio.get_event_loop()
-    LOOP.run_until_complete(stop(ctx, SM))
+    LOOP.run_until_complete(func(*args))
+  def __stop(self):
     return
   pass
 
@@ -28,7 +49,7 @@ class UserOutsideSession(Error):
     loop.run_until_complete(N_M.send(101))
 
 class MoreThenOneSession(Error):
-  """USER CANT BE IN MORE THAN ONE SESSION"""
+  """User cant be in more then one session"""
   def __init__(self, ctx):
     response=fetch(ctx)
     author=response[1]

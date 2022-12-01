@@ -1,7 +1,6 @@
 #-------------------IMPORTS-------------------------
 import asyncio
 import nextcord
-#from ....Configs.configs import embed
 #---------------------------------------------------
 async def message_avaiable_users_to_join(ctx:nextcord.Interaction, ids_mention, embed:nextcord.Embed):
   embed = embed.clear_fields()

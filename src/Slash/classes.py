@@ -3,6 +3,7 @@ import os
 import asyncio
 import gc
 import logging
+import mysql.connector
 #--------------------------------
 class Session:
   def __init__(self):
@@ -76,9 +77,9 @@ class Session:
     self.ids=gc.collect()
     self.study_time_global=gc.collect()
     self.rest_time_global=gc.collect()
-    self.status_class=gc.collect()
+    self.trigger=gc.collect()
     self.close=gc.collect()
-    self.vc=gc.collect()
+    self.voiceChannel=gc.collect()
     self.class_e=gc.collect()
     self.class_e=gc.collect()
     logger = logging.getLogger("Event")
@@ -155,6 +156,13 @@ class SecurityMessage:
     self.logger=logging.getLogger("SecurityMessage")
     self.error=None
     self.table=os.getenv("error_table")
+    self.__db=mysql.connector.connect(
+    host="localhost",
+    user=os.getenv("db_usr"),
+    password=os.getenv("db_psswd"),
+    database=os.getenv("database")
+)
+    self.__cursor=self.__db.cursor(buffered=True)
   async def send(self, error:int):
     try:
       self.search_reason(error)
@@ -185,8 +193,8 @@ class SecurityMessage:
     #pomodoro_271 - Only one session per voice_channel at the same time
     #pomojoin_301 - No session running
     #cursor = cfg.cursor
-    db.execute("select message from {table} where number = '{number}'".format(table=self.table, number=self.error))
-    res = cfg.extract(db)
+    self.__cursor.execute("select message from {table} where number = '{number}'".format(table=self.table, number=self.error))
+    res = self.__cursor.fetchone()
     self.reason = res[0]
     return
 

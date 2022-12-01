@@ -1,7 +1,10 @@
 import logging
+import nextcord
 from ..Configs import configs as cfg
 from ..Configs.configs import client
-from .Utilitys.fetch_informations import fetch
+from .classes import Session
+from .manageClasses import fetch
+from .discordActions import join_pomodoro
 
 def fetch(ctx:nextcord.Interaction) -> list:
   """This function gather all usefull information from context interactions"""
@@ -10,7 +13,7 @@ def fetch(ctx:nextcord.Interaction) -> list:
   author=ctx.user
   return [message, author, guild]
 
-async def get_keys(ctx):
+async def get_keys(ctx:nextcord.Interaction):
   response=fetch(ctx)
   author=response[1]
   """this variable keys will be used to join voice_channel"""
@@ -29,16 +32,16 @@ async def list_keys(keys):
   keys_list = list(keys)
   return keys_list
 
-async def handle_c(session):
-  """manipulates the counter c from the config File
-  c is used to assign the index in an array to 
-  an id from the author that typed .join
-  is used in get_ids"""
+async def handle_c(session:Session):
+  """Manipulates the counter c from the config File
+  C is used to assign the index in an array to 
+  an id from the author that typed .join.
+  It is used in get_ids"""
   if session.pomodoro_started is True:
     session.c=session.c+1
   
 
-async def get_ids(ctx, session, logger:logging.Logger):
+async def get_ids(ctx:nextcord.Interaction, session:Session, logger:logging.Logger):
   response=fetch(ctx)
   author=response[1]
   guild=response[2]
@@ -60,7 +63,7 @@ async def get_ids(ctx, session, logger:logging.Logger):
 #--------IMPORTS-------------
 #----------------------------
 #---------JOINED-OR-NOT------
-async def handle_joined(ctx, session):
+async def handle_joined(ctx:nextcord.Interaction, session:Session):
   """See if the user that try to join already joined"""
   response=fetch(ctx)
   author=response[1]
@@ -72,7 +75,7 @@ async def handle_joined(ctx, session):
     session.joined=2
     return
   
-async def joined_function(ctx, session):
+async def joined_function(ctx:nextcord.Interaction, session:Session):
   """Handle joined variable"""
   await handle_joined(ctx, session)
   joined = session.joined

@@ -11,7 +11,6 @@ import asyncio
 from ..Configs import configs as cfg
 from ..Configs.configs import db, cursor, cursor2, embed
 from ..Configs.loops import loopClient
-from mysql.connector import RefreshOption
 from ..cli.ppadron import prntpdr
 from ..Configs.setup import setup
 from ..Configs.events import events

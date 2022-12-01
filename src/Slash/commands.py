@@ -2,25 +2,16 @@
 import logging
 import nextcord
 import asyncio
-from .classes import When
 from ..Configs import configs as cfg
 from ..Configs.loops import loopClient
-from ..Slash.Session_Handlers.get_session import get_session, get_session_pomojoin, get_session_ps, OutsideVoiceChannel_pjoin, OutsideVoiceChannel
-from ..Slash.Utilitys.fetch_informations import fetch
-from ..Slash.Security.Command_Check.pomodoro_check import check_pomodoro
-from ..Slash.Security.Command_Check.pomostop_check import check_pomostop
-from ..Slash.Discord_Actions.connect_disconnect import connect_to_voice_channel, disconnect_from_voice_channel
-from ..Slash.Handle_Variables.handle_variables import list_keys, get_keys, bot_id, get_ids
-from ..Slash.Discord_Actions.Messages.messages import message_avaiable_users_to_join, msg_slnt
-from ..Slash.Discord_Actions.user_members import avaiable_users_to_join
+from .classes import When
+from .manageClasses import delete, session_handler, get_session, get_session_pomojoin, get_session_ps, after_30_seconds_close_pomodoro, sec30close
+from .manageVars import fetch, list_keys, get_keys, bot_id, get_ids
+from .errorChecking import check_pomodoro, check_pomostop, doubleSession
+from .errorClasses import OutsideVoiceChannel, OutsideVoiceChannel_pjoin
+from .discordActions import start_session, start_pomodoro, connect_to_voice_channel, disconnect_from_voice_channel, avaiable_users_to_join,exec_unmute_all, exec_mute_all, repeatedly_execution_with_sounds, repeatedly_execution, srest, sstdy, unmute_all
+from .messages import message_avaiable_users_to_join, msg_slnt
 
-from ..Slash.Pomodoro.utilitys import exec_unmute_all, exec_mute_all, repeatedly_execution_with_sounds, repeatedly_execution, srest, sstdy
-from ..Slash.Pomodoro.close import after_30_seconds_close_pomodoro, sec30close
-from ..Slash.Session_Handlers.del_session import delete
-from ..Slash.Session_Handlers.handle_session import session_handler
-from ..Slash.Discord_Actions.mute_unmute import unmute_all
-from ..Slash.Security.Session_Check.check_for_double_sessions import c_for_doubles
-from ..Slash.Discord_Actions.start import start_session, start_pomodoro
 #----------------------------------
 async def command_pomodoro(ctx:nextcord.Interaction, study_time, rest_time, SM:logging.Logger, logger:logging.Logger, embed:nextcord.Embed):
   #---GETtING_INFOS--
@@ -41,7 +32,7 @@ async def command_pomodoro(ctx:nextcord.Interaction, study_time, rest_time, SM:l
     await ctx.send(embed)
     raise Exception
   try:
-      doubles=await c_for_doubles(dictio_session, author.id, ctx)
+      doubles=await doubleSession(dictio_session, author.id, ctx)
       if doubles is True:
         raise Exception
   except:
@@ -80,7 +71,8 @@ async def command_pomodoro(ctx:nextcord.Interaction, study_time, rest_time, SM:l
           pomoclose=session.close
           pomoclose.set_functions(repeatedly_execution_with_sounds)
           pomoclose.set_args(
-            session, session.study_time_global, session.rest_time_global, exec_unmute_all, exec_mute_all, 
+            session, session.study_time_global, session.rest_time_global,
+             exec_unmute_all, exec_mute_all, 
             ctx, session.ids, session, logger, embed
             )
           pomoclose.if_when('yes')
@@ -171,7 +163,7 @@ async def silentJoin(ctx:nextcord.Interaction, logger:logging.Logger):
   await get_ids(ctx, session)
   return
 
-async def silentpomo(ctx:nextcord.Interaction, study_time:int, rest_time:int, logger:logging.Logger, embed:nextcord.Embed):
+async def silentPomo(ctx:nextcord.Interaction, study_time:int, rest_time:int, logger:logging.Logger, embed:nextcord.Embed):
   response = fetch(ctx)
   guild = response[2]
   author = response[1]
@@ -184,7 +176,7 @@ async def silentpomo(ctx:nextcord.Interaction, study_time:int, rest_time:int, lo
     await ctx.send('Only one session per guild is allowed in this version.', embed=embed)
     raise Exception
   try:
-      doubles = await c_for_doubles(dictio_session, author.id, ctx)
+      doubles = await doubleSession(dictio_session, author.id, ctx)
       if doubles is True:
         raise Exception
   except:
@@ -205,7 +197,7 @@ async def silentpomo(ctx:nextcord.Interaction, study_time:int, rest_time:int, lo
   await sec30close(ctx, session, logger)
   return
 
-async def silentstop(ctx:nextcord.Interaction, logger:logging.Logger, embed:nextcord.Embed):
+async def silentStop(ctx:nextcord.Interaction, logger:logging.Logger, embed:nextcord.Embed):
   response=fetch(ctx)
   guild=response[2]
   index=await get_session(guild, cfg.session_guilds)

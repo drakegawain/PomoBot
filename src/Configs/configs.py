@@ -2,8 +2,7 @@
 import nextcord
 import mysql.connector
 import os
-import threading
-from ..Slash.Classes.session import Session
+from ..Slash.classes import Session
 global client, embed
 intents = nextcord.Intents(guilds=True, voice_states=True)
 activity = nextcord.Game(name="/pomohelp")

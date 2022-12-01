@@ -1,15 +1,13 @@
 import logging
 import nextcord
 from nextcord.ext import commands as Ncommands
-from ..Slash.Discord_Actions.Messages.messages import message_help
-from ..Slash.Session_Handlers.get_session import NoSessionRunning_pomojoin, NoSessionRunning_pomostop
-from ..Slash.Commands.pomodoro import command_pomodoro as sc_pomodoro
-from ..Slash.Commands.pomostop import command_pomostop as sc_pomostop
-from ..Slash.Commands.pomojoin import command_pomojoin as sc_pomojoin
-from ..Slash.Commands.Silent.stpomo import stpomo
-from ..Slash.Commands.Silent.ststop import ststop
-from ..Slash.Commands.Silent.stjoin import stjoin
-from ..Slash.Pomodoro.time_pomodoro import handle_rest_time, handle_study_time
+from ..Slash.messages import message_help
+from ..Slash.errorClasses import NoSessionRunning_pomojoin, NoSessionRunning_pomostop
+from ..Slash.commands import command_pomodoro as sc_pomodoro
+from ..Slash.commands import command_pomostop as sc_pomostop
+from ..Slash.commands import command_pomojoin as sc_pomojoin
+from ..Slash.commands import silentPomo, silentStop, silentJoin
+from ..Slash.manageVars import handle_rest_time, handle_study_time
 from ..Configs.setup import get_silent
 from ..Configs.configs import client
 
@@ -56,7 +54,7 @@ async def slash(logger:logging.Logger, SM:logging.Logger, embed:nextcord.Embed):
     if silent == False:
       await sc_pomodoro(ctx, study_time, rest_time, SM, logger, embed)
     if silent == True:
-      await stpomo(ctx, study_time, rest_time, logger, embed)
+      await silentPomo(ctx, study_time, rest_time, logger, embed)
     return
 
   @client.slash_command(
@@ -68,7 +66,7 @@ async def slash(logger:logging.Logger, SM:logging.Logger, embed:nextcord.Embed):
     logger.warning("{} raised pomostop".format(ctx.guild.name))
     silent=await get_silent(ctx)
     if silent == True:
-      await ststop(ctx, logger, embed)
+      await silentStop(ctx, logger, embed)
     if silent == False:
       await sc_pomostop(ctx, SM, embed)
     if str(silent) == "None":
@@ -84,7 +82,7 @@ async def slash(logger:logging.Logger, SM:logging.Logger, embed:nextcord.Embed):
     logger.warning("{} raised pomojoin".format(ctx.guild.name))
     silent=await get_silent(ctx)
     if silent == True:
-      await stjoin(ctx, logger)
+      await silentJoin(ctx, logger)
     if silent == False:
       await sc_pomojoin(ctx, logger, SM, embed)
     if str(silent) == "None":

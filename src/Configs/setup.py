@@ -1,8 +1,7 @@
 import nest_asyncio
 from ..Configs import configs as cfg
 from ..cli.ppadron import prntpdr
-from ..Slash.Utilitys.fetch_informations import fetch
-from ..Slash.Session_Handlers.get_session import get_session
+from ..Slash.manageClasses import fetch, get_session
 from ..Configs.loggers import EVENTLOG, SMLOG, GLDRSRCLOG
 
 def setup():

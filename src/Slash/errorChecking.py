@@ -1,4 +1,8 @@
-async def check_pomodoro(context_vchannel, dictio:dict, ctx):
+import nextcord
+from .errorClasses import OneSessionPerVoiceChannel, MoreThenOneSession, UserOutsideSession
+from .manageClasses import searchId
+
+async def check_pomodoro(context_vchannel, dictio:dict, ctx:nextcord.Interaction):
   check=0
   for session in dictio:
     if dictio["{}".format(session)].vc is context_vchannel:
@@ -8,7 +12,7 @@ async def check_pomodoro(context_vchannel, dictio:dict, ctx):
   check=False
   return check
 
-async def check_pomostop(calling_id, ctx, session):
+async def check_pomostop(calling_id, ctx:nextcord.Interaction, session):
   try:
     list_ids=list(session.ids)#cfg.ids)
     if list_ids == []:
@@ -22,11 +26,10 @@ async def check_pomostop(calling_id, ctx, session):
     HANDLER=False
   return HANDLER
 
-async def doubleSession(dictio:dict, ID:int, ctx):
-    search=await s_for_id(dictio, ID)
+async def doubleSession(dictio:dict, ID:int, ctx:nextcord.Interaction):
+    search=await searchId(dictio, ID)
     if search is True:
         raise await MoreThenOneSession(ctx)
-        return True
     else:
         return False
     return
