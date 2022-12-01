@@ -10,7 +10,7 @@ import sys
 import asyncio
 from ..Configs import configs as cfg
 from ..Configs.configs import db, cursor, cursor2, embed
-from ..Configs.loops import loopReady
+from ..Configs.loops import loopClient
 from mysql.connector import RefreshOption
 from ..cli.ppadron import prntpdr
 from ..Configs.setup import setup
@@ -29,7 +29,7 @@ async def start():
   def worker(loop:asyncio.AbstractEventLoop, db:mysql.connector.CMySQLConnection, cursor:mysql.connector.connection.CursorBase):
     asyncio.set_event_loop(loop)
     loop.run_until_complete(isReady(db, cursor))
-  t1 = threading.Thread(target=worker, args=[loopReady, db, cursor2])
+  t1 = threading.Thread(target=worker, args=[loopClient, db, cursor2])
   t1.start()
   #assert await loadGuilds(db, cursor, cfg.session_guilds) == True, "Fail to load guilds"
   setup()
@@ -55,7 +55,7 @@ async def loadGuilds(db:mysql.connector.CMySQLConnection, cursor:mysql.connector
     raise Exception
 
 async def isReady(db:mysql.connector.CMySQLConnection, cursor:mysql.connector.connection.CursorBase):
-    time.sleep(0.5)
+    time.sleep(0.8)
     state = "status"
     for c in itertools.cycle(['.', '..', '...']):
         search = cursor.execute("select {state} from botstatus".format(state = state))
