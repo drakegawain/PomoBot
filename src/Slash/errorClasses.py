@@ -5,10 +5,8 @@ from .classes import SecurityMessage
 from .manageVars import fetch
 from .manageClasses import fetchSession
 
-class Error:
+class Error(Exception):
     """Base error class"""
-    def __init__(self) -> None:
-      pass
 
 class ExecError(Error):
   '''This class raises pomostop command'''

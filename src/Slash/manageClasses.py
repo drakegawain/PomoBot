@@ -61,8 +61,8 @@ async def after_30_seconds_close_pomodoro(bindFunc, ctx:nextcord.Interaction, se
     triggerClosePomodoro=Trigger(30, close_pomodoro, ctx, session)
     triggerClosePomodoro.exec()
   except:
-    logger.warning("Error in {}".format(__name__))
-  return
+    return False
+  return True
 
 async def sec30close(ctx, session, logger):
   try:

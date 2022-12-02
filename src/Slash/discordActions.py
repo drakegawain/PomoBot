@@ -11,26 +11,31 @@ from .manageClasses import fetch, get_session, gather, ch_session, new_session, 
 from .messages import message_time_to_rest, message_time_to_study
 #-------------------------------------
 #-------------CONNECT-----------------
-async def connect_to_voice_channel(ctx:nextcord.Interaction, session):
+async def connect_to_voice_channel(ctx:nextcord.Interaction, session:Session):
   #dont understand why this is not working
   response=fetch(ctx)
   author=response[1]
   channel = author.voice.channel
-  def employee(loop:asyncio.AbstractEventLoop, ch):
-   try: 
-     asyncio.set_event_loop(loop) 
-     loop.run_until_complete(ch.connect())
-     threading.main_thread().join()
-   except:
-     raise Exception
+  
+  #def employee(loop:asyncio.AbstractEventLoop, ch):
+  # try: 
+  #   asyncio.set_event_loop(loop) 
+  #   loop.run_until_complete(ch.connect())
+  ##   threading.main_thread().join()
+   #except:
+   #  raise Exception
   try:
-   channel = author.voice.channel
-   thread = threading.Thread(target = employee, args=[loopClient, channel])
-   thread.start()
+    #print(channel)
+    #print(type(channel))
+    #asyncio.run_coroutine_threadsafe(channel.connect, loop=loopClient)
+    #asyncio.run_coroutine_threadsafe(ctx.send(str(channel)), loop=loopClient)
+    session.voiceChannel = asyncio.run_coroutine_threadsafe(channel.connect(), loop=loopClient)
+   #thread = threading.Thread(target = employee, args=[loopClient, channel])
+   #thread.start()
   except:
-   await ctx.send('<@%s> ```\nYou have to be in a voice channel to start Pomobot. Enter a voice channel and try again.```' % (author.id))
-   session.restart()
-   raise Exception
+    await ctx.send('<@%s> ```\nYou have to be in a voice channel to start Pomobot. Enter a voice channel and try again.```' % (author.id))
+    session.restart()
+    raise Exception
   return 
 
 async def disconnect_from_voice_channel(ctx):

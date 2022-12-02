@@ -5,6 +5,7 @@ import asyncio
 from ..Configs import configs as cfg
 from ..Configs.loops import loopClient
 from .classes import When
+from .errorClasses import ExecError
 from .manageClasses import delete, session_handler, get_session, get_session_pomojoin, get_session_ps, after_30_seconds_close_pomodoro, sec30close
 from .manageVars import fetch, list_keys, get_keys, bot_id, get_ids
 from .errorChecking import check_pomodoro, check_pomostop, doubleSession
@@ -30,10 +31,10 @@ async def command_pomodoro(ctx:nextcord.Interaction, study_time, rest_time, SM:l
     message = 'Only one session per guild is allowed in this version. We are working to improve! If you are a developer and want to help, checkout our github page! https://github.com/drakegawain/PomoBot'
     embed.add_field(name = "Error", value=message)
     await ctx.send(embed)
-    raise Exception
+    raise ExecError
   try:
       doubles=await doubleSession(dictio_session, author.id, ctx)
-      if doubles is True:
+      if doubles:
         raise Exception
   except:
       SM.error("{} 201 user already in a session").format(guild.name)
@@ -76,9 +77,10 @@ async def command_pomodoro(ctx:nextcord.Interaction, study_time, rest_time, SM:l
             ctx, session.ids, session, logger, embed
             )
           pomoclose.if_when('yes')
-          await after_30_seconds_close_pomodoro(ctx, session, logger)
+          await after_30_seconds_close_pomodoro(
+            exec_mute_all, ctx, session, logger)
         except:
-          raise Exception
+          raise ExecError
     #-------------------------------------------
   return
 
