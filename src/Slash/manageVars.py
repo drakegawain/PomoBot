@@ -3,8 +3,6 @@ import nextcord
 from ..Configs import configs as cfg
 from ..Configs.configs import client
 from .classes import Session
-from .manageClasses import fetch
-from .discordActions import join_pomodoro
 
 def fetch(ctx:nextcord.Interaction) -> list:
   """This function gather all usefull information from context interactions"""
@@ -63,6 +61,14 @@ async def get_ids(ctx:nextcord.Interaction, session:Session, logger:logging.Logg
 #--------IMPORTS-------------
 #----------------------------
 #---------JOINED-OR-NOT------
+async def join_pomodoro(ctx, session):
+  response=fetch(ctx)
+  author=response[1]
+  if session.pomodoro_started:
+    joined = await joined_function(ctx, session)
+    await ctx.send('\n<@%s> %s' % (author.id, joined))
+    return
+
 async def handle_joined(ctx:nextcord.Interaction, session:Session):
   """See if the user that try to join already joined"""
   response=fetch(ctx)

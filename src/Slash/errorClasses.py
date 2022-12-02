@@ -3,6 +3,7 @@ import logging
 import nextcord
 from .classes import SecurityMessage
 from .manageVars import fetch
+from .manageClasses import fetchSession
 
 class Error:
     """Base error class"""
@@ -17,13 +18,18 @@ class ExecError(Error):
     else:
       self.func = self.__stop()
     self.args = args
-    embed = [arg for arg in self.args if arg.__name__ == "embed"][0]
-    embed.clear_fields()
+    self.__embed = [arg for arg in self.args if arg.__name__ == "embed"][0]
+    self.__ctx = [ctx for ctx in self.args if ctx.__name__ == "ctx"][0]
+    self.__embed.clear_fields()
+    self.__loop = asyncio.get_event_loop()
     message = "Some error ocurred, stopping..."
-    embed.add_field(name="Error", value=message)
-    LOOP=asyncio.get_event_loop()
-    LOOP.run_until_complete(func(*args))
+    self.__embed.add_field(name="Error", value=message)
+    self.__loop.run_until_complete(func(*args))
+    self.__embed.send(self.__ctx)
   def __stop(self):
+    __guild = fetch(self.__ctx)[2]
+    __session = self.__loop.run_until_complete(fetchSession(__guild))
+    __session.__restart()
     return
   pass
 

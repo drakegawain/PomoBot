@@ -7,9 +7,7 @@ from ..Configs import configs as cfg
 from ..Configs.configs import client
 from ..Configs.loops import loopClient
 from .classes import Session
-from .manageVars import fetch, joined_function
-from .manageClasses import get_session, gather, ch_session, new_session, leader
-from .errorClasses import ExecError
+from .manageClasses import fetch, get_session, gather, ch_session, new_session, leader
 from .messages import message_time_to_rest, message_time_to_study
 #-------------------------------------
 #-------------CONNECT-----------------
@@ -49,13 +47,7 @@ async def admin_disconnect(guild):
       await voice_client.guild.voice_client.disconnect()
   return
 
-async def join_pomodoro(ctx, session):
-  response=fetch(ctx)
-  author=response[1]
-  if session.pomodoro_started:
-    joined = await joined_function(ctx, session)
-    await ctx.send('\n<@%s> %s' % (author.id, joined))
-    return
+
 #----------------------------------------
 #----------------------------------------
 #------------MUTE-UNMUTE-METHODs---------
@@ -184,6 +176,7 @@ def exec_mute_all(ctx, ids, session):
   except:
     SM = logging.getLogger("SecurityMessage")
     SM.error("Error in {}: {}".format(__name__, guild.name))
+    return False
     raise ExecError(ctx, SM)
   return
 
@@ -198,23 +191,8 @@ def exec_unmute_all(ctx, ids, session):
   except:
     SM = logging.getLogger("SecurityMessage")
     SM.error("Error in {}: {}".format(__name__, guild.name))
+    return False
     raise ExecError(ctx, SM)
-  return
-
-def srest(ctx, session):
-  LOOP=asyncio.get_running_loop()
-  IDS_MENTION=LOOP.run_until_complete(mention_ids(session))
-  LOOP.run_until_complete(
-    ctx.send("Time to rest. \n%s \n`%i minutes`"%(IDS_MENTION, session.rest_time_global/60))  
-  )
-  return
-
-def sstdy(ctx, session):
-  LOOP=asyncio.get_running_loop()
-  IDS_MENTION=LOOP.run_until_complete(mention_ids(session))
-  LOOP.run_until_complete(
-    ctx.send("Time to work/study. \n%s \n`%i minutes`" %(IDS_MENTION, session.rest_time_global/60)) 
-  )
   return
 
 async def timeout_function(timeout):
@@ -251,6 +229,22 @@ async def repeatedly_execution_with_sounds(session, timeout_1, timeout_2, functi
         #loopClient.call_later(2.5, function_2, *funcArgs)??
         function_2(*funcArgs)
         asyncio.run_coroutine_threadsafe(message_time_to_study(args_1[0], session, args_1[len(args_1)-1]), loopClient)
+
+def srest(ctx, session):
+  LOOP=asyncio.get_running_loop()
+  IDS_MENTION=LOOP.run_until_complete(mention_ids(session))
+  LOOP.run_until_complete(
+    ctx.send("Time to rest. \n%s \n`%i minutes`"%(IDS_MENTION, session.rest_time_global/60))  
+  )
+  return
+
+def sstdy(ctx, session):
+  LOOP=asyncio.get_running_loop()
+  IDS_MENTION=LOOP.run_until_complete(mention_ids(session))
+  LOOP.run_until_complete(
+    ctx.send("Time to work/study. \n%s \n`%i minutes`" %(IDS_MENTION, session.rest_time_global/60)) 
+  )
+  return
 #--------------------------------------------------
 #-----------------------PLAY-----------------------
 #--------------------------------------------------

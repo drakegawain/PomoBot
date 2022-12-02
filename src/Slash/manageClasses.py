@@ -3,28 +3,28 @@ import logging
 import gc
 import nextcord
 from ..Configs.configs import embed
+from ..Configs.configs import session_guilds as guildList
 from .classes import Trigger, Session
-from .errorClasses import NoSessionRunning_pomojoin, NoSessionRunning_pomostop
-from .manageClasses import exec_mute_all, sstdy
 from .manageVars import fetch
 from .messages import message_closed_pomodoro
 #-----------------------------------------
 #---------------BIND----------------------
-def bind_status_class_to_mute_all(ctx, ids, session:Session, logger:logging.Logger):
+#-----------------------------------------
+def bind(bindFunc, ctx, ids, session:Session, logger:logging.Logger):
   try:
     trigger=session.trigger
     trigger.add_parameters(ctx)
-    trigger.bind(exec_mute_all)
+    trigger.bind(bindFunc)
   except:
     logger.warning("Error in {}".format(__name__))
     raise Exception
   return
 
-def bind_status_class_silent(ctx, ids, session:Session, logger:logging.Logger):
+def bindSilent(bindFunc, ctx, ids, session:Session, logger:logging.Logger):
   try:
     trigger=session.trigger
     trigger.add_parameters(ctx)
-    trigger.bind(sstdy)
+    trigger.bind(bindFunc)
   except:
     logger.critical("Error in bind_status_class_silent")
   return
@@ -53,9 +53,9 @@ def close_pomodoro(ctx:nextcord.Interaction, session:Session):
     raise Exception
   return
 
-async def after_30_seconds_close_pomodoro(ctx:nextcord.Interaction, session:Session, logger:logging.Logger):
+async def after_30_seconds_close_pomodoro(bindFunc, ctx:nextcord.Interaction, session:Session, logger:logging.Logger):
   try:
-    bind_status_class_to_mute_all(ctx, session.ids, session, logger)
+    bind(bindFunc, ctx, session.ids, session, logger)
     triggerThrowPomodoroStatusClose=Trigger(30, throw_pomodoro_status_close, session, logger)
     triggerThrowPomodoroStatusClose.exec()
     triggerClosePomodoro=Trigger(30, close_pomodoro, ctx, session)
@@ -82,7 +82,6 @@ async def ch_session(dictio:dict, session):
       return False
   except:
     raise Exception 
-  return 
 
 async def new_session(dictio:dict):
   dictio['Session_{number}'.format(number=len(dictio))]=Session()
@@ -111,7 +110,7 @@ async def get_session_pomojoin(ctx, v_channel, dictio:dict):
     if hasattr(session.vc, 'channel'):
       if session.vc.channel is v_channel:
         return session
-  raise NoSessionRunning_pomojoin(ctx)
+  raise False #NoSessionRunning_pomojoin(ctx)
 
 async def get_session(guild, session_list:list):
   """This function finds the index from the list
@@ -132,19 +131,17 @@ async def get_session_ps(ctx, v_channel, dictio:dict):
     if hasattr(session.vc, 'channel'):
       if session.vc.channel is v_channel:
           return session
-  raise NoSessionRunning_pomostop(ctx)
+  return False #NoSessionRunning_pomostop(ctx)
 
 async def session_handler(dictio:dict, session):
   try:
     for key, value in dictio.items():
       if session == value:
-          found_key = key
-          break
+          return key
   except:
     SM = logging.getLogger("SecurityMessage")
     SM.error("Error in session_handler")
     raise Exception
-  return found_key
 
 async def search(guild, session_list):
   for session in session_list:
@@ -160,6 +157,14 @@ async def searchId(dictio:dict, ID:int):
                 HANDLER=True
     return HANDLER
 
+async def fetchSession(guild:nextcord.Interaction.guild) -> Session:
+  """Returns the session that the guild is binded"""
+  index = await get_session(guild, guildList)
+  session=guildList[index]
+  dictio_session=session.session
+  session=dictio_session["Main"]
+  return session
+
 async def leader(session, ctx):
   """Sets session leader
   Leader joins the session automatically 
@@ -169,4 +174,6 @@ async def leader(session, ctx):
   session.LEADER_ID=author.id
   session.pushleader()
   return
+#-----------------------------------------
+#-----------------------------------------
 #-----------------------------------------
