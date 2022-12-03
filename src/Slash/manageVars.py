@@ -27,8 +27,7 @@ async def bot_id():
 
 async def list_keys(keys):
   """transform keys into a list"""
-  keys_list = list(keys)
-  return keys_list
+  return list(keys)
 
 async def handle_c(session:Session):
   """Manipulates the counter c from the config File
@@ -61,7 +60,7 @@ async def get_ids(ctx:nextcord.Interaction, session:Session, logger:logging.Logg
 #--------IMPORTS-------------
 #----------------------------
 #---------JOINED-OR-NOT------
-async def join_pomodoro(ctx, session):
+async def join_pomodoro(ctx:nextcord.Interaction, session:Session):
   response=fetch(ctx)
   author=response[1]
   if session.pomodoro_started:
@@ -81,7 +80,7 @@ async def handle_joined(ctx:nextcord.Interaction, session:Session):
     session.joined=2
     return
   
-async def joined_function(ctx:nextcord.Interaction, session:Session):
+async def joined_function(ctx:nextcord.Interaction, session:Session) -> str:
   """Handle joined variable"""
   await handle_joined(ctx, session)
   joined = session.joined
@@ -91,11 +90,11 @@ async def joined_function(ctx:nextcord.Interaction, session:Session):
     return 'Already Joined'
 #------------------------------------------
 #------------HANDLE-TIME-VARIABLES---------
-async def handle_study_time(study_time):
+async def handle_study_time(study_time) -> int:
   study_time = study_time * 60
   return study_time
 
-async def handle_rest_time(rest_time):
+async def handle_rest_time(rest_time) -> int:
   rest_time = rest_time * 60
   return rest_time
 #------------------------------------------

@@ -18,11 +18,9 @@ class Session:
     self.ids=set()
     self.study_time_global=0
     self.rest_time_global=0
-    self.status_class=Trigger(None) 
+    self.trigger={}
     self.close=When() 
-    self.vc=None; 
-    self.class_e=None 
-    self.class_i=None
+    self.voiceChannel=None; 
     self.silent=None
     self.clear()
     self.__restart()
@@ -43,6 +41,9 @@ class Session:
     self.STATUS=status
   async def get(self, var:str):
     return self.__getattribute__(var)
+  def addTrigger(self, name:str):
+    self.trigger.update({name:Trigger(None)})
+    return self.trigger.get(name)
   def __restart(self):
     self.LEADER_ID=None
     self.TIME=None
@@ -54,11 +55,9 @@ class Session:
     self.ids=set()
     self.study_time_global=0
     self.rest_time_global=0
-    self.status_class=Trigger(None)
+    self.trigger={}
     self.close=When() 
-    self.vc=None; 
-    self.class_e=None 
-    self.class_i=None
+    self.voiceChannel=None; 
     self.silent=None
     logger = logging.getLogger("Event")
     logger.error("restarting...")
@@ -80,8 +79,7 @@ class Session:
     self.trigger=gc.collect()
     self.close=gc.collect()
     self.voiceChannel=gc.collect()
-    self.class_e=gc.collect()
-    self.class_e=gc.collect()
+    self.silent=gc.collect()
     logger = logging.getLogger("Event")
     logger.error("cleaning...")
     return

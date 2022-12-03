@@ -35,7 +35,7 @@ async def command_pomodoro(ctx:nextcord.Interaction, study_time, rest_time, SM:l
   try:
       doubles=await doubleSession(dictio_session, author.id, ctx)
       if doubles:
-        raise Exception
+        raise ExecError
   except:
       SM.error("{} 201 user already in a session").format(guild.name)
   else:
@@ -44,7 +44,7 @@ async def command_pomodoro(ctx:nextcord.Interaction, study_time, rest_time, SM:l
         if hasattr(author, "voice.channel"):
           voice_channel_check=await check_pomodoro(author.voice.channel,dictio_session,ctx)
           if voice_channel_check:
-            raise Exception
+            raise ExecError
         else:
           pass
       except:
